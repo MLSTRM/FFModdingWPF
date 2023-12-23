@@ -27,7 +27,8 @@ public enum FieldType
     ListString,
     ListInt,
     HexInt,
-    ItemReq
+    ItemReq,
+    Enum
 }
 
 public class FieldTypeOverrideAttribute : Attribute
@@ -68,7 +69,11 @@ public class CSVDataRow
         FieldType? type = property.GetCustomAttribute<FieldTypeOverrideAttribute>()?.Value;
         if (type is null or FieldType.Undefined)
         {
-            if (property.PropertyType == typeof(int))
+            if (property.PropertyType.IsEnum)
+            {
+                type = (FieldType?)FieldType.Enum;
+            }
+            else if (property.PropertyType == typeof(int))
             {
                 type = (FieldType?)FieldType.Int;
             }
@@ -130,6 +135,17 @@ public class CSVDataRow
                 break;
             case FieldType.ItemReq:
                 property.SetValue(this, ItemReq.Parse(value));
+                break;
+            case FieldType.Enum:
+                if (Enum.TryParse(property.PropertyType, value, true, out var enumVal))
+                {
+                    property.SetValue(this, Convert.ChangeType(enumVal, property.PropertyType));
+                }
+                else
+                {
+                    throw new Exception("Invalid enum conversion for field: " + value);
+                }
+
                 break;
             default:
                 throw new Exception("Missing conversion for field type: " + type);

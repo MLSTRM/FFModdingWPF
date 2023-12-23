@@ -3,18 +3,19 @@ using Bartz24.Docs;
 using Bartz24.FF12;
 using Bartz24.RandoWPF;
 using FF12Rando;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
 
 namespace FF12Rando;
 
 public partial class EquipRando : Randomizer
 {
     public Dictionary<string, ItemData> itemData = new();
-    public Dictionary<string, AugmentData> augmentData = new();
     public DataStoreBPEquip equip;
     public EquipRando(SeedGenerator randomizers) : base(randomizers) { }
 
@@ -25,12 +26,6 @@ public partial class EquipRando : Randomizer
         {
             ItemData i = new(row);
             itemData.Add(i.ID, i);
-        }, FileHelpers.CSVFileHeader.HasHeader);
-
-        FileHelpers.ReadCSVFile(@"data\augments.csv", row =>
-        {
-            AugmentData a = new(row);
-            augmentData.Add(a.ID, a);
         }, FileHelpers.CSVFileHeader.HasHeader);
 
         equip = new DataStoreBPEquip();
@@ -380,11 +375,12 @@ public partial class EquipRando : Randomizer
 
     private void RandomizeAugments()
     {
+        LicenseRando licenseRando = Generator.Get<LicenseRando>();
         foreach (DataStoreArmor armor in equip.EquipDataList.Where(a => a is DataStoreArmor))
         {
             if (RandomNum.RandInt(0, 99) < (armor.Category is EquipCategory.Accessory or EquipCategory.AccessoryCrown ? 80 : 20))
             {
-                armor.AugmentOffset = (byte)augmentData.Values.Where(a => a.Traits.Contains("Equip")).Shuffle().First().IntID;
+                armor.AugmentOffset = (byte)licenseRando.augmentData.Values.Where(a => a.Traits.Contains("Equip")).Shuffle().First().IntID;
             }
             else
             {
@@ -593,6 +589,8 @@ public partial class EquipRando : Randomizer
             displayPage += GetElementAttributeDisplayLine(attribute, "\\n{scale:70}");
             displayPage += GetStatusDisplayLine(attribute, "\\n{scale:70}");
 
+            displayPage += $"\\n{scale:70}" + GetLicenseNeeded(weapon);
+
             linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
 
@@ -615,6 +613,7 @@ public partial class EquipRando : Randomizer
 
             displayPage += GetElementAttributeDisplayLine(attribute, "\\n{scale:70}");
             displayPage += GetStatusDisplayLine(attribute, "\\n{scale:70}");
+            displayPage += $"\\n{scale:70}" + GetLicenseNeeded(shield);
 
             linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
@@ -677,6 +676,7 @@ public partial class EquipRando : Randomizer
 
             displayPage += GetElementAttributeDisplayLine(attribute, "\\n{scale:70}");
             displayPage += GetStatusDisplayLine(attribute, "\\n{scale:70}");
+            displayPage += $"\\n{scale:70}" + GetLicenseNeeded(armor);
 
             linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
@@ -714,6 +714,7 @@ public partial class EquipRando : Randomizer
                 displayPage = displayPage.Substring(2);
             }
 
+            displayPage += $"\\n{scale:70}" + GetLicenseNeeded(armor);
             linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
 
@@ -734,7 +735,14 @@ public partial class EquipRando : Randomizer
 
     private string GetAugmentDescription(DataStoreArmor armor, int maxLength = 20)
     {
-        string desc = augmentData.Values.First(a => a.IntID == armor.AugmentOffset).Description;
+        if (armor.AugmentOffset == 0xFF)
+        {
+            return "";
+        }
+
+        TextRando textRando = Generator.Get<TextRando>();
+        LicenseRando licenseRando = Generator.Get<LicenseRando>();
+        string desc = textRando.TextAbilityHelp[licenseRando.augments.DataList[armor.AugmentOffset].EquipDescAddress - 13000].Text;
         if (desc.Length > maxLength)
         {
             desc.Insert(maxLength, "\\n");
@@ -931,6 +939,25 @@ public partial class EquipRando : Randomizer
         return equip.EquipDataList.IndexOf(equipment) + 4096;
     }
 
+    private string GetLicenseNeeded(DataStoreEquip equipment)
+    {
+        if (equipment.NoLicenseNeeded)
+        {
+            return "License Needed: None";
+        }
+
+        LicenseRando licenseRando = Generator.Get<LicenseRando>();
+        TextRando textRando = Generator.Get<TextRando>();
+
+        DataStoreLicense license = licenseRando.licenses.DataList.Where(l => l.ContentsStr.Contains(equipment.ID)).FirstOrDefault();
+        if (license == null || !textRando.TextLicenses.Keys.Contains(license.NameAddress - 0x1800))
+        {
+            return "License Needed: Unknown";
+        }
+
+        return $"License Needed: {textRando.TextLicenses[license.NameAddress - 0x1800].Text}";
+    }
+
     public override Dictionary<string, HTMLPage> GetDocumentation()
     {
         TreasureRando treasureRando = Generator.Get<TreasureRando>();
@@ -938,7 +965,7 @@ public partial class EquipRando : Randomizer
 
         HTMLPage page = new("Equipment", "template/documentation.html");
 
-        page.HTMLElements.Add(new Table("Weapons", (new string[] { "Name", "Attack Power", "Evade", "Knockback %", "Combo %", "Charge Time (CT)", "Other Stats", "Element Effects", "Status Effects" }).ToList(), (new int[] { 10, 10, 10, 8, 8, 8, 10, 20, 20 }).ToList(), equip.EquipDataList.Where(w => w is DataStoreWeapon).Select(e =>
+        page.HTMLElements.Add(new Table("Weapons", (new string[] { "Name", "Attack Power", "Evade", "Knockback %", "Combo %", "Charge Time (CT)", "Other Stats", "Element Effects", "Status Effects", "License Needed" }).ToList(), (new int[] { 10, 10, 10, 8, 8, 8, 10, 20, 20, 10 }).ToList(), equip.EquipDataList.Where(w => w is DataStoreWeapon).Select(e =>
         {
             DataStoreWeapon weapon = e as DataStoreWeapon;
 
@@ -960,17 +987,17 @@ public partial class EquipRando : Randomizer
             string elemDisplay = onHitElem + GetElementAttributeDisplayLine(attribute, string.IsNullOrEmpty(onHitElem) ? "" : "\n", "", false, "\n");
             string statusDisplay = onHitStatus + GetStatusDisplayLine(attribute, string.IsNullOrEmpty(onHitStatus) ? "" : "\n", "", false, "\n", ", ");
 
-            return new string[] { name, weapon.AttackPower.ToString(), weapon.Evade.ToString(), weapon.KnockbackChance.ToString(), weapon.ComboChance.ToString(), weapon.ChargeTime.ToString(), GetAttributeStatDisplay(attribute," "), elemDisplay, statusDisplay }.ToList();
+            return new string[] { name, weapon.AttackPower.ToString(), weapon.Evade.ToString(), weapon.KnockbackChance.ToString(), weapon.ComboChance.ToString(), weapon.ChargeTime.ToString(), GetAttributeStatDisplay(attribute," "), elemDisplay, statusDisplay, GetLicenseNeeded(weapon) }.ToList();
         }).ToList()));
 
-        page.HTMLElements.Add(new Table("Shields", (new string[] { "Name", "Evade", "Magick Evade", "Other Stats", "Element Effects", "Status Effects" }).ToList(), (new int[] { 10, 10, 10, 10, 20, 20 }).ToList(), equip.EquipDataList.Where(w => w is DataStoreShield).Select(e =>
+        page.HTMLElements.Add(new Table("Shields", (new string[] { "Name", "Evade", "Magick Evade", "Other Stats", "Element Effects", "Status Effects", "License Needed" }).ToList(), (new int[] { 10, 10, 10, 10, 20, 20, 10 }).ToList(), equip.EquipDataList.Where(w => w is DataStoreShield).Select(e =>
         {
             DataStoreShield shield = e as DataStoreShield;
 
             string name = treasureRando.GetItemName(shield.ID);
 
             DataStoreAttribute attribute = equip.AttributeDataList[(int)shield.AttributeOffset];
-            return new string[] { name, shield.Evade.ToString(), shield.MagickEvade.ToString(), GetAttributeStatDisplay(attribute, " "), GetElementAttributeDisplayLine(attribute, "", "", false, "\n"), GetStatusDisplayLine(attribute, "", "", false, "\n", ", ") }.ToList();
+            return new string[] { name, shield.Evade.ToString(), shield.MagickEvade.ToString(), GetAttributeStatDisplay(attribute, " "), GetElementAttributeDisplayLine(attribute, "", "", false, "\n"), GetStatusDisplayLine(attribute, "", "", false, "\n", ", "), GetLicenseNeeded(shield) }.ToList();
         }).ToList()));
 
         page.HTMLElements.Add(new Table("Ammo", (new string[] { "Name", "Attack Power", "Evade", "Other Stats", "Element Effects", "Status Effects" }).ToList(), (new int[] { 10, 10, 10, 10, 20, 20 }).ToList(), equip.EquipDataList.Where(w => w is DataStoreAmmo).Select(e =>
@@ -995,27 +1022,27 @@ public partial class EquipRando : Randomizer
             string elemDisplay = onHitElem + GetElementAttributeDisplayLine(attribute, string.IsNullOrEmpty(onHitElem) ? "" : "\n", "", false, "\n");
             string statusDisplay = onHitStatus + GetStatusDisplayLine(attribute, string.IsNullOrEmpty(onHitStatus) ? "" : "\n","", false, "\n", ", ");
 
-            return new string[] { name, ammo.AttackPower.ToString(), ammo.Evade.ToString(), GetAttributeStatDisplay(attribute, " "), elemDisplay, statusDisplay }.ToList();
+            return new string[] { name, ammo.AttackPower.ToString(), ammo.Evade.ToString(), GetAttributeStatDisplay(attribute, " "), elemDisplay, statusDisplay, GetLicenseNeeded(ammo) }.ToList();
         }).ToList()));
 
-        page.HTMLElements.Add(new Table("Armor", (new string[] { "Name", "Defense", "Magick Resist", "Other Stats", "Element Effects", "Status Effects", "Passive" }).ToList(), (new int[] { 10, 10, 10, 10, 20, 20, 20 }).ToList(), equip.EquipDataList.Where(a => a is DataStoreArmor && a.Category != EquipCategory.Accessory && a.Category != EquipCategory.AccessoryCrown).Select(e =>
+        page.HTMLElements.Add(new Table("Armor", (new string[] { "Name", "Defense", "Magick Resist", "Other Stats", "Element Effects", "Status Effects", "Passive", "License Needed" }).ToList(), (new int[] { 10, 10, 10, 10, 20, 20, 20, 10 }).ToList(), equip.EquipDataList.Where(a => a is DataStoreArmor && a.Category != EquipCategory.Accessory && a.Category != EquipCategory.AccessoryCrown).Select(e =>
         {
             DataStoreArmor armor = e as DataStoreArmor;
 
             string name = treasureRando.GetItemName(armor.ID);
 
             DataStoreAttribute attribute = equip.AttributeDataList[(int)armor.AttributeOffset];
-            return new string[] { name, armor.Defense.ToString(), armor.MagickResist.ToString(), GetAttributeStatDisplay(attribute, " "), GetElementAttributeDisplayLine(attribute, "", "", false, "\n"), GetStatusDisplayLine(attribute, "", "", false, "\n", ", "), GetAugmentDescription(armor, int.MaxValue) }.ToList();
+            return new string[] { name, armor.Defense.ToString(), armor.MagickResist.ToString(), GetAttributeStatDisplay(attribute, " "), GetElementAttributeDisplayLine(attribute, "", "", false, "\n"), GetStatusDisplayLine(attribute, "", "", false, "\n", ", "), GetAugmentDescription(armor, int.MaxValue), GetLicenseNeeded(armor) }.ToList();
         }).ToList()));
 
-        page.HTMLElements.Add(new Table("Accessories", (new string[] { "Name", "Defense", "Magick Resist", "Other Stats", "Element Effects", "Status Effects", "Passive" }).ToList(), (new int[] { 10, 10, 10, 10, 20, 20, 20 }).ToList(), equip.EquipDataList.Where(a => a is DataStoreArmor && (a.Category == EquipCategory.Accessory || a.Category == EquipCategory.AccessoryCrown)).Select(e =>
+        page.HTMLElements.Add(new Table("Accessories", (new string[] { "Name", "Defense", "Magick Resist", "Other Stats", "Element Effects", "Status Effects", "Passive", "License Needed" }).ToList(), (new int[] { 10, 10, 10, 10, 20, 20, 20, 10 }).ToList(), equip.EquipDataList.Where(a => a is DataStoreArmor && (a.Category == EquipCategory.Accessory || a.Category == EquipCategory.AccessoryCrown)).Select(e =>
         {
             DataStoreArmor accessory = e as DataStoreArmor;
 
             string name = treasureRando.GetItemName(accessory.ID);
 
             DataStoreAttribute attribute = equip.AttributeDataList[(int)accessory.AttributeOffset];
-            return new string[] { name, accessory.Defense.ToString(), accessory.MagickResist.ToString(), GetAttributeStatDisplay(attribute, " "), GetElementAttributeDisplayLine(attribute, "", "",false, "\n"), GetStatusDisplayLine(attribute, "", "", false, "\n", ", "), GetAugmentDescription(accessory, int.MaxValue) }.ToList();
+            return new string[] { name, accessory.Defense.ToString(), accessory.MagickResist.ToString(), GetAttributeStatDisplay(attribute, " "), GetElementAttributeDisplayLine(attribute, "", "",false, "\n"), GetStatusDisplayLine(attribute, "", "", false, "\n", ", "), GetAugmentDescription(accessory, int.MaxValue), GetLicenseNeeded(accessory) }.ToList();
         }).ToList()));
 
         pages.Add("equipment", page);

@@ -11,8 +11,10 @@ public class TextRando : Randomizer
 {
     public DataStoreBinText TextAbilities = new();
     public DataStoreBinText TextEquipment = new();
+    public DataStoreBinText TextLicenses = new();
     public DataStoreBinText TextKeyItems = new();
     public DataStoreBinText TextLoot = new();
+    public DataStoreBinText TextLicenseAugmentDesc = new();
     public DataStoreBinText TextMenuMessage = new();
     public DataStoreBinText TextMenuCommand = new();
     public DataStoreBinText TextAbilityHelp = new();
@@ -26,8 +28,10 @@ public class TextRando : Randomizer
         RandoUI.SetUIProgressIndeterminate("Loading Text Data...");
         TextAbilities.Load($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\battle_pack.bin.dir\\section_061.bin.dir\\section_000.bin");
         TextEquipment.Load($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\battle_pack.bin.dir\\section_061.bin.dir\\section_001.bin");
+        TextLicenses.Load($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\battle_pack.bin.dir\\section_061.bin.dir\\section_003.bin");
         TextKeyItems.Load($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\battle_pack.bin.dir\\section_061.bin.dir\\section_012.bin");
         TextLoot.Load($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\battle_pack.bin.dir\\section_061.bin.dir\\section_011.bin");
+        TextLicenseAugmentDesc.Load($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\battle_pack.bin.dir\\section_061.bin.dir\\section_010.bin");
 
         TextMenuMessage.Load($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\menu_message.bin");
         TextMenuCommand.Load($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\menu_command.bin");
@@ -101,6 +105,9 @@ public class TextRando : Randomizer
 
         UpdateSeedInfoStr();
         UpdateGoalInfoStr();
+
+        TextLicenses.Save($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\battle_pack.bin.dir\\section_061.bin.dir\\section_003.bin");
+        TextLicenseAugmentDesc.Save($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\battle_pack.bin.dir\\section_061.bin.dir\\section_010.bin");
 
         TextMenuMessage.Save($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\menu_message.bin");
         TextMenuCommand.Save($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\menu_command.bin");

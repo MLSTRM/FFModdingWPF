@@ -420,6 +420,7 @@ public class FF12Flags
         public static Flag LicenseBoards, StartingBoards;
         public static Flag EXPMult, LPMult;
         public static Flag HintsMain, HintAbilities;
+        public static Flag TwoPageDescriptions;
         public static ComboBoxFlagProperty HintsSpecific;
         public static NumberFlagProperty EXPMultAmt, LPMultAmt, EXPMultBossAmt, LPMultBossAmt;
 
@@ -546,6 +547,15 @@ public class FF12Flags
                 MaxValue = 1000,
                 StepSize = 10
             }.Register(LPMult);
+
+            TwoPageDescriptions = new Flag()
+            {
+                Text = "Two Page Equipment Descriptions",
+                FlagID = "TwoPageDesc",
+                DescriptionFormat = "Note: Requires the Descriptive Inventory to be installed.\n\n" +
+                "Adds an additional page to equipment descriptions to make room for the License Needed info.\n" +
+                "Switching pages is done by pressing L2/LT/2 and can take a second to switch pages."
+            }.Register(FlagType.Other);
         }
     }
 

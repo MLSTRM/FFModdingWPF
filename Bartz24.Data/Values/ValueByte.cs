@@ -58,4 +58,15 @@ public static class ValueByte
             data.SetSubArray(byteIndex, new byte[] { (byte)(left + newDataLeft), (byte)(right + newDataRight) });
         }
     }
+    public static sbyte ReadSByte(this byte[] data, int byteIndex)
+    {
+        // Use unchecked to reinterpret the cast
+        return unchecked((sbyte)data.ReadByte(byteIndex));
+    }
+
+    public static void SetSByte(this byte[] data, int byteIndex, sbyte value)
+    {
+        // Use unchecked to reinterpret the cast
+        data.SetByte(byteIndex, unchecked((byte)value));
+    }
 }

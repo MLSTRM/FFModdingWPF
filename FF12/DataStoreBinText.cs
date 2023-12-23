@@ -24,6 +24,14 @@ public class DataStoreBinText
     public List<int> Keys => Data.Keys.ToList();
     public List<StringData> Values => Data.Values.ToList();
 
+    public StringData AddNew(StringData.StringType type)
+    {
+        StringData data = new(this);
+        data.Type = type;
+        Data.Add(Data.Keys.Max() + 1, data);
+        return data;
+    }
+
     public void Add(int id, StringData data)
     {
         Data.Add(id, data);

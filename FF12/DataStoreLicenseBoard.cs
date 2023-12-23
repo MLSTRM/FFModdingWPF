@@ -1,25 +1,51 @@
 ﻿using Bartz24.Data;
+using CsvHelper.Configuration;
+using CsvHelper;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System;
 
 namespace Bartz24.FF12;
 
 public class DataStoreLicenseBoard : DataStore
 {
-    protected byte[] header;
-    public ushort[,] Board { get; set; }
+    protected readonly byte[] header = new byte[] { 0x6C, 0x69, 0x63, 0x64, 0x18, 0x00, 0x18, 0x00 };
+    public ushort[,] Board { get; set; } = new ushort[24, 24];
 
-    public override void LoadData(byte[] data, int offset = 0)
+    public DataStoreLicenseBoard()
     {
-        header = data.SubArray(0, 8);
-
-        byte[] boardData = data.SubArray(8, data.Length - 8);
-
-        Board = new ushort[24, 24];
         for (int x = 0; x < 24; x++)
         {
             for (int y = 0; y < 24; y++)
             {
-                Board[y, x] = boardData.ReadUShort((y * 24 * 2) + (x * 2));
+                Board[y, x] = 0xFFFF;
+            }
+        }
+    }
+
+    public void LoadData(string csvFilePath, Func<string, int> nameToInt)
+    {
+        // Read the 2D grid of license names and map the names to the license IDs
+        using (CsvParser csv = new(new StreamReader(csvFilePath), new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false }))
+        {
+            int row = 0;
+            while (csv.Read())
+            {
+                string[] splitRow = csv.Record;
+                for (int col = 0; col < 24; col++)
+                {
+                    if (splitRow.Length <= col || string.IsNullOrEmpty(splitRow[col]))
+                    {
+                        Board[row, col] = 0xFFFF;
+                    }
+                    else
+                    {
+                        Board[row, col] = (ushort)nameToInt(splitRow[col]);
+                    }
+                }
+
+                row++;
             }
         }
     }

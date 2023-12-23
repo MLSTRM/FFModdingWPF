@@ -117,6 +117,7 @@ public class FF12SeedGenerator : SeedGenerator
             new PartyRando(this),
             new TreasureRando(this),
             new EquipRando(this),
+            new LicenseRando(this),
             new LicenseBoardRando(this),
             new EnemyRando(this),
             new ShopRando(this),

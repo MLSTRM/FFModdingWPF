@@ -6,6 +6,11 @@ public class DataStoreEquip : DataStore
 {
     public string ID { get => IntID.ToString("X4"); }
     public int IntID { get; set; }
+    public byte Icon
+    {
+        get => Data.ReadByte(0x04);
+        set => Data.SetByte(0x04, value);
+    }
     public bool Unsellable
     {
         get => Data.ReadBinary(0x07, 1);
