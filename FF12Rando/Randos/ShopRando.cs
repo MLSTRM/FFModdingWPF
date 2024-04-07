@@ -136,6 +136,7 @@ public partial class ShopRando : Randomizer
             FF12Flags.Items.Shops.SetRand();
 
             Dictionary<string, int> locationsShared = new();
+            Dictionary<int, int> locationSharedMapping = new();
             List<string> used = new();
             shopData.Values.Shuffle().OrderByDescending(s => s.Traits.Contains("Unique")).ForEach(s =>
             {
@@ -143,6 +144,7 @@ public partial class ShopRando : Randomizer
                 if (FF12Flags.Items.ShopsShared.Enabled && !s.Traits.Contains("Unique") && locationsShared.ContainsKey(s.Area))
                 {
                     shop.SetItems(shops[locationsShared[s.Area]].GetItems());
+                    locationSharedMapping.Add(shop.ID, locationsShared[s.Area]);
                 }
                 else
                 {
@@ -203,7 +205,9 @@ public partial class ShopRando : Randomizer
             if (FF12Flags.Items.JunkRankScaleShops.Enabled)
             {
                 // Get all the shop slots with consumables, equipment, and abilities and group by their item type
-                var grouping = shopData.Values.Where(s => !s.Traits.Contains("Unique")).Select(s => shops[s.ID]).SelectMany(shop =>
+                var grouping = shopData.Values
+                    .Where(s => !s.Traits.Contains("Unique") && locationsShared.ContainsValue(s.ID))
+                    .Select(s => shops[s.ID]).SelectMany(shop =>
                 {
                     return Enumerable.Range(0, shop.GetItems().Count).Select(index => (shop, index));
                 }).GroupBy(itemSlot =>
@@ -286,6 +290,12 @@ public partial class ShopRando : Randomizer
 
                     // Remove duplicates, sort, and set items
                     shop.SetItems(items.Distinct().OrderBy(itemId => itemId).ToList());
+                }
+
+                // Set the shared shop items
+                foreach (var pair in locationSharedMapping)
+                {
+                    shops[pair.Key].SetItems(shops[pair.Value].GetItems());
                 }
             }
 
