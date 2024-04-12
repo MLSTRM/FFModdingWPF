@@ -8,7 +8,7 @@ using System.Reflection.Emit;
 namespace FF12Rando;
 public class FF12ItemPlacer : CombinedItemPlacer<ItemLocation, ItemData>
 {
-    public ProgressionItemPlacer<ItemLocation> ProgressionPlacer { get; set; }
+    public FF12ProgressionItemPlacer ProgressionPlacer { get; set; }
     public FF12UsefulItemPlacer UsefulPlacer { get; set; }
     public FF12JunkItemPlacer JunkPlacer { get; set; }
 

@@ -101,9 +101,9 @@ Garamsythe Waterway,North Spur Sluiceway,grm_a03,0,8,,5,
 Garamsythe Waterway,Northern Sluiceway,grm_a05,0,6,,5,
 Garamsythe Waterway,East Waterway Control,grm_a06,0,4,,5,
 Garamsythe Waterway,No. 11 Channel (water is not drained),grm_b01,0,6,I(8080),1,Missable
-Garamsythe Waterway,West Sluice Control,grm_b03,0,2,,5,
+Garamsythe Waterway,West Sluice Control,grm_b03,0,2,,5,Missable
 Garamsythe Waterway,No. 10 Channel (water is not drained),grm_b04,0,4,I(8080),1,Missable
-Garamsythe Waterway,Southern Sluiceway,grm_c01,0,2,,5,
+Garamsythe Waterway,Southern Sluiceway,grm_c01,0,2,,5,Missable
 Garamsythe Waterway,No. 11 Channel (water is drained),grm_e02,0,6,,5,
 Garamsythe Waterway,No. 10 Channel (water is drained),grm_e07,0,5,,5,
 Garamsythe Waterway,No. 3 Cloaca Spur (water is drained),grm_e09,0,3,I(80AF),5,

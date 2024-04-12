@@ -117,6 +117,11 @@ public class ItemReq
 
         string name = s.Substring(0, s.IndexOf("("));
         string argString = s.Substring(s.IndexOf("(") + 1, s.FindClosingBracketIndex('(', ')') - s.IndexOf("(") - 1);
+        if (s.Substring(s.FindClosingBracketIndex('(', ')') + 1).StartsWith("|"))
+        {
+            throw new Exception("Unexpected ItemReq at the same level in: " + s);
+        }
+
         List<string> args = new();
         int parantheses = 0;
         for (int i = 0; i < argString.Length; i++)

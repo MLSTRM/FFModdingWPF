@@ -1,7 +1,3 @@
-using Bartz24.RandoWPF;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-
 namespace Bartz24.RandoWPF.Tests;
 
 [TestClass]
@@ -83,7 +79,11 @@ public class ItemReqTests
                 }
             }
         }
-
     }
-    
+
+    [TestMethod]
+    public void TestInvalidReqs()
+    {
+        Assert.ThrowsException<Exception>(() => ItemReq.Parse("I(80B1)|I(80B2)"));
+    }    
 }

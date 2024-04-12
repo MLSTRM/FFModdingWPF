@@ -114,16 +114,44 @@ public class ProgressionItemPlacer<T> : ItemPlacer<T> where T : ItemLocation
     /// <returns></returns>
     private List<T> GetInitialReplacementOrder()
     {
-        List<T> newOrder = new();
+        Dictionary<int, T> newOrder = new();
+        bool[] usedIndices = new bool[100000];
         List<T> original = Replacements.Where(l => !RemainingFixed.Contains(l)).ToList();
-        while (original.Count > 0)
+        Dictionary<string, (int min, int max)> itemRanges = new();
+        foreach (T next in original)
         {
-            T next = RandomNum.SelectRandomWeighted(original, l => Math.Min(GetNewlyAccessibleWithLocation(UnlockedLocations, l).Count * 5, 30) + 1);
-            newOrder.Add(next);
-            original.Remove(next);
+            int minIndex, maxIndex;
+            string similarItemType = GetSimilarItemType(next);
+            if (itemRanges.ContainsKey(similarItemType))
+            {
+                (minIndex, maxIndex) = itemRanges[similarItemType];
+            }
+            else
+            {
+                minIndex = RandomNum.RandInt(15, 70);
+                minIndex = Math.Clamp(minIndex + GetLocationOffset(next, similarItemType), 0, 80);
+                int range = RandomNum.RandInt(0, 99) < 30 ? 100 : RandomNum.RandInt(30, 100);
+                maxIndex = Math.Min(minIndex + range, 100);
+
+                itemRanges.Add(similarItemType, (minIndex, maxIndex));
+            }
+
+            int index = -1;
+            while (index < 0 || usedIndices[index])
+            {
+                index = RandomNum.RandInt(minIndex * 1000, Math.Min(maxIndex * 1000, usedIndices.Length - 1));
+            }
+
+            newOrder.Add(index, next);
+            usedIndices[index] = true;
         }
 
-        return newOrder;
+        return newOrder.Keys.OrderBy(i => i).Select(i => newOrder[i]).ToList();
+    }
+
+    protected virtual int GetLocationOffset(T location, string itemType)
+    {
+        return -GetNewlyAccessibleWithLocation(UnlockedLocations, location).Count / 10;
     }
 
     protected virtual void PlaceFixed()
@@ -268,5 +296,16 @@ public class ProgressionItemPlacer<T> : ItemPlacer<T> where T : ItemLocation
     protected virtual double GetAreaWeight(T location)
     {
         return Math.Max(1, location.Areas.Select(a => AreaMultipliers[a]).Average());
+    }
+
+    protected virtual string GetSimilarItemType(T location)
+    {
+        var item = location.GetItem(false);
+        if (item == null)
+        {
+            throw new RandoException("Null item detected for " + location.Name, "Null item");
+        }
+
+        return item?.Item;
     }
 }

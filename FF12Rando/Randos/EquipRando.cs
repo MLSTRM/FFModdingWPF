@@ -274,7 +274,7 @@ public partial class EquipRando : Randomizer
                 (0, 99),
                 (0, 99)
             };
-            float[] weights = { 1, 1, 1 / 10f, 0.4f, 0.8f, 0.8f, 0.8f, 2 };
+            float[] weights = { 2.5f, 2.5f, 1 / 10f, 0.4f, 0.8f, 0.8f, 0.8f, 2 };
             int[] chances = { 5, 5, 20, 20, 20, 20, 20, 20 };
             int[] zeros = { 95, 95, 90, 90, 95, 95, 95, 90 };
             int[] negs = { 0, 0, 0, 0, 0, 0, 0, 0 };
