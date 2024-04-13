@@ -326,6 +326,8 @@ public partial class ShopRando : Randomizer
                     break;
             }
 
+            possible.RemoveAll(i => equipRando.itemData.ContainsKey(i) && equipRando.itemData[i].Traits.Contains("Ignore"));
+
             possible.RemoveAll(i => bazaarUsed.Contains(i));
         }
         while (possible.Count == 0);

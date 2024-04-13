@@ -107,7 +107,7 @@ Archades,Hunt 23: Overlord,9019,AND(I(Tchita Uplands)|I(Archades)),6,Hunt
 Nalbina Fortress,Hunt 24: Goliath,901A,I(Tchita Uplands),6,Hunt
 Nalbina Fortress,Hunt 25: Deathscythe,901B,I(Tchita Uplands),6,Hunt
 Skyferry,Hunt 26: Deathgaze,901C,OR(AERO(80E1|false)|AERO(80E2|false)|AERO(80E3|false)|AERO(80E4|false)|AERO(80E5|false)),7,Hunt
-Bhujerba,Hunt 27: Diabolos,901D,AERO(80E3),7,Hunt
+Bhujerba,Hunt 27: Diabolos,901D,AND(I(807E)|I(807F)|AERO(80E3)),7,Hunt
 Mt. Bur-Omisace,Hunt 28: Piscodaemon,901E,AND(I(Paramina Rift)|I(C012)),5,Hunt
 Eruyt Village,Hunt 29: Wild Malboro,901F,I(Paramina Rift),6,Hunt
 Jahara,Hunt 30: Catoblepas,9020,I(Ozmone Plain),6,Hunt
