@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Bartz24.RandoWPF;
 
-public class ItemReq
+public abstract class ItemReq
 {
     public static readonly BoolItemReq TRUE = new(true);
     public static readonly BoolItemReq FALSE = new(false);
@@ -203,4 +203,6 @@ public class ItemReq
     {
         return !(a == b);
     }
+
+    public abstract string GetArchipelagoRule(Func<string, string> itemNameFunc);
 }

@@ -327,7 +327,7 @@ public partial class TreasureRando : Randomizer
     public void SaveHints()
     {
         TextRando textRando = Generator.Get<TextRando>();
-        if (HintPlacer.Hints.Values.Select(l => l.Count).Sum() > 0)
+        if (HintPlacer != null && HintPlacer.Hints.Values.Select(l => l.Count).Sum() > 0)
         {
             foreach (int num in HintPlacer.Hints.Keys)
             {
@@ -453,14 +453,19 @@ public partial class TreasureRando : Randomizer
                 nameCell.Elements.Add(new IconTooltip("common/images/lock_white_48dp.svg", "Requires: " + reqsDisplay).ToString());
             }
 
-            return new object[] { nameCell, display, ItemPlacer.SphereCalculator.Spheres.ContainsKey(l) ? ItemPlacer.SphereCalculator.Spheres[l] : "N/A" }.ToList();
+            string sphere = ItemPlacer != null && ItemPlacer.SphereCalculator.Spheres.ContainsKey(l) ? ItemPlacer.SphereCalculator.Spheres[l].ToString() : "N/A";
+
+            return new object[] { nameCell, display, sphere }.ToList();
         }).Where(l => l != null).ToList(), "itemlocations"));
         pages.Add("item_locations", page);
 
         // Add hints page
-        page = new("Hints", "template/documentation.html");
-        page.HTMLElements.Add(new Table("Hints", (new string[] { "Hint Number", "Hint" }).ToList(), (new int[] { 20, 80 }).ToList(), HintPlacer.Hints.Select(hint => new object[] { $"Hint Number {hint.Key + 1}", string.Join("\n", hint.Value.Select(line => HintPlacer.GetHintText(line))) }.ToList()).ToList(), "hints"));
-        pages.Add("hints", page);
+        if (HintPlacer != null)
+        {
+            page = new("Hints", "template/documentation.html");
+            page.HTMLElements.Add(new Table("Hints", (new string[] { "Hint Number", "Hint" }).ToList(), (new int[] { 20, 80 }).ToList(), HintPlacer.Hints.Select(hint => new object[] { $"Hint Number {hint.Key + 1}", string.Join("\n", hint.Value.Select(line => HintPlacer.GetHintText(line))) }.ToList()).ToList(), "hints"));
+            pages.Add("hints", page);
+        }
 
         return pages;
     }
@@ -486,6 +491,12 @@ public partial class TreasureRando : Randomizer
         catch
         {
             return id;
+        }
+
+        EquipRando equipRando = Generator.Get<EquipRando>();
+        if (equipRando.itemData.ContainsKey(id))
+        {
+            return equipRando.itemData[id].Name;
         }
 
         string output = "";
@@ -547,15 +558,6 @@ public partial class TreasureRando : Randomizer
             }
 
             output = textRando.TextKeyItems[intId - 0x8000].Text;
-        }
-        
-        if (string.IsNullOrEmpty(output))
-        {
-            EquipRando equipRando = Generator.Get<EquipRando>();
-            if (equipRando.itemData.ContainsKey(id))
-            {
-                output = equipRando.itemData[id].Name;
-            }
         }
 
         if (!string.IsNullOrEmpty(output))

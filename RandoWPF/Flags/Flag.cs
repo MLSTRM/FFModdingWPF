@@ -59,6 +59,24 @@ public class Flag : INotifyPropertyChanged
     public bool Debug { get; set; }
     public string DescriptionFormat { get; set; } = "";
     public string Description => (Experimental ? "[EXPERIMENTAL]\n" : "") + DescriptionFormatting.Apply(CurrentDescriptionFormat, this);
+
+    public bool HasArchipelagoOverride { get; set; }
+
+    public Visibility InfoVisible => RandoFlags.Mode == RandoFlags.SeedMode.Archipelago && HasArchipelagoOverride ? Visibility.Collapsed : Visibility.Visible;
+
+    public Visibility APVisible => RandoFlags.Mode == RandoFlags.SeedMode.Archipelago && HasArchipelagoOverride ? Visibility.Visible : Visibility.Collapsed;
+
+    public bool FlagModifiable => RandoFlags.Mode != RandoFlags.SeedMode.Archipelago || !HasArchipelagoOverride;
+    public bool PropertiesModifiable => FlagModifiable && FlagEnabled;
+
+    public void ModeChanged()
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(InfoVisible)));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(APVisible)));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FlagModifiable)));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PropertiesModifiable)));
+    }
+
     public Brush HelpColor => Debug ? Brushes.GreenYellow : Experimental ? Brushes.PaleVioletRed : Brushes.SkyBlue;
 
     public virtual string CurrentDescriptionFormat => DescriptionFormat;
@@ -75,6 +93,7 @@ public class Flag : INotifyPropertyChanged
         {
             flagEnabled = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FlagEnabled)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PropertiesModifiable)));
         }
     }
     [JsonProperty]

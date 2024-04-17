@@ -12,6 +12,7 @@ public class LRFlags
     {
         Debug = RandoFlags.FlagTypeDebug,
         All = RandoFlags.FlagTypeAll,
+        Archipelago = RandoFlags.FlagTypeArchipelago,
         StatsAbilities,
         Enemies,
         Items,

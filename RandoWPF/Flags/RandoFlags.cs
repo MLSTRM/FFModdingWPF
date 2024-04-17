@@ -3,6 +3,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
@@ -14,7 +15,8 @@ public class RandoFlags
     public static List<Flag> FlagsList { get; set; } = new List<Flag>();
 
     public const int FlagTypeDebug = int.MaxValue;
-    public const int FlagTypeAll = -1;
+    public const int FlagTypeAll = -2;
+    public const int FlagTypeArchipelago = -1;
 
     public static Dictionary<int, string> CategoryMap { get; set; } = new Dictionary<int, string>();
 
@@ -50,48 +52,77 @@ public class RandoFlags
         return Deserialize(File.ReadAllText(file));
     }
 
-    public static (string seed, string version, string preset) GetSeedInfo(string json)
+    private static SeedMode GetSeedMode(string mode)
+    {
+        return mode.ToLower() == "archipelago" ? SeedMode.Archipelago : SeedMode.Normal;
+    }
+
+    public static (string seed, SeedMode type, string version, string preset) GetSeedInfo(string json)
     {
         IDictionary<string, object> data = JsonConvert.DeserializeObject<ExpandoObject>(json, new ExpandoObjectConverter());
 
         string seed = (string)data["seed"];
-        string version = (string)data["version"];
+        string version = data.ContainsKey("version") ? (string)data["version"] : "N/A";
+        SeedMode type = data.ContainsKey("type") ? GetSeedMode((string)data["type"]) : SeedMode.Normal;
         string preset = data.ContainsKey("preset") ? (string)data["preset"] : "Unknown from previous version";
 
-        return (seed, version, preset);
+        return (seed, type, version, preset);
     }
 
     public static string Deserialize(string json)
     {
         IDictionary<string, object> data = JsonConvert.DeserializeObject<ExpandoObject>(json, new ExpandoObjectConverter());
 
-        string seed = (string)data["seed"];
-        string version = (string)data["version"];
-        string preset = data.ContainsKey("preset") ? (string)data["preset"] : "Unknown from previous version";
+        SeedMode previousMode = Mode;
+        (string seed, Mode, string version, string preset) = GetSeedInfo(json);
 
-        FlagsList.ForEach(f => f.FlagEnabled = false);
-
-        ((List<object>)data["flags"]).Select(o => (IDictionary<string, object>)o).ToList().ForEach(s =>
+        if (Mode != previousMode)
         {
-            if (FlagsList.Where(f => f.FlagID == (string)s["FlagID"]).Count() == 0)
+            FlagsList.ForEach(f =>
             {
-                return;
-            }
+                f.ModeChanged();
+            });
+        }
 
-            Flag f = FlagsList.First(f => f.FlagID == (string)s["FlagID"]);
-            f.FlagEnabled = (bool)s["FlagEnabled"];
-            ((List<object>)s["FlagProperties"]).Select(o => (IDictionary<string, object>)o).ToList().ForEach(p =>
+        if (data.ContainsKey("flags"))
+        {
+            FlagsList.ForEach(f => f.FlagEnabled = false);
+
+            ((List<object>)data["flags"]).Select(o => (IDictionary<string, object>)o).ToList().ForEach(s =>
             {
-            if (f.FlagProperties.Where(fp => fp.ID == (string)p["ID"]).Count() == 0)
+                if (FlagsList.Where(f => f.FlagID == (string)s["FlagID"]).Count() == 0)
                 {
                     return;
                 }
 
-                FlagProperty prop = f.FlagProperties.First(fp => fp.ID == (string)p["ID"]);
-                prop.Deserialize(p);
+                Flag f = FlagsList.First(f => f.FlagID == (string)s["FlagID"]);
+                f.FlagEnabled = (bool)s["FlagEnabled"];
+                ((List<object>)s["FlagProperties"]).Select(o => (IDictionary<string, object>)o).ToList().ForEach(p =>
+                {
+                    if (f.FlagProperties.Where(fp => fp.ID == (string)p["ID"]).Count() == 0)
+                    {
+                        return;
+                    }
+
+                    FlagProperty prop = f.FlagProperties.First(fp => fp.ID == (string)p["ID"]);
+                    prop.Deserialize(p);
+                });
             });
-        });
+        }
+
+        if (Mode == SeedMode.Archipelago)
+        {
+            SelectedCategory = CategoryMap[FlagTypeArchipelago];
+        }
 
         return seed;
     }
+
+    public enum SeedMode
+    {
+        Normal,
+        Archipelago
+    }
+
+    public static SeedMode Mode { get; set; } = SeedMode.Normal;
 }

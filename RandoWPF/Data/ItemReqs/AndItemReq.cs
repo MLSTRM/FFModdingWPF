@@ -61,4 +61,9 @@ public class AndItemReq : ItemReq
     {
         return HashCode.Combine(reqs);
     }
+
+    public override string GetArchipelagoRule(Func<string, string> itemNameFunc)
+    {
+        return $"({string.Join(" and\n", reqs.Select(r => r.GetArchipelagoRule(itemNameFunc)))})";
+    }
 }

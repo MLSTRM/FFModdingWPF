@@ -20,9 +20,13 @@
                         <TextBlock Text="Seed:" VerticalAlignment="Center" FontSize="20"/>
                         <TextBlock Text="{Binding Seed}" Margin="5,0,0,0" FontSize="20"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,20">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                         <TextBlock Text="Preset Used:" VerticalAlignment="Center"/>
                         <TextBlock Text="{Binding PresetUsed}" Margin="5,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,20">
+                        <TextBlock Text="Seed Type:" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding SeedModeDisplay}" Margin="5,0,0,0"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                         <TextBlock Text="Version:" VerticalAlignment="Center"/>

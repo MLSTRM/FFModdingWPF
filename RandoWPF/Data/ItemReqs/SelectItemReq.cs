@@ -64,4 +64,10 @@ public class SelectItemReq : ItemReq
     {
         return HashCode.Combine(count, reqs);
     }
+
+    public override string GetArchipelagoRule(Func<string, string> itemNameFunc)
+    {
+        string list = $"[{string.Join(",\n", reqs.Select(r => r.GetArchipelagoRule(itemNameFunc)))}]";
+        return $"state_has_at_least({list}, {count})";
+    }
 }

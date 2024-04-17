@@ -103,7 +103,7 @@ public class FF12SeedGenerator : SeedGenerator
         Randomizers = new()
         {
             new PartyRando(this),
-            new TreasureRando(this),
+            new APTreasureRando(this),
             new EquipRando(this),
             new LicenseBoardRando(this),
             new EnemyRando(this),

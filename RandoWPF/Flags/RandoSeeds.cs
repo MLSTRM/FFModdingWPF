@@ -44,11 +44,12 @@ public class RandoSeeds
                     using (StreamReader reader = new(entry.Open()))
                     {
                         string json = reader.ReadToEnd();
-                        (string seed, string version, string preset) = RandoFlags.GetSeedInfo(json);
+                        (string seed, RandoFlags.SeedMode type, string version, string preset) = RandoFlags.GetSeedInfo(json);
                         FlagStringCompressor compressor = new();
                         Seeds.Add(new SeedInformation()
                         {
                             Seed = seed,
+                            SeedMode = type,
                             Created = entry.LastWriteTime.DateTime,
                             Version = version,
                             FlagString = compressor.Compress(json),

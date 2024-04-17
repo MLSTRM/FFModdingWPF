@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AutoDataGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "ff12 S:\\DevStuff\\CSharp\\FFModdingWPF\\FF12Rando\\bin\\Debug\\net6.0-windows S:\\DevStuff\\ArchipelagoRando\\Archipelago\\worlds\\ff12_open_world"
+    }
+  }
+}

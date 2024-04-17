@@ -172,4 +172,10 @@ class AeropassItemReq : ItemReq
     {
         return HashCode.Combine(Destination, AllowStrahl);
     }
+
+    public override string GetArchipelagoRule(Func<string, string> itemNameFunc)
+    {
+        string allowStrahl = AllowStrahl ? "True" : "False";
+        return $"state_has_aerodromes(state, \"{itemNameFunc(Destination)}\", player, {allowStrahl})";
+    }
 }

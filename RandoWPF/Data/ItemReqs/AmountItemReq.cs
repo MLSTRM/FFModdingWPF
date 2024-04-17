@@ -55,4 +55,16 @@ public class AmountItemReq : ItemReq
     {
         return HashCode.Combine(item, amount);
     }
+
+    public override string GetArchipelagoRule(Func<string, string> itemNameFunc)
+    {
+        if (amount == 1)
+        {
+            return $"state.has(\"{itemNameFunc(item)}\", player)";
+        }
+        else
+        {
+            return $"state.has(\"{itemNameFunc(item)}\", player, {amount})";
+        }
+    }
 }

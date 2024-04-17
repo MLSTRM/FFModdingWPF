@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FF12Rando\FF12Rando.csproj" />
+    <ProjectReference Include="..\FF13Rando\FF13Rando.csproj" />
+    <ProjectReference Include="..\FF13_2Rando\FF13_2Rando.csproj" />
+    <ProjectReference Include="..\LRRando\LRRando.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,6 +1,8 @@
 ﻿using Bartz24.RandoWPF;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bartz24.RandoWPF;
 
@@ -40,5 +42,20 @@ public abstract class ItemLocation : CSVDataRow
     protected virtual void LogSetItem(string item, int count)
     {
         Generator.Logger.LogDebug("Set Item Location \"" + ID + "\" to [" + item + " x" + count + "]");
+    }
+
+    public virtual string GetArchipelagoRule(Func<string, string> itemNameFunc)
+    {
+        string ruleStr = Requirements.GetArchipelagoRule(itemNameFunc);
+        List<string> ruleLines = ruleStr.Split("\n").ToList();
+        for (int i = 0; i < ruleLines.Count; i++)
+        {
+            // Count the number of spaces or ( at the start of the previous line
+            int indent = i == 0 ? 4 : ruleLines[i - 1].TakeWhile(c => c == ' ' || c == '(').Count();
+            ruleLines[i] = new string(' ', indent) + ruleLines[i];
+        }
+
+        ruleStr = $"lambda state, player:\n{string.Join("\n", ruleLines)}";
+        return ruleStr;
     }
 }

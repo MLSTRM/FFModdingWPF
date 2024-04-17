@@ -11,6 +11,7 @@ public class FF13_2Flags
     {
         Debug = RandoFlags.FlagTypeDebug,
         All = RandoFlags.FlagTypeAll,
+        Archipelago = RandoFlags.FlagTypeArchipelago,
         Stats,
         Items,
         Enemies,

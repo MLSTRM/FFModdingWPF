@@ -20,16 +20,28 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <ToggleButton x:Name="flagCheckbox" Grid.Row="0" Grid.Column="0" Margin="5" IsChecked="{Binding FlagEnabled}"></ToggleButton>
+                <ToggleButton x:Name="flagCheckbox" Grid.Row="0" Grid.Column="0" Margin="5" IsChecked="{Binding FlagEnabled}" IsEnabled="{Binding FlagModifiable}"></ToggleButton>
                 <TextBlock FontSize="15" VerticalAlignment="Center" Margin="5, 0, 50, 0" TextWrapping="Wrap" Grid.Row="0" Grid.Column="1" Text="{Binding Text}"></TextBlock>
-                <materialDesign:PackIcon ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="20000" Width="36" Height="36" Kind="InformationOutline" Grid.Row="0" Grid.Column="2" Foreground="{Binding HelpColor}" Background="Transparent">
-                    <materialDesign:PackIcon.ToolTip>
-                        <ToolTip MaxWidth="400">
-                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" />
-                        </ToolTip>
-                    </materialDesign:PackIcon.ToolTip>
-                </materialDesign:PackIcon>
-                <StackPanel Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" Margin="50,0,0,0" IsEnabled="{Binding FlagEnabled}">
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2">
+                    <materialDesign:PackIcon ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="20000" Kind="InformationOutline"
+                                             Foreground="{Binding HelpColor}" Background="Transparent"  Width="36" Height="36"
+                                             Visibility="{Binding InfoVisible}">
+                        <materialDesign:PackIcon.ToolTip>
+                            <ToolTip MaxWidth="400">
+                                <TextBlock Text="{Binding Description}" TextWrapping="Wrap" />
+                            </ToolTip>
+                        </materialDesign:PackIcon.ToolTip>
+                    </materialDesign:PackIcon>
+                    <Image Margin="0"  Width="32" Height="32" Visibility="{Binding APVisible}"
+                       Source="pack://application:,,,/Bartz24.RandoWPF;component/ArchipelagoIcon.png">
+                        <Image.ToolTip>
+                            <ToolTip>
+                                <TextBlock Text="This flag is controlled by Archipelago." TextWrapping="Wrap" />
+                            </ToolTip>
+                        </Image.ToolTip>
+                    </Image>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" Margin="50,0,0,0" IsEnabled="{Binding PropertiesModifiable}">
                     <ListBox x:Name="propertiesListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{Binding FlagPropertiesDebugIncluded, UpdateSourceTrigger=PropertyChanged}" AlternationCount="2">
                         <ListBox.Resources>
                             <DataTemplate DataType="{x:Type local:ToggleFlagProperty}">

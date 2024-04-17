@@ -14,6 +14,7 @@ public class FF12Flags
     {
         Debug = RandoFlags.FlagTypeDebug,
         All = RandoFlags.FlagTypeAll,
+        Archipelago = RandoFlags.FlagTypeArchipelago,
         Stats,
         Items,
         Other
@@ -89,7 +90,8 @@ public class FF12Flags
                 Text = "Randomize Item Locations",
                 FlagID = "Treasures",
                 DescriptionFormat = "Randomize treasures and misc rewards.\n" +
-                "Any key items in the pool will by default be shuffled between themselves."
+                "Any key items in the pool will by default be shuffled between themselves.",
+                HasArchipelagoOverride = true
             }.Register(FlagType.Items);
 
             WritGoals = new ListBoxFlagProperty()
@@ -389,7 +391,8 @@ public class FF12Flags
             {
                 Text = "Allow Seitengrat",
                 FlagID = "Seitengrat",
-                DescriptionFormat = "Allow the Seitengrat to appear in the item pool and bazaar."
+                DescriptionFormat = "Allow the Seitengrat to appear in the item pool and bazaar.",
+                HasArchipelagoOverride = true
             }.Register(FlagType.Items);
 
             StartingTpStones = new Flag()
@@ -426,7 +429,8 @@ public class FF12Flags
             {
                 Text = "Shuffle Main Party",
                 FlagID = "RandParty",
-                DescriptionFormat = "Shuffles the main party members."
+                DescriptionFormat = "Shuffles the main party members.",
+                HasArchipelagoOverride = true
             }.Register(FlagType.Other);
 
             LicenseBoards = new Flag()
@@ -448,7 +452,8 @@ public class FF12Flags
                 Text = "Hints from Moogles",
                 FlagID = "HintsMain",
                 DescriptionFormat = "Allows each Sky Pirate's Den award and the Dusty Letter provide hints from the moogle cartographers.",
-                Aesthetic = true
+                Aesthetic = true,
+                HasArchipelagoOverride = true
             }.Register(FlagType.Other);
 
             HintsSpecific = new ComboBoxFlagProperty()
@@ -469,7 +474,8 @@ public class FF12Flags
             {
                 Text = "Hint Abilities",
                 FlagID = "HintAbi",
-                DescriptionFormat = "Hints will include information on abilities as well."
+                DescriptionFormat = "Hints will include information on abilities as well.",
+                HasArchipelagoOverride = true
             }.Register(FlagType.Other);
 
             Music = new Flag()

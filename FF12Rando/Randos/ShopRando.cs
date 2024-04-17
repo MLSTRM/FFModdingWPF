@@ -128,11 +128,12 @@ public partial class ShopRando : Randomizer
 
         if (FF12Flags.Items.Shops.FlagEnabled)
         {
+            var usedAbilities = treasureRando.ItemPlacer == null ? new HashSet<string>() : treasureRando.ItemPlacer.UsefulPlacer.UsedAbilities;
             HashSet<string> shopItems = equipRando.itemData.Values.Where(i => 
                 i.Category is "Weapon" or "Armor" or "Accessory" or "Item" or "Ability" 
                 && i.Rank < 10
                 && !i.Traits.Contains("Ignore")
-                && !treasureRando.ItemPlacer.UsefulPlacer.UsedAbilities.Contains(i.ID)).Select(i => i.ID).ToHashSet();
+                && !usedAbilities.Contains(i.ID)).Select(i => i.ID).ToHashSet();
             FF12Flags.Items.Shops.SetRand();
 
             Dictionary<string, int> locationsShared = new();
@@ -229,8 +230,12 @@ public partial class ShopRando : Randomizer
                     items = RandomNum.ShuffleLocalized(items, 5);
 
                     // Sort the shop slots by their shop sphere
-                    var slots = group.Shuffle().OrderBy(itemSlot => 
-                        treasureRando.ItemPlacer.SphereCalculator.Spheres.GetValueOrDefault(treasureRando.ItemLocations[shopData[itemSlot.shop.ID].ShopFakeLocationLink], 0)).ToList();
+                    var slots = group.ToList();
+                    if (treasureRando.ItemPlacer != null)
+                    {
+                        slots = group.Shuffle().OrderBy(itemSlot =>
+    treasureRando.ItemPlacer.SphereCalculator.Spheres.GetValueOrDefault(treasureRando.ItemLocations[shopData[itemSlot.shop.ID].ShopFakeLocationLink], 0)).ToList();
+                    }
 
                     // Go in order and set the junk items
                     for (int i = 0; i < items.Count; i++)

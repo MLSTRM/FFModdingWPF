@@ -33,7 +33,7 @@ public class SeedGenerator : IDisposable
     {
         foreach (Randomizer randomizer in Randomizers)
         {
-            if (randomizer.GetType() == typeof(T))
+            if (randomizer is T)
             {
                 return (T)randomizer;
             }

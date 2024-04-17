@@ -34,4 +34,16 @@ public class BoolItemReq : ItemReq
     {
         return HashCode.Combine(Value);
     }
+
+    public override string GetArchipelagoRule(Func<string, string> itemNameFunc)
+    {
+        if (Value)
+        {
+            return "True";
+        }
+        else
+        {
+            return "False";
+        }
+    }
 }
