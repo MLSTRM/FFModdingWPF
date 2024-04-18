@@ -1166,9 +1166,6 @@ public partial class EquipRando : Randomizer
     {
         RandoUI.SetUIProgressIndeterminate("Saving Item/Equip Data...");
         File.WriteAllBytes($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\battle_pack.bin.dir\\section_013.bin", equip.Data);
-        if (FF12SeedGenerator.DescriptiveInstalled())
-        {
-            GenerateDescriptionsFile();
-        }
+        GenerateDescriptionsFile();
     }
 }
