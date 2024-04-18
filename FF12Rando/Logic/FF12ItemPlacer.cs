@@ -223,7 +223,8 @@ public class FF12ItemPlacer : CombinedItemPlacer<ItemLocation, ItemData>
                             && (l.GetItem(false) == null ||
                                 equipRando.itemData.ContainsKey(l.GetItem(false)?.Item)
                                 && categories.Contains(equipRando.itemData[l.GetItem(false)?.Item].Category))
-                            && l.GetItem(false)?.Item != "8070";
+                            && l.GetItem(false)?.Item != "8070"
+                            && (l is not RewardLocation r || r.Index > 0);
                 }).ToHashSet();
 
                 if (maxSphere.Count > 0)

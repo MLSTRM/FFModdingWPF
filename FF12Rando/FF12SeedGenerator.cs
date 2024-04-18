@@ -207,6 +207,21 @@ public class FF12SeedGenerator : SeedGenerator
             MoveToBackup(Path.Combine(descriptiveFolder, "us.lua"), false);
         }
 
+        if (File.Exists(Path.Combine(descriptiveFolder, "us.lua")))
+        {
+            File.Delete(Path.Combine(descriptiveFolder, "us.lua"));
+        }
+
+        if (File.Exists(Path.Combine(descriptiveFolder, "us.lua.page1")))
+        {
+            File.Delete(Path.Combine(descriptiveFolder, "us.lua.page1"));
+        }
+
+        if (File.Exists(Path.Combine(descriptiveFolder, "us.lua.page2")))
+        {
+            File.Delete(Path.Combine(descriptiveFolder, "us.lua.page2"));
+        }
+
         // Move the original script to a backup if it hasn't been moved already
         if (!File.Exists(Path.Combine(SetupData.Paths["12"], "x64\\scripts\\config\\TheInsurgentsManifestoConfig.lua.before_rando")))
         {

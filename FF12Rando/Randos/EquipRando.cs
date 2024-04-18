@@ -553,10 +553,6 @@ public partial class EquipRando : Randomizer
     private void GenerateDescriptionsFile()
     {
         string scriptFolder = $"{SetupData.Paths["12"]}\\x64\\scripts\\config\\TheInsurgentsDescriptiveInventoryConfig";
-        if (!File.Exists(Path.Combine(scriptFolder, "us.lua.before_rando")))
-        {
-            File.Move(Path.Combine(scriptFolder, "us.lua"), Path.Combine(scriptFolder, "us.lua.before_rando"), true);
-        }
 
         List<string> linesPage1 = new()
         {

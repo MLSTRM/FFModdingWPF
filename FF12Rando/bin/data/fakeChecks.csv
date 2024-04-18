@@ -108,3 +108,4 @@ Cerobi Steppe,Bluesang - Cruel Trophy,_106,AND(I(80B8)|I(HuntClubStart)|I(Tchita
 Cerobi Steppe,Aspidochelon - Adamantine Trophy,_107,AND(I(80B8)|I(HuntClubStart)|I(Tchita Uplands)),,7,HuntClubKill
 Ridorana Cataract,Abelisk - Reptilian Trophy,_108,AND(I(8077)|I(80B8)|I(HuntClubStart)),,7,HuntClubKill
 Pharos of Ridorana,Avenger - Vile Trophy,_109,AND(I(8077)|I(2116|3)|I(80B8)|I(HuntClubStart)),,7,HuntClubKill
+Bahamut,Final Boss Victory,_110,AND(I(8077)|I(8070)),,8,Victory

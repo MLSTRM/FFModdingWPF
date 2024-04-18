@@ -27,7 +27,7 @@ Dark Energy,0018,11,,,Item
 Meteorite A,0019,2,001A,,Item
 Meteorite B,001A,5,001B,,Item
 Meteorite C,001B,7,001C,,Item
-Meteorite D,001C,10,,,Item
+Meteorite D,001C,11,,,Item
 Reverse Mote,002A,4,,,Item
 Dark Mote,002B,2,,,Item
 Aero Mote,002C,3,,,Item
@@ -783,16 +783,16 @@ Valeblossom Dew,2109,0,,,Loot
 Semclam Shell,210A,0,,,Loot
 Nebralim,210B,0,,,Loot
 Great Serpentskin,210C,0,,,Loot
-Bhujerban Madhu,210D,0,,,Key
+Bhujerban Madhu,210D,0,,Ignore,Key
 Sandalwood Chop,2112,0,,,Key
 Pinewood Chop,2113,0,,,Key
-Small Package,2114,0,,,Key
-Dewdrop Pebble,2115,0,,,Key
+Small Package,2114,0,,Ignore,Key
+Dewdrop Pebble,2115,0,,Ignore,Key
 Black Orb,2116,0,,,Key
-Jaya Stick,2117,0,,,Key
+Jaya Stick,2117,0,,Ignore,Key
 Writ of Transit,8070,0,,,Key
 Clan Primer,8071,0,,,Key
-Galbana Lilies,8072,0,,,Key
+Galbana Lilies,8072,0,,Ignore,Key
 Cactus Flower,8073,0,,,Key
 Tube Fuse,8074,0,,,Key
 Sword of the Order,8075,0,,,Key
@@ -801,7 +801,7 @@ Systems Access Key,8077,0,,,Key
 Dawn Shard,8078,0,,,Key
 Shadestone,8079,0,,,Key
 Sunstone,807A,0,,,Key
-Feather of the Flock,807B,0,,,Key
+Feather of the Flock,807B,0,,Ignore,Key
 Ring of the Toad,807C,0,,,Key
 Silent Urn,807D,0,,,Key
 Site 3 Key,807E,0,,,Key
@@ -826,24 +826,24 @@ Blackened Fragment,8090,0,,,Key
 Grimy Fragment,8091,0,,,Key
 Stolen Articles,8092,0,,,Key
 Barheim Key,8093,0,,,Key
-Muramata,8094,0,,,Key
-Matamune,8095,0,,,Key
-Cactoid Compact,8096,0,,,Key
-Cactoid Commendation,8097,0,,,Key
+Muramata,8094,0,,Ignore,Key
+Matamune,8095,0,,Ignore,Key
+Cactoid Compact,8096,0,,Ignore,Key
+Cactoid Commendation,8097,0,,Ignore,Key
 Merchant's Armband,8098,0,,,Key
 Pilika's Diary,8099,0,,,Key
 Ring of the Light,809A,0,,,Key
 Viera Rucksack,809B,0,,,Key
-Time-worn Necklace,809C,0,,,Key
+Time-worn Necklace,809C,0,,Ignore,Key
 Lab Access Card,809E,0,,,Key
 Moonsilver Medallion,80A3,0,,,Key
-Wanly Limned Message,80A4,0,,,Key
-Green-hued Message,80A5,0,,,Key
-Vermillion Message,80A6,0,,,Key
-Auric Message,80A7,0,,,Key
-Onyx Message,80A8,0,,,Key
+Wanly Limned Message,80A4,0,,Ignore,Key
+Green-hued Message,80A5,0,,Ignore,Key
+Vermillion Message,80A6,0,,Ignore,Key
+Auric Message,80A7,0,,Ignore,Key
+Onyx Message,80A8,0,,Ignore,Key
 Goddess's Magicite,80AC,0,,,Key
-Gift of the Great-chief,80AD,0,,,Key
+Gift of the Great-chief,80AD,0,,Ignore,Key
 Broken Key,80AE,0,,,Key
 Sluice Gate Key,80AF,0,,,Key
 Wind Globe,80B1,0,,,Key
@@ -853,77 +853,77 @@ Ageworn Key,80B5,0,,,Key
 Soul Ward Key,80B6,0,,,Key
 Lente's Tear,80B7,0,,,Key
 Shelled Trophy,80B8,0,,,Key
-Fur-scaled Trophy,80B9,0,,,Key
-Bony Trophy,80BA,0,,,Key
-Fanged Trophy,80BB,0,,,Key
-Hide-covered Trophy,80BC,0,,,Key
-Maned Trophy,80BD,0,,,Key
-Fell Trophy,80BE,0,,,Key
-Accursed Trophy,80BF,0,,,Key
-Beaked Trophy,80C0,0,,,Key
-Maverick Trophy,80C1,0,,,Key
-Soulless Trophy,80C2,0,,,Key
-Leathern Trophy,80C3,0,,,Key
-Sickle Trophy,80C4,0,,,Key
-Vengeful Trophy,80C5,0,,,Key
-Gravesoil Trophy,80C6,0,,,Key
-Metallic Trophy,80C7,0,,,Key
-Slimy Trophy,80C8,0,,,Key
-Scythe Trophy,80C9,0,,,Key
-Feathered Trophy,80CA,0,,,Key
-Skull Trophy,80CB,0,,,Key
-Mind Trophy,80CC,0,,,Key
-Eternal Trophy,80CD,0,,,Key
-Clawed Trophy,80CE,0,,,Key
-Odiferous Trophy,80CF,0,,,Key
-Whiskered Trophy,80D0,0,,,Key
-Frigid Trophy,80D1,0,,,Key
-Ensanguined Trophy,80D2,0,,,Key
-Cruel Trophy,80D3,0,,,Key
-Adamantine Trophy,80D4,0,,,Key
-Reptilian Trophy,80D5,0,,,Key
-Vile Trophy,80D6,0,,,Key
+Fur-scaled Trophy,80B9,0,,Trophy,Key
+Bony Trophy,80BA,0,,Trophy,Key
+Fanged Trophy,80BB,0,,Trophy,Key
+Hide-covered Trophy,80BC,0,,Trophy,Key
+Maned Trophy,80BD,0,,Trophy,Key
+Fell Trophy,80BE,0,,Trophy,Key
+Accursed Trophy,80BF,0,,Trophy,Key
+Beaked Trophy,80C0,0,,Trophy,Key
+Maverick Trophy,80C1,0,,Trophy,Key
+Soulless Trophy,80C2,0,,Trophy,Key
+Leathern Trophy,80C3,0,,Trophy,Key
+Sickle Trophy,80C4,0,,Trophy,Key
+Vengeful Trophy,80C5,0,,Trophy,Key
+Gravesoil Trophy,80C6,0,,Trophy,Key
+Metallic Trophy,80C7,0,,Trophy,Key
+Slimy Trophy,80C8,0,,Trophy,Key
+Scythe Trophy,80C9,0,,Trophy,Key
+Feathered Trophy,80CA,0,,Trophy,Key
+Skull Trophy,80CB,0,,Trophy,Key
+Mind Trophy,80CC,0,,Trophy,Key
+Eternal Trophy,80CD,0,,Trophy,Key
+Clawed Trophy,80CE,0,,Trophy,Key
+Odiferous Trophy,80CF,0,,Trophy,Key
+Whiskered Trophy,80D0,0,,Trophy,Key
+Frigid Trophy,80D1,0,,Trophy,Key
+Ensanguined Trophy,80D2,0,,Trophy,Key
+Cruel Trophy,80D3,0,,Trophy,Key
+Adamantine Trophy,80D4,0,,Trophy,Key
+Reptilian Trophy,80D5,0,,Trophy,Key
+Vile Trophy,80D6,0,,Trophy,Key
 Rainstone,80E0,0,,,Key
 Rabanastre Aeropass,80E1,0,,,Key
 Nalbina Aeropass,80E2,0,,,Key
 Bhujerba Aeropass,80E3,0,,,Key
 Archades Aeropass,80E4,0,,,Key
 Balfonheim Aeropass,80E5,0,,,Key
-Hint Message 1,8100,0,,,Key
-Hint Message 2,8101,0,,,Key
-Hint Message 3,8102,0,,,Key
-Hint Message 4,8103,0,,,Key
-Hint Message 5,8104,0,,,Key
-Hint Message 6,8105,0,,,Key
-Hint Message 7,8106,0,,,Key
-Hint Message 8,8107,0,,,Key
-Hint Message 9,8108,0,,,Key
-Hint Message 10,8109,0,,,Key
-Hint Message 11,810A,0,,,Key
-Hint Message 12,810B,0,,,Key
-Hint Message 13,810C,0,,,Key
-Hint Message 14,810D,0,,,Key
-Hint Message 15,810E,0,,,Key
-Hint Message 16,810F,0,,,Key
-Hint Message 17,8110,0,,,Key
-Hint Message 18,8111,0,,,Key
-Hint Message 19,8112,0,,,Key
-Hint Message 20,8113,0,,,Key
-Hint Message 21,8114,0,,,Key
-Hint Message 22,8115,0,,,Key
-Hint Message 23,8116,0,,,Key
-Hint Message 24,8117,0,,,Key
-Hint Message 25,8118,0,,,Key
-Hint Message 26,8119,0,,,Key
-Hint Message 27,811A,0,,,Key
-Hint Message 28,811B,0,,,Key
-Hint Message 29,811C,0,,,Key
-Hint Message 30,811D,0,,,Key
-Hint Message 31,811E,0,,,Key
-Hint Message 32,811F,0,,,Key
-Hint Message 33,8120,0,,,Key
-Hint Message 34,8121,0,,,Key
-Hint Message 35,8122,0,,,Key
+Hint Message 1,8100,0,,Ignore,Key
+Hint Message 2,8101,0,,Ignore,Key
+Hint Message 3,8102,0,,Ignore,Key
+Hint Message 4,8103,0,,Ignore,Key
+Hint Message 5,8104,0,,Ignore,Key
+Hint Message 6,8105,0,,Ignore,Key
+Hint Message 7,8106,0,,Ignore,Key
+Hint Message 8,8107,0,,Ignore,Key
+Hint Message 9,8108,0,,Ignore,Key
+Hint Message 10,8109,0,,Ignore,Key
+Hint Message 11,810A,0,,Ignore,Key
+Hint Message 12,810B,0,,Ignore,Key
+Hint Message 13,810C,0,,Ignore,Key
+Hint Message 14,810D,0,,Ignore,Key
+Hint Message 15,810E,0,,Ignore,Key
+Hint Message 16,810F,0,,Ignore,Key
+Hint Message 17,8110,0,,Ignore,Key
+Hint Message 18,8111,0,,Ignore,Key
+Hint Message 19,8112,0,,Ignore,Key
+Hint Message 20,8113,0,,Ignore,Key
+Hint Message 21,8114,0,,Ignore,Key
+Hint Message 22,8115,0,,Ignore,Key
+Hint Message 23,8116,0,,Ignore,Key
+Hint Message 24,8117,0,,Ignore,Key
+Hint Message 25,8118,0,,Ignore,Key
+Hint Message 26,8119,0,,Ignore,Key
+Hint Message 27,811A,0,,Ignore,Key
+Hint Message 28,811B,0,,Ignore,Key
+Hint Message 29,811C,0,,Ignore,Key
+Hint Message 30,811D,0,,Ignore,Key
+Hint Message 31,811E,0,,Ignore,Key
+Hint Message 32,811F,0,,Ignore,Key
+Hint Message 33,8120,0,,Ignore,Key
+Hint Message 34,8121,0,,Ignore,Key
+Hint Message 35,8122,0,,Ignore,Key
 Belias,C012,0,,,Esper
 Mateus,C013,0,,,Esper
 Adrammelech,C014,0,,,Esper

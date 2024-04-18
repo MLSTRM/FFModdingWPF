@@ -26,13 +26,14 @@ public partial class SetupPaths : UserControl
     private const string LuaLoaderInstalledText = "The Lua Loader is correctly installed.";
     private const string LuaLoaderNotInstalledText = "The required Lua Loader files are not detected.\nEither download through the Vortex mod manager,\nor download and then install the loader directly with the buttons to the right.";
 
-    private const string DescriptiveInstalledText = "The Insurgent's Descriptive Inventory is correctly installed.";
+    private const string DescriptiveInstalledText = "The Insurgent's Descriptive Inventory is correctly installed.\nNOTE: Make sure you generate a seed after installing this mod!\nIt does not work until generating a seed.";
     private const string DescriptiveNotInstalledText = "The OPTIONAL mod for improved equipment descriptions is not installed.\nEither download through the Vortex mod manager,\nor download and then install the loader directly with the buttons to the right.";
 
     private const string ManifestoInstalledText = "The Insurgent's Manifesto is correctly installed.";
     private const string ManifestoNotInstalledText = "The Insurgent's Manifesto is not installed.\nEither download through the Vortex mod manager,\nor download and then install the loader directly with the buttons to the right.";
 
     public string FF12Path => SetupData.GetSteamPath("12");
+    public string PathsCountText { get; set; }
     public string ToolsText { get; set; }
     public SolidColorBrush ToolsTextColor { get; set; }
     public string LoaderText { get; set; }
@@ -59,6 +60,15 @@ public partial class SetupPaths : UserControl
 
     public void UpdateText()
     {
+        int numReqInstalled = new bool[] {
+            FF12SeedGenerator.ToolsInstalled(),
+            FF12SeedGenerator.FileLoaderInstalled(),
+            FF12SeedGenerator.LuaLoaderInstalled() ,
+            FF12SeedGenerator.ManifestoInstalled() != FF12SeedGenerator.ManifestoInstallType.Missing }.Where(b => b).Count();
+        int numOptInstalled = FF12SeedGenerator.DescriptiveInstalled() ? 1 : 0;
+        PathsCountText = $"Required: {numReqInstalled}/4    Optional: {numOptInstalled}/1";
+        PathsCountLabel.GetBindingExpression(ContentProperty).UpdateTarget();
+
         ToolsText = FF12SeedGenerator.ToolsInstalled() ? ToolsInstalledText : ToolsNotInstalledText;
         ToolsTextColor = FF12SeedGenerator.ToolsInstalled() ? Brushes.LightGreen : Brushes.Orange;
         ToolsTextLabel.GetBindingExpression(ContentProperty).UpdateTarget();
@@ -479,5 +489,11 @@ public partial class SetupPaths : UserControl
                 MessageBox.Show("Make sure the selected file is a 7z file.", "The selected file is not valid");
             }
         }
+    }
+
+    private void refreshButton_Click(object sender, RoutedEventArgs e)
+    {
+        UpdateText();
+        RandoUI.ShowTempUIMessage("Refreshed the paths and tools status!");
     }
 }

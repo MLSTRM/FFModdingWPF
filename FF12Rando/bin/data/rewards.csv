@@ -145,7 +145,7 @@ Clan Hall,Clan Boss: Mimic Queen,903E,AND(I(8071)|I(8080)|I(8074)),1,ClanBoss
 Clan Hall,Clan Boss: Demon Wall 1,903F,AND(I(8071)|I(Sandseas)),3,ClanBoss
 Clan Hall,Clan Boss: Demon Wall 2,9040,AND(I(8071)|I(Sandseas)),1,ClanBoss
 Clan Hall,Clan Boss: Elder Wyrm,9041,AND(I(Paramina Rift)|I(8071)),3,ClanBoss
-Clan Hall,Clan Boss: Tiamat,9042,I(Ozmone Plain),2,ClanBoss
+Clan Hall,Clan Boss: Tiamat,9042,AND(I(Ozmone Plain)|I(8071)),2,ClanBoss
 Clan Hall,Clan Boss: Vinuskar,9043,AND(I(Paramina Rift)|I(8078)|I(8071)),2,ClanBoss
 Clan Hall,Clan Boss: King Bomb,9044,AND(I(8071)|I(Tchita Uplands)),5,ClanBoss
 Clan Hall,Clan Boss: Mandragora,9045,AND(I(8071)|I(Sochen Cave Palace)),4,ClanBoss
@@ -195,24 +195,24 @@ Lowtown,Samal Blackened Fragment,917C,AND(I(8071)|I(8092)|I(Fran)|I(Ashe)|I(Pene
 Garamsythe Waterway,Dull Fragment,9186,AND(I(80AF)|I(Tchita Uplands)),0,
 Rabanastre,Grimy Fragment,9187,I(Tchita Uplands),5,
 Old Archades,Moonsilver Medallion,9188,AND(I(Tchita Uplands)|I(Archades)),5,
-Nabreus Deadlands,Nabreus Medallion,9189,AND(I(808F)|I(8090)|I(8091)|I(80A3)|I(Tchita Uplands)),6,
-Nabreus Deadlands,Nabreus Medallion,918A,AND(I(808F)|I(8090)|I(8091)|I(80A3)|I(Tchita Uplands)),6,
-Nabreus Deadlands,Nabreus Medallion,918B,AND(I(808F)|I(8090)|I(8091)|I(80A3)|I(Tchita Uplands)),6,
+Nabreus Deadlands,Nabreus Medallion 1,9189,AND(I(808F)|I(8090)|I(8091)|I(80A3)|I(Tchita Uplands)),6,
+Nabreus Deadlands,Nabreus Medallion 2,918A,AND(I(808F)|I(8090)|I(8091)|I(80A3)|I(Tchita Uplands)),6,
+Nabreus Deadlands,Nabreus Medallion 3,918B,AND(I(808F)|I(8090)|I(8091)|I(80A3)|I(Tchita Uplands)),6,
 Necrohol of Nabudis,Medallion of Might,918C,AND(I(8081)|I(8083)|I(8084)|I(Tchita Uplands)),7,
 Rabanastre,Viera Rendeveous,9056,,1,
 Rabanastre,Ktjn Reward,9058,I(8071),2,
 Nalbina Fortress,Jovy Reward,906A,I(Jovy|5),7,Hunt
-Dalmasca Estersand,Outpost Mysterious Glint,906E,,0,
-Dalmasca Estersand,Outpost Mysterious Glint,906F,,0,
-Dalmasca Estersand,Outpost Mysterious Glint,9057,,0,
-Dalmasca Estersand,Outpost Mysterious Glint,9070,,0,
-Dalmasca Estersand,Outpost Mysterious Glint,9059,,0,
+Dalmasca Estersand,Outpost Mysterious Glint 1,906E,,0,
+Dalmasca Estersand,Outpost Mysterious Glint 2,906F,,0,
+Dalmasca Estersand,Outpost Mysterious Glint 3,9057,,0,
+Dalmasca Estersand,Outpost Mysterious Glint 4,9070,,0,
+Dalmasca Estersand,Outpost Mysterious Glint 5,9059,,0,
 Balfonheim,Footrace,908F,I(Tchita Uplands),0,
 Zertinan Caverns,Defeat Adrammelech,9194,I(Ozmone Plain),3,
 Barheim Passage,Defeat Zalera,9195,I(8093),4,
 Garamsythe Waterway,Defeat Cuchulainn,9196,I(80AF),6,
 Stilshrine of Miriam,Defeat Zeromus,9197,AND(I(Paramina Rift)|I(8078)|I(8085)),5,
-Mosphoran Highwaste,Defeat Exodus,9198,I(Tchita Uplands),4,
+Mosphoran Highwaste,Defeat Exodus,9198,AND(I(Tchita Uplands)|I(Defeat Bergan)),4,
 Necrohol of Nabudis,Defeat Chaos,9199,AND(I(8082)|I(Tchita Uplands)),5,
 Giruvegan,Defeat Ultima,919A,AND(I(Paramina Rift)|I(C012)),6,
 Henne Mines,Defeat Zodiark,919B,AND(I(Esper|10)|I(Ozmone Plain)),7,
