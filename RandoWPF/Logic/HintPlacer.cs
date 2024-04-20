@@ -24,6 +24,7 @@ public abstract class HintPlacer<I, T, P> where T : ItemLocation where P : ItemP
 
     public void PlaceHints()
     {
+        RandoUI.SetUIProgressIndeterminate($"Placing hints.");
         foreach (var loc in ItemPlacer.FinalPlacement.Keys)
         {
             if (IsHintable(loc))
@@ -36,8 +37,8 @@ public abstract class HintPlacer<I, T, P> where T : ItemLocation where P : ItemP
     protected virtual void PlaceHint(T location)
     {
         // Select the hint location to add to which has the lowest amount and select random
-        IEnumerable<I> possible = GetPossibleLocations(location);
-        var hintLoc = RandomNum.SelectRandom(possible.Where(h => Hints[h].Count == possible.Min(h2 => Hints[h2].Count)));
+        var possible = GetPossibleLocations(location);
+        var hintLoc = RandomNum.SelectRandom(possible.Where(h => Hints[h].Count == possible.Min(h2 => Hints[h2].Count)).ToList());
         Hints[hintLoc].Add(location);
     }
 

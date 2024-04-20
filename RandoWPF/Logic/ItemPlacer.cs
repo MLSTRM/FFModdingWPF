@@ -41,7 +41,15 @@ public abstract class ItemPlacer<T> where T : ItemLocation
         {
             var rep = FinalPlacement[loc];
             var orig = rep.GetItem(true);
-            loc.SetItem(orig.Value.Item, orig.Value.Amount);
+            if (orig == null)
+            {
+                loc.SetItem(null, 0);
+                continue;
+            }
+            else
+            {
+                loc.SetItem(orig.Value.Item, orig.Value.Amount);
+            }
         }
     }
 

@@ -153,40 +153,46 @@ public class FF12ItemPlacer : CombinedItemPlacer<ItemLocation, ItemData>
         }
     }
 
-    protected override HashSet<ItemLocation> GetFixedLocations()
+    public override bool IsFixedLocation(ItemLocation location)
     {
-        return Replacements.Where(l =>
+        if (location is RewardLocation r && location.GetItem(true)?.Item == null)
         {
-            if (FF12Flags.Items.WritGoals.SelectedValues.Contains(FF12Flags.Items.WritGoalCid2) && l.Traits.Contains("WritCid2"))
+            var sameLocs = PossibleLocations.Where(l => l is RewardLocation r2 && r2.IntID == r.IntID && r.Index != r2.Index && l.GetItem(true)?.Item != null).ToHashSet();
+            if (sameLocs.Any(l => IsFixedLocation(l)))
             {
                 return true;
             }
+        }
 
-            if (l is FakeLocation)
+        if (FF12Flags.Items.WritGoals.SelectedValues.Contains(FF12Flags.Items.WritGoalCid2) && location.Traits.Contains("WritCid2"))
+        {
+            return true;
+        }
+
+        if (location is FakeLocation)
+        {
+            return true;
+        }
+
+        foreach (string item in FF12Flags.Items.KeyItems.DictValues.Keys)
+        {
+            if (!FF12Flags.Items.KeyItems.SelectedKeys.Contains(item) && location.GetItem(true)?.Item == item)
             {
                 return true;
             }
+        }
 
-            foreach (string item in FF12Flags.Items.KeyItems.DictValues.Keys)
-            {
-                if (!FF12Flags.Items.KeyItems.SelectedKeys.Contains(item) && l.GetItem(true)?.Item == item)
-                {
-                    return true;
-                }
-            }
+        if (location.Traits.Any(s => s.StartsWith("Chop") && !IsRandomizedChop(location)))
+        {
+            return true;
+        }
 
-            if (l.Traits.Any(s => s.StartsWith("Chop") && !IsRandomizedChop(l)))
-            {
-                return true;
-            }
+        if (location.Traits.Any(s => s.StartsWith("BlackOrb") && !IsRandomizedOrb(location)))
+        {
+            return true;
+        }
 
-            if (l.Traits.Any(s => s.StartsWith("BlackOrb") && !IsRandomizedOrb(l)))
-            {
-                return true;
-            }
-
-            return false;
-        }).ToHashSet();
+        return false;
     }
 
     protected override void RebuildPlacers()

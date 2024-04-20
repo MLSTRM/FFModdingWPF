@@ -55,7 +55,12 @@ public abstract class CombinedItemPlacer<L, I> : ItemPlacer<L> where L : ItemLoc
     /// Should include any fake locations as well.
     /// </summary>
     /// <returns></returns>
-    protected abstract HashSet<L> GetFixedLocations();
+    public abstract bool IsFixedLocation(L location);
+
+    public virtual HashSet<L> GetFixedLocations()
+    {
+        return PossibleLocations.Where(IsFixedLocation).ToHashSet();
+    }
 
     protected abstract void RebuildPlacers();
 

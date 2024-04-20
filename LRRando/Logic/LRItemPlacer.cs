@@ -24,38 +24,35 @@ public class LRItemPlacer : CombinedItemPlacer<ItemLocation, ItemData>
         return LRFlags.Items.KeyDepth.SelectedIndex;
     }
 
-    protected override HashSet<ItemLocation> GetFixedLocations()
+    public override bool IsFixedLocation(ItemLocation location)
     {
-        return Replacements.Where(l =>
+        if (location is FakeLocation)
         {
-            if (l is FakeLocation)
+            return true;
+        }
+
+        if (location.IsEPAbility())
+        {
+            if (!LRFlags.Items.IncludeEPAbilities.Enabled)
             {
                 return true;
             }
 
-            if (l.IsEPAbility())
+            if (!LRFlags.StatsAbilities.EPAbilitiesPool.SelectedKeys.Contains(location.GetItem(false).Value.Item))
             {
-                if (!LRFlags.Items.IncludeEPAbilities.Enabled)
-                {
-                    return true;
-                }
-
-                if (!LRFlags.StatsAbilities.EPAbilitiesPool.SelectedKeys.Contains(l.GetItem(false).Value.Item))
-                {
-                    return true;
-                }
+                return true;
             }
+        }
 
-            foreach (string item in LRFlags.Items.KeyItems.DictValues.Keys)
+        foreach (string item in LRFlags.Items.KeyItems.DictValues.Keys)
+        {
+            if (!LRFlags.Items.KeyItems.SelectedKeys.Contains(item) && location.GetItem(true)?.Item == item)
             {
-                if (!LRFlags.Items.KeyItems.SelectedKeys.Contains(item) && l.GetItem(true)?.Item == item)
-                {
-                    return true;
-                }
+                return true;
             }
+        }
 
-            return false;
-        }).ToHashSet();
+        return false;
     }
 
     protected override HashSet<ItemLocation> GetLocationsForPlacer(HashSet<ItemLocation> usedLocations, ItemPlacer<ItemLocation> placer)

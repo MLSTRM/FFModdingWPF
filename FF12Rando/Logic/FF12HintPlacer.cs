@@ -61,10 +61,6 @@ public class FF12HintPlacer : HintPlacer<int, ItemLocation, FF12ItemPlacer>
                 {
                     type = "an Ability";
                 }
-                else if (itemData.IntID is >= 0x80B9 and <= 0x80D6)
-                {
-                    type = "a Useless Trophy";
-                }
                 else if (itemData.Category == "Key" && itemData.IntID >= 0x8000)
                 {
                     type = "an Important Key Item";
@@ -86,13 +82,14 @@ public class FF12HintPlacer : HintPlacer<int, ItemLocation, FF12ItemPlacer>
     protected override bool IsHintable(ItemLocation location)
     {
         var item = location.GetItem(false);
-        if (item == null || location.Traits.Contains("Missable"))
+        if (item == null || location.Traits.Contains("Missable") || ItemPlacer.IsFixedLocation(location))
         {
             return false;
         }
 
         EquipRando equipRando = Generator.Get<EquipRando>();
-        if (equipRando.itemData.ContainsKey(item.Value.Item) && equipRando.itemData[item.Value.Item].Category == "Key")
+        if (equipRando.itemData.ContainsKey(item.Value.Item) && equipRando.itemData[item.Value.Item].Category == "Key" &&
+            !(equipRando.itemData[item?.Item].IntID is >= 0x80B9 and <= 0x80D6))
         {
             return true;
         }
@@ -103,5 +100,11 @@ public class FF12HintPlacer : HintPlacer<int, ItemLocation, FF12ItemPlacer>
         }
 
         return false;
+    }
+
+    protected override IEnumerable<int> GetPossibleLocations(ItemLocation location)
+    {
+        var possible = base.GetPossibleLocations(location);
+        return possible.Where(i => ItemPlacer.SphereCalculator.Spheres[location] < i + 5 + RandomNum.RandInt(0, 5)).DefaultIfEmpty(possible.Max());
     }
 }

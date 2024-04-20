@@ -392,10 +392,14 @@ public partial class TreasureRando : Randomizer
         Dictionary<string, HTMLPage> pages = base.GetDocumentation();
         HTMLPage page = new("Item Locations", "template/documentation.html");
 
-        page.HTMLElements.Add(new Table("Item Locations", (new string[] { "Name", "New Contents", "Sphere" }).ToList(), (new int[] { 45, 45, 10 }).ToList(), ItemLocations.Values.Where(l => l is not FakeLocation).Select(l =>
+        page.HTMLElements.Add(new Table("Item Locations", (new string[] { "Name", "New Contents", "Sphere" }).ToList(), (new int[] { 45, 45, 10 }).ToList(), ItemLocations.Values.Select(l =>
         {
             string display = "";
-            if (l is TreasureLocation t)
+            if (l is FakeLocation f)
+            {
+                display = f.FakeItem;
+            }
+            else if (l is TreasureLocation t)
             {
                 DataStoreTreasure treasure = ebpAreas[t.MapID].TreasureList[t.Index];
                 if (treasure.SpawnChance == 0)
@@ -436,8 +440,14 @@ public partial class TreasureRando : Randomizer
                 reqsDisplay = reqsDisplay.Substring(1, reqsDisplay.Length - 2);
             }
 
+            string name = l.Name;
+            if (l is FakeLocation)
+            {
+                name += " (Unlock Event)";
+            }
+
             TableCellMultiple nameCell = new(new List<string>());
-            nameCell.Elements.Add($"<div style=\"margin-right: auto\">{l.Name}</div>");
+            nameCell.Elements.Add($"<div style=\"margin-right: auto\">{name}</div>");
             if (reqsDisplay != ItemReq.TRUE.GetDisplay())
             {
                 nameCell.Elements.Add(new IconTooltip("common/images/lock_white_48dp.svg", "Requires: " + reqsDisplay).ToString());

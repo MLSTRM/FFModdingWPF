@@ -57,4 +57,18 @@ public class FF12ProgressionItemPlacer : ProgressionItemPlacer<ItemLocation>
 
         return offset;
     }
+
+    protected override void PlaceFixed()
+    {
+        // Edge case for victory
+        if (RemainingFixed.Count == 1 && RemainingFixed.First().Name == "Final Boss Victory")
+        {
+            PlaceItem(RemainingFixed.First(), RemainingFixed.First());
+            RemainingFixed.Remove(RemainingFixed.First());
+        }
+        else
+        {
+            base.PlaceFixed();
+        }
+    }
 }

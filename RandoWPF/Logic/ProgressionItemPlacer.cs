@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,12 @@ public class ProgressionItemPlacer<T> : ItemPlacer<T> where T : ItemLocation
         do
         {
             Attempts++;
+            Generator.Logger.LogDebug($"Progression Item Placement Attempt {Attempts}");
             success = TryPlaceItems();
+            if (!success)
+            {
+                Generator.Logger.LogDebug($"Failed to place {RemainingToPlace.Count + RemainingFixed.Count} remaining replacements.");
+            }
         }
         while (!success);
     }

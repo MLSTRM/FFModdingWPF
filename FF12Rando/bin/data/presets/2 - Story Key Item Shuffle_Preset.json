@@ -1,6 +1,6 @@
 {
   "name": "2 - Story Key Item Shuffle",
-  "version": "0.8.0.20",
+  "version": "0.8.0.27",
   "flags": [
     {
       "FlagEnabled": false,
@@ -59,6 +59,7 @@
             "Rabanastre Aeropass",
             "Rainstone",
             "Shadestone",
+            "Shemhazai Esper",
             "Soul Ward Key",
             "Sunstone",
             "Sword of Kings",
