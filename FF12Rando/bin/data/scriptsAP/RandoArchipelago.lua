@@ -16,7 +16,7 @@ local function clearAddItem()
 end
 
 local function incGil(count)
-    memory.u32[0x02164480+0x8] = memory.u32[0x02164480+0x8] + count
+    memory.u32[0x02164480-0x1F8] = memory.u32[0x02164480-0x1F8] + count
 end
 
 local function defineAddItem()

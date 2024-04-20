@@ -70,9 +70,10 @@ public partial class TreasureRando : Randomizer
             ebp.LoadData(File.ReadAllBytes(path));
             return ebp;
         });
-
+                
         PartyRando partyRando = Generator.Get<PartyRando>();
         partyRando.Characters = MathHelpers.DecodeNaturalSequence(prices[0x76].Price, 6, 6).Select(l => (int)l).ToArray();
+
 
         areaMapping = File.ReadAllLines("data\\mapAreas.csv").ToDictionary(s => s.Split(',')[1], s => s.Split(',')[0]);
 
@@ -145,38 +146,8 @@ public partial class TreasureRando : Randomizer
                 .Where(l => l is not TreasureLocation || treasuresAllowed.Contains(l.ID)).ToHashSet();
             ItemPlacer.PlaceItems();
             ItemPlacer.ApplyToGameData();
-            
-            // Clear null treasures
-            foreach (var location in ItemLocations.Values)
-            {
-                if (!ItemPlacer.FinalPlacement.ContainsKey(location) && location is TreasureLocation)
-                {
-                    DataStoreTreasure t = ebpAreas[((TreasureLocation)location).MapID].TreasureList[((TreasureLocation)location).Index];
-                    t.SpawnChance = 0;
-                    t.Respawn = 255;
-                    t.GilChance = 0;
-                    t.CommonItem1ID = t.CommonItem2ID = t.RareItem1ID = t.RareItem2ID = 0xFFFF;
-                    t.GilCommon = t.GilRare = 0;
-                }
-            }
 
-            // Set treasure respawn IDs and spawn chance
-            int respawnIndex = 0;
-            foreach (var location in ItemPlacer.FinalPlacement.Keys.Shuffle())
-            {
-                if (respawnIndex >= 255)
-                {
-                    break;
-                }
-
-                if (location is TreasureLocation t)
-                {
-                    DataStoreTreasure treasure = ebpAreas[t.MapID].TreasureList[t.Index];
-                    treasure.Respawn = (byte)respawnIndex;
-                    treasure.SpawnChance = 100;
-                    respawnIndex++;
-                }
-            }
+            SetTreasureRespawns(ItemPlacer.FinalPlacement.Values.Where(l => l is TreasureLocation).Select(l => (TreasureLocation)l).ToList());
 
             // Set random linked missable chests
             foreach (var location in ItemLocations.Values.Where(l => l is TreasureLocation && l.Traits.Contains("Missable")))
@@ -215,6 +186,38 @@ public partial class TreasureRando : Randomizer
             {
                 ItemLocations[l.ID].SetItem("10C7", ItemLocations[l.ID].GetItem(false).Value.Item2);
             });
+        }
+    }
+
+    protected void SetTreasureRespawns(List<TreasureLocation> treasures)
+    {
+        // Clear null treasures
+        foreach (var location in ItemLocations.Values)
+        {
+            if (location is TreasureLocation tLocation && !treasures.Contains(tLocation))
+            {
+                DataStoreTreasure t = ebpAreas[((TreasureLocation)location).MapID].TreasureList[tLocation.Index];
+                t.SpawnChance = 0;
+                t.Respawn = 255;
+                t.GilChance = 0;
+                t.CommonItem1ID = t.CommonItem2ID = t.RareItem1ID = t.RareItem2ID = 0xFFFF;
+                t.GilCommon = t.GilRare = 0;
+            }
+        }
+
+        // Set treasure respawn IDs and spawn chance
+        int respawnIndex = 0;
+        foreach (var t in treasures)
+        {
+            if (respawnIndex >= 255)
+            {
+                break;
+            }
+
+            DataStoreTreasure treasure = ebpAreas[t.MapID].TreasureList[t.Index];
+            treasure.Respawn = (byte)respawnIndex;
+            treasure.SpawnChance = 100;
+            respawnIndex++;
         }
     }
 
@@ -307,21 +310,6 @@ public partial class TreasureRando : Randomizer
         }
 
         treasuresAllowed = ItemLocations.Values.Where(l => l is TreasureLocation && !l.Traits.Contains("Missable")).Select(l => l.ID).Shuffle().Take(255).ToList();
-    }
-
-    private List<string> GetRandomizableItems()
-    {
-        return ItemLocations.Values.Where(l => l is not TreasureLocation || treasuresToPlace.Contains(l.ID))
-            .Select(l =>
-            {
-                (string, int)? tuple = ItemLocations[l.ID].GetItem(true);
-                return tuple != null && IsRandomizableItem(tuple.Value.Item1) ? tuple.Value.Item1 : null;
-            }).Where(s => s != null).Distinct().ToList();
-    }
-
-    public static bool IsRandomizableItem(string item)
-    {
-        return item.StartsWith("10") || item.StartsWith("11") || item.StartsWith("30") || item.StartsWith("40");
     }
 
     public void SaveHints()

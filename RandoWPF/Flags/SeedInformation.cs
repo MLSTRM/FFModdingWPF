@@ -14,4 +14,5 @@ public class SeedInformation
     public string Version { get; set; }
     public string FlagString { get; set; }    
     public string PresetUsed { get; set; }
+    public ArchipelagoData ArchipelagoData { get; set; }
 }

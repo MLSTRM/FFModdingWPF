@@ -26,6 +26,14 @@
         </materialDesign:DialogHost.DialogContent>
         <DockPanel>
             <DockPanel DockPanel.Dock="Bottom" Margin="10">
+                <Image Margin="5,0"  Width="32" Height="32" Visibility="{Binding APVisible}" DockPanel.Dock="Left"
+                       Source="pack://application:,,,/Bartz24.RandoWPF;component/ArchipelagoIcon.png">
+                    <Image.ToolTip>
+                        <ToolTip>
+                            <TextBlock Text="Archipelago Mode (Currently loading an AP seed)" TextWrapping="Wrap" />
+                        </ToolTip>
+                    </Image.ToolTip>
+                </Image>
                 <Button DockPanel.Dock="Right"
                 Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
                 Style="{DynamicResource MaterialDesignOutlinedDarkButton}">

@@ -325,5 +325,20 @@ public static class DataExtensions
 
         return (int)sum;
     }
+    public static string Clean(this string str, int maxLength = 20)
+    {
+        // Replace spaces with underscores
+        string cleaned = str.Replace(' ', '_');
 
+        // Remove invalid characters for file names
+        cleaned = Regex.Replace(cleaned, "[^a-zA-Z0-9_.-]", "");
+
+        // Truncate to max length
+        if (cleaned.Length > maxLength)
+        {
+            cleaned = cleaned.Substring(0, maxLength);
+        }
+
+        return cleaned;
+    }
 }

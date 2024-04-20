@@ -56,8 +56,8 @@ public class FF13SeedGenerator : SeedGenerator
 
         Directory.CreateDirectory(OutFolder);
         FileHelpers.CopyFromFolder(OutFolder, "data\\modpack");
-        RandoHelpers.UpdateSeedInFile(OutFolder + "\\modconfig.ini", GetIntSeed().ToString());
-        File.Move(OutFolder + "\\Code\\patch.nccp", OutFolder + $"\\Code\\FF13 Randomizer {GetIntSeed()}.nccp");
+        RandoHelpers.UpdateSeedInFile(OutFolder + "\\modconfig.ini", SetupData.Seed.Clean());
+        File.Move(OutFolder + "\\Code\\patch.nccp", OutFolder + $"\\Code\\FF13 Randomizer {SetupData.Seed.Clean()}.nccp");
 
         SetupData.WPDTracking.Clear();
 
@@ -66,7 +66,7 @@ public class FF13SeedGenerator : SeedGenerator
 
     public override string GetPackPath()
     {
-        return $"{PackPrefixName}_{GetIntSeed()}.ncmp";
+        return $"{PackPrefixName}_{SetupData.Seed.Clean()}.ncmp";
     }
 
     protected override void GeneratePackAndDocs()

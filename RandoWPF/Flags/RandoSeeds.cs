@@ -44,7 +44,7 @@ public class RandoSeeds
                     using (StreamReader reader = new(entry.Open()))
                     {
                         string json = reader.ReadToEnd();
-                        (string seed, RandoFlags.SeedMode type, string version, string preset) = RandoFlags.GetSeedInfo(json);
+                        (string seed, RandoFlags.SeedMode type, ArchipelagoData apData, string version, string preset) = RandoFlags.GetSeedInfo(json);
                         FlagStringCompressor compressor = new();
                         Seeds.Add(new SeedInformation()
                         {
@@ -53,7 +53,8 @@ public class RandoSeeds
                             Created = entry.LastWriteTime.DateTime,
                             Version = version,
                             FlagString = compressor.Compress(json),
-                            PresetUsed = preset
+                            PresetUsed = preset,
+                            ArchipelagoData = apData
                         });
                     }
                 }
@@ -76,6 +77,8 @@ public class RandoSeeds
         FlagStringCompressor compressor = new();
         compressor.DecompressLoadFlags(info.FlagString);
         SetupData.Seed = info.Seed;
+        RandoFlags.Mode = info.SeedMode;
+        RandoFlags.ArchipelagoData = info.ArchipelagoData;
         RandoUI.ShowTempUIMessage($"Set the seed to {info.Seed} and loaded flags used for the seed!");
 
         RandoUI.SwitchUITab(1);

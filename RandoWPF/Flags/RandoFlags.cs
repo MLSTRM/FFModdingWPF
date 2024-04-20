@@ -38,14 +38,35 @@ public class RandoFlags
 
     public static string Serialize(string seed, string version)
     {
-        JObject o = JObject.FromObject(new
+        if (Mode == SeedMode.Normal)
         {
-            seed,
-            version,
-            preset = RandoPresets.Selected.Name,
-            flags = FlagsList.Where(f => !f.Debug).ToList()
-        });
-        return o.ToString();
+            JObject o = JObject.FromObject(new
+            {
+                seed,
+                version,
+                preset = RandoPresets.Selected.Name,
+                type = "normal",
+                flags = FlagsList.Where(f => !f.Debug).ToList()
+            });
+            return o.ToString();
+        }
+        else if (Mode == SeedMode.Archipelago)
+        {
+            JObject o = JObject.FromObject(new
+            {
+                seed,
+                version,
+                preset = RandoPresets.Selected.Name,
+                type = "archipelago",
+                flags = FlagsList.Where(f => !f.Debug).ToList(),
+                archipelago = ArchipelagoData.ToJsonObj()
+            });
+            return o.ToString();
+        }
+        else
+        {
+            throw new Exception("Invalid seed mode");
+        }
     }
     public static string LoadSeed(string file)
     {
@@ -57,7 +78,7 @@ public class RandoFlags
         return mode.ToLower() == "archipelago" ? SeedMode.Archipelago : SeedMode.Normal;
     }
 
-    public static (string seed, SeedMode type, string version, string preset) GetSeedInfo(string json)
+    public static (string seed, SeedMode type, ArchipelagoData apData, string version, string preset) GetSeedInfo(string json)
     {
         IDictionary<string, object> data = JsonConvert.DeserializeObject<ExpandoObject>(json, new ExpandoObjectConverter());
 
@@ -65,8 +86,13 @@ public class RandoFlags
         string version = data.ContainsKey("version") ? (string)data["version"] : "N/A";
         SeedMode type = data.ContainsKey("type") ? GetSeedMode((string)data["type"]) : SeedMode.Normal;
         string preset = data.ContainsKey("preset") ? (string)data["preset"] : "Unknown from previous version";
+        ArchipelagoData apData = (ArchipelagoData)Activator.CreateInstance(ArchipelagoDataType);
+        if (data.ContainsKey("archipelago"))
+        {
+            apData.Parse((IDictionary<string, object>)data["archipelago"]);
+        }
 
-        return (seed, type, version, preset);
+        return (seed, type, apData, version, preset);
     }
 
     public static string Deserialize(string json)
@@ -74,7 +100,7 @@ public class RandoFlags
         IDictionary<string, object> data = JsonConvert.DeserializeObject<ExpandoObject>(json, new ExpandoObjectConverter());
 
         SeedMode previousMode = Mode;
-        (string seed, Mode, string version, string preset) = GetSeedInfo(json);
+        (string seed, Mode, ArchipelagoData, string version, string preset) = GetSeedInfo(json);
 
         if (Mode != previousMode)
         {
@@ -114,6 +140,10 @@ public class RandoFlags
         {
             SelectedCategory = CategoryMap[FlagTypeArchipelago];
         }
+        else
+        {
+            SelectedCategory = SelectedCategory == CategoryMap[FlagTypeArchipelago] ? CategoryMap[FlagTypeAll] : SelectedCategory;
+        }
 
         return seed;
     }
@@ -125,4 +155,19 @@ public class RandoFlags
     }
 
     public static SeedMode Mode { get; set; } = SeedMode.Normal;
+
+    // Store a class type which inherits from ArchipelagoData
+    public static Type ArchipelagoDataType { get; set; }
+
+    public static ArchipelagoData ArchipelagoData { get; set; }    
+
+    public static T GetArchipelagoData<T>() where T : ArchipelagoData
+    {
+        if (typeof(T) != ArchipelagoDataType)
+        {
+            throw new Exception("Invalid type");
+        }
+
+        return (T)ArchipelagoData;
+    }
 }

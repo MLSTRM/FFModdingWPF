@@ -100,17 +100,7 @@ public class FF12SeedGenerator : SeedGenerator
 
     public FF12SeedGenerator() : base()
     {
-        Randomizers = new()
-        {
-            new PartyRando(this),
-            new APTreasureRando(this),
-            new EquipRando(this),
-            new LicenseBoardRando(this),
-            new EnemyRando(this),
-            new ShopRando(this),
-            new MusicRando(this),
-            new TextRando(this)
-        };
+        SetRandomizers();
 
         OutFolder = Path.Combine(SetupData.Paths["12"], "rando");
         DataOutFolder = Path.Combine(OutFolder, "ps2data");
@@ -120,6 +110,21 @@ public class FF12SeedGenerator : SeedGenerator
         DocsOutFolder = "docs";
 
         AeropassItemReq.Init();
+    }
+
+    protected virtual void SetRandomizers()
+    {
+        Randomizers = new()
+        {
+            new PartyRando(this),
+            new TreasureRando(this),
+            new EquipRando(this),
+            new LicenseBoardRando(this),
+            new EnemyRando(this),
+            new ShopRando(this),
+            new MusicRando(this),
+            new TextRando(this)
+        };
     }
 
     protected override void PrepareData()
@@ -149,9 +154,12 @@ public class FF12SeedGenerator : SeedGenerator
             throw new RandoException("The Insurgent's Manifesto is not properly installed. Download and install them on 1. Setup.", "Insurgent's Manifesto missing.");
         }
 
-        if (FF12Flags.Items.Treasures.FlagEnabled && FF12Flags.Items.WritGoals.SelectedIndices.Count == 0)
+        if (RandoFlags.Mode != RandoFlags.SeedMode.Archipelago)
         {
-            throw new RandoException("Item location randomization is turned on but there is no goal selected. Select at least 1 Bahamut unlock condition.", "No goal selected.");
+            if (FF12Flags.Items.Treasures.FlagEnabled && FF12Flags.Items.WritGoals.SelectedIndices.Count == 0)
+            {
+                throw new RandoException("Item location randomization is turned on but there is no goal selected. Select at least 1 Bahamut unlock condition.", "No goal selected.");
+            }
         }
 
         if (Directory.Exists(OutFolder))
@@ -188,7 +196,7 @@ public class FF12SeedGenerator : SeedGenerator
         File.WriteAllLines(filePath, lines);
     }
 
-    private void CopyLuaScripts()
+    protected virtual void CopyLuaScripts()
     {
         string scriptsFolder = Path.Combine(SetupData.Paths["12"], "x64\\scripts");
 

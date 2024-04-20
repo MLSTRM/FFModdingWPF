@@ -99,12 +99,26 @@ public class TextRando : Randomizer
     {
         RandoUI.SetUIProgressIndeterminate("Saving Text Data...");
 
+        UpdateSeedInfoStr();
+        UpdateGoalInfoStr();
 
-        DataStoreBinText.StringData seedInfoStr = TextEbpZones["rbn_a16"].Values.First(v => v.Text != null && v.Text.Contains("$VERSION$"));
-        seedInfoStr.Text = seedInfoStr.Text.Replace("$VERSION$", SetupData.Version);
-        seedInfoStr.Text = seedInfoStr.Text.Replace("$SEED$", RandomNum.GetIntSeed(SetupData.Seed).ToString());
-        seedInfoStr.Text = seedInfoStr.Text.Replace("$SEED HASH$", GetHash());
+        TextMenuMessage.Save($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\menu_message.bin");
+        TextMenuCommand.Save($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\menu_command.bin");
+        TextAbilityHelp.Save($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\listhelp_ability.bin");
+        TextKeyDescriptions.Save($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\listhelp_daijinamono.bin");
 
+        foreach (string ebp in Directory.GetFiles($"{Generator.DataOutFolder}\\plan_master\\us\\plan_map", "*.ebp", SearchOption.AllDirectories))
+        {
+            string id = Path.GetFileNameWithoutExtension(ebp);
+            if (TextEbpZones.ContainsKey(id))
+            {
+                TextEbpZones[id].Save(ebp);
+            }
+        }
+    }
+
+    protected virtual void UpdateGoalInfoStr()
+    {
         DataStoreBinText.StringData goalInfoStr = TextEbpZones["rbn_a16"].Values.First(v => v.Text != null && v.Text.Contains("$INFO$"));
         string goalStr = "";
         if (FF12Flags.Items.WritGoals.SelectedValues.Contains(FF12Flags.Items.WritGoalCid2))
@@ -145,19 +159,13 @@ public class TextRando : Randomizer
             "Find a {color:gold}Writ of Transit{rgb:gray} and travel to {italic}Bahamut{/italic}.{wait}\n" +
             "The possible {color:gold}Writ of Transit{rgb:gray} locations for this seed are:" +
             goalStr);
+    }
 
-        TextMenuMessage.Save($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\menu_message.bin");
-        TextMenuCommand.Save($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\menu_command.bin");
-        TextAbilityHelp.Save($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\listhelp_ability.bin");
-        TextKeyDescriptions.Save($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\listhelp_daijinamono.bin");
-
-        foreach (string ebp in Directory.GetFiles($"{Generator.DataOutFolder}\\plan_master\\us\\plan_map", "*.ebp", SearchOption.AllDirectories))
-        {
-            string id = Path.GetFileNameWithoutExtension(ebp);
-            if (TextEbpZones.ContainsKey(id))
-            {
-                TextEbpZones[id].Save(ebp);
-            }
-        }
+    protected virtual void UpdateSeedInfoStr()
+    {
+        DataStoreBinText.StringData seedInfoStr = TextEbpZones["rbn_a16"].Values.First(v => v.Text != null && v.Text.Contains("$VERSION$"));
+        seedInfoStr.Text = seedInfoStr.Text.Replace("$VERSION$", SetupData.Version);
+        seedInfoStr.Text = seedInfoStr.Text.Replace("$SEED$", SetupData.Seed.Clean());
+        seedInfoStr.Text = seedInfoStr.Text.Replace("$SEED HASH$", GetHash());
     }
 }

@@ -20,13 +20,21 @@ public partial class SetupPage : UserControl
         typeof(UIElementCollection),
         typeof(SetupPage),
         new PropertyMetadata());
+    private static bool settingSeed = false;
     public string Seed
     {
         get => SetupData.Seed;
         set
         {
+            if (settingSeed)
+            {
+                return;
+            }
+
+            settingSeed = true;
             SetupData.Seed = value;
             seedText.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
+            settingSeed = false;
         }
     }
 
@@ -41,6 +49,25 @@ public partial class SetupPage : UserControl
         DataContext = this;
         Children = PART_Host.Children;
         Seed = RandomNum.RandSeed().ToString();
+
+        iconAP.Visibility = Visibility.Collapsed;
+        RandoFlags.SelectedChanged += (s, e) =>
+        {
+            if (RandoFlags.Mode == RandoFlags.SeedMode.Archipelago)
+            {
+                seedText.IsEnabled = false;
+                seedButton.IsEnabled = false;
+                iconAP.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                seedText.IsEnabled = true;
+                seedButton.IsEnabled = true;
+                iconAP.Visibility = Visibility.Collapsed;
+            }
+        };
+
+        SetupData.SeedChanged += (s, e) => Seed = SetupData.Seed;
     }
 
     private void importJSONButton_Click(object sender, RoutedEventArgs e)

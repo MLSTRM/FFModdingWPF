@@ -90,13 +90,8 @@ public class SeedGenerator : IDisposable
         RandomNum.ClearRand();
         foreach (Flag flag in RandoFlags.FlagsList)
         {
-            flag.ResetRandom(GetIntSeed());
+            flag.ResetRandom(RandomNum.GetIntSeed(SetupData.Seed));
         }
-    }
-
-    public int GetIntSeed()
-    {
-        return RandomNum.GetIntSeed(SetupData.Seed);
     }
 
     protected virtual void Load()
@@ -160,7 +155,7 @@ public class SeedGenerator : IDisposable
 
     public virtual string GetPackPath()
     {
-        return $"{PackPrefixName}_{GetIntSeed()}.zip";
+        return $"{PackPrefixName}_{SetupData.Seed.Clean()}.zip";
     }
 
     protected virtual void GenerateDocs()
@@ -174,8 +169,8 @@ public class SeedGenerator : IDisposable
         });
 
         docs.Generate($"{DocsOutFolder}\\docs_latest", @"data\docs\template");
-        RandoHelpers.SaveSeedJSON($"{DocsOutFolder}\\docs_latest\\{PackPrefixName}_{GetIntSeed()}_Seed.json");
-        string zipDocsName = $"{DocsOutFolder}\\{PackPrefixName}_{GetIntSeed()}_Docs.zip";
+        RandoHelpers.SaveSeedJSON($"{DocsOutFolder}\\docs_latest\\{PackPrefixName}_{SetupData.Seed.Clean()}_Seed.json");
+        string zipDocsName = $"{DocsOutFolder}\\{PackPrefixName}_{SetupData.Seed.Clean()}_Docs.zip";
         if (File.Exists(zipDocsName))
         {
             File.Delete(zipDocsName);

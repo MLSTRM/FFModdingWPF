@@ -59,10 +59,10 @@ public class PartyRando : Randomizer
     public override void Randomize()
     {
         RandoUI.SetUIProgressIndeterminate("Randomizing Party Data...");
-        if (FF12Flags.Other.Party.FlagEnabled)
+        if (IsPartyRandomized())
         {
             FF12Flags.Other.Party.SetRand();
-            Characters = Characters.Shuffle().ToArray();
+            Characters = GetShuffledPartyOrder();
             TreasureRando treasureRando = Generator.Get<TreasureRando>();
             treasureRando.prices[0x76].Price = (uint)MathHelpers.EncodeNaturalSequence(Characters.Select(i => (long)i).ToArray(), 6);
             RandomNum.ClearRand();
@@ -78,6 +78,16 @@ public class PartyRando : Randomizer
                 party[Characters[i]].LP = 15;
             }
         }
+    }
+
+    protected virtual bool IsPartyRandomized()
+    {
+        return FF12Flags.Other.Party.FlagEnabled;
+    }
+
+    protected virtual int[] GetShuffledPartyOrder()
+    {
+        return Characters.Shuffle().ToArray();
     }
 
     public override void Save()

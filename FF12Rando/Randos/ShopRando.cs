@@ -104,7 +104,7 @@ public partial class ShopRando : Randomizer
             RandomNum.ClearRand();
         }
 
-        if (!FF12Flags.Items.AllowSeitengrat.FlagEnabled)
+        if (!IsAllowSeitengratEnabled())
         {
             bazaars.DataList.ForEach(b =>
             {
@@ -128,9 +128,9 @@ public partial class ShopRando : Randomizer
 
         if (FF12Flags.Items.Shops.FlagEnabled)
         {
-            var usedAbilities = treasureRando.ItemPlacer == null ? new HashSet<string>() : treasureRando.ItemPlacer.UsefulPlacer.UsedAbilities;
-            HashSet<string> shopItems = equipRando.itemData.Values.Where(i => 
-                i.Category is "Weapon" or "Armor" or "Accessory" or "Item" or "Ability" 
+            var usedAbilities = GetUsedAbilities();
+            HashSet<string> shopItems = equipRando.itemData.Values.Where(i =>
+                i.Category is "Weapon" or "Armor" or "Accessory" or "Item" or "Ability"
                 && i.Rank < 10
                 && !i.Traits.Contains("Ignore")
                 && !usedAbilities.Contains(i.ID)).Select(i => i.ID).ToHashSet();
@@ -209,14 +209,14 @@ public partial class ShopRando : Randomizer
                 var grouping = shopData.Values
                     .Where(s => !s.Traits.Contains("Unique") && locationsShared.ContainsValue(s.ID))
                     .Select(s => shops[s.ID]).SelectMany(shop =>
-                {
-                    return Enumerable.Range(0, shop.GetItems().Count).Select(index => (shop, index));
-                }).GroupBy(itemSlot =>
-                {
-                    string id = itemSlot.shop.GetItems()[itemSlot.index];
-                    int intId = Convert.ToInt32(id, 16);
-                    return intId < 0x1000 ? ItemType.Consumable : intId is >= 0x3000 and < 0x5000 ? ItemType.Ability : ItemType.Equipment;
-                });
+                    {
+                        return Enumerable.Range(0, shop.GetItems().Count).Select(index => (shop, index));
+                    }).GroupBy(itemSlot =>
+                    {
+                        string id = itemSlot.shop.GetItems()[itemSlot.index];
+                        int intId = Convert.ToInt32(id, 16);
+                        return intId < 0x1000 ? ItemType.Consumable : intId is >= 0x3000 and < 0x5000 ? ItemType.Ability : ItemType.Equipment;
+                    });
 
                 Dictionary<int, List<string>> newShops = new();
 
@@ -282,7 +282,7 @@ public partial class ShopRando : Randomizer
                 {
                     // Get the items for indices not changed
                     List<string> items = shop.GetItems()
-                        .Where((_, index) => 
+                        .Where((_, index) =>
                             !grouping.SelectMany(g => g.ToList())
                                      .Any(p => p.shop.ID == shop.ID && p.index == index))
                         .ToList();
@@ -306,6 +306,17 @@ public partial class ShopRando : Randomizer
 
             RandomNum.ClearRand();
         }
+    }
+
+    protected virtual HashSet<string> GetUsedAbilities()
+    {
+        TreasureRando treasureRando = Generator.Get<TreasureRando>();
+        return treasureRando.ItemPlacer.UsefulPlacer.UsedAbilities;
+    }
+
+    private static bool IsAllowSeitengratEnabled()
+    {
+        return RandoFlags.Mode == RandoFlags.SeedMode.Archipelago ? RandoFlags.GetArchipelagoData<FF12ArchipelagoData>().AllowSeitengrat : FF12Flags.Items.AllowSeitengrat.FlagEnabled;
     }
 
     private void AddNewBazaarItem(TreasureRando treasureRando, List<string> items, List<string> bazaarUsed)

@@ -55,7 +55,7 @@ public class LRSeedGenerator : SeedGenerator
 
         Directory.CreateDirectory(OutFolder);
         FileHelpers.CopyFromFolder(OutFolder, "data\\modpack");
-        RandoHelpers.UpdateSeedInFile(OutFolder + "\\modconfig.ini", GetIntSeed().ToString());
+        RandoHelpers.UpdateSeedInFile(OutFolder + "\\modconfig.ini", SetupData.Seed.Clean());
 
         string wdbpackPath = Nova.GetNovaFile("LR", @"db\resident\wdbpack.bin", SetupData.Paths["Nova"], SetupData.Paths["LR"]);
         string wdbpackOutPath = DataOutFolder + @"\db\resident\wdbpack.bin";
@@ -77,7 +77,7 @@ public class LRSeedGenerator : SeedGenerator
 
     public override string GetPackPath()
     {
-        return $"{PackPrefixName}_{GetIntSeed()}.ncmp";
+        return $"{PackPrefixName}_{SetupData.Seed.Clean()}.ncmp";
     }
 
     protected override void Save()

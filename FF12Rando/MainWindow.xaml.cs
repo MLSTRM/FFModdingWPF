@@ -62,18 +62,32 @@ public partial class MainWindow : Window
         get => (string)GetValue(ChangelogTextProperty);
         set => SetValue(ChangelogTextProperty, value);
     }
+    public static readonly DependencyProperty APVisibleProperty =
+    DependencyProperty.Register(nameof(APVisible), typeof(Visibility), typeof(MainWindow));
+    public Visibility APVisible
+    {
+        get => (Visibility)GetValue(APVisibleProperty);
+        set => SetValue(APVisibleProperty, value);
+    }
 
     public MainWindow()
     {
         RandoUI.Init(SetProgressBar, () => totalProgressBar.IncrementProgress(), SwitchTab);
         RandoSeeds.DocsFolder = "docs";
         RandoSeeds.DeleteFilter = "FF12Rando_${SEED}_Docs.zip";
+        RandoFlags.ArchipelagoDataType = typeof(FF12ArchipelagoData);
         FF12Flags.Init();
         RandoPresets.Init();
         InitializeComponent();
         DataContext = this;
         HideProgressBar();
         DataExtensions.Mode = ByteMode.LittleEndian;
+
+        APVisible = Visibility.Hidden;
+        RandoFlags.SelectedChanged += (s, e) =>
+        {
+            APVisible = RandoFlags.Mode == RandoFlags.SeedMode.Archipelago ? Visibility.Visible : Visibility.Hidden;
+        };
 
         ChangelogText = File.ReadAllText(@"data\changelog.txt");
 
@@ -85,7 +99,7 @@ public partial class MainWindow : Window
 
     private async void generateButton_Click(object sender, RoutedEventArgs e)
     {
-        using (FF12SeedGenerator generator = new())
+        using (FF12SeedGenerator generator = CreateGenerator())
         {
             totalProgressBar.TotalSegments = (generator.Randomizers.Count * 3) + 2;
             totalProgressBar.SetProgress(0, 0);
@@ -94,12 +108,12 @@ public partial class MainWindow : Window
             try
             {
 #endif
-                IsEnabled = false;
-                await Task.Run(() =>
-                {
-                    generator.GenerateSeed();
-                });
-                IsEnabled = true;
+            IsEnabled = false;
+            await Task.Run(() =>
+            {
+                generator.GenerateSeed();
+            });
+            IsEnabled = true;
 #if !DEBUG
             }
             catch (RandoException ex)
@@ -126,6 +140,20 @@ public partial class MainWindow : Window
 #endif
         }
     }
+
+    private static FF12SeedGenerator CreateGenerator()
+    {
+        switch (RandoFlags.Mode)
+        {
+            case RandoFlags.SeedMode.Normal:
+                return new FF12SeedGenerator();
+            case RandoFlags.SeedMode.Archipelago:
+                return new FF12ArchipelagoSeedGenerator();
+            default:
+                throw new Exception("Invalid seed mode");
+        }
+    }
+
     private void SetProgressBar(string text, int value, int maxValue = 100)
     {
         Dispatcher.Invoke(() =>
@@ -207,15 +235,8 @@ public partial class MainWindow : Window
         if ((bool)dialog.ShowDialog())
         {
             string path = dialog.FileName.Replace("/", "\\");
-            SaveSeedJSON(path);
+            RandoHelpers.SaveSeedJSON(path);
         }
-    }
-
-    private void SaveSeedJSON(string file)
-    {
-        int seed = RandomNum.GetIntSeed(SetupData.Seed);
-        string output = RandoFlags.Serialize(seed.ToString(), SetupData.Version);
-        File.WriteAllText(file, output);
     }
 
     private void uninstallButton_Click(object sender, RoutedEventArgs e)

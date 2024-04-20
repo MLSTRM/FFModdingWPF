@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Bartz24.Data;
 
 namespace Bartz24.RandoWPF;
 
@@ -13,8 +14,7 @@ public class RandoHelpers
 
     public static void SaveSeedJSON(string file)
     {
-        int seed = RandomNum.GetIntSeed(SetupData.Seed);
-        string output = RandoFlags.Serialize(seed.ToString(), SetupData.Version);
+        string output = RandoFlags.Serialize(SetupData.Seed.Clean(), SetupData.Version);
         File.WriteAllText(file, output);
     }
 }

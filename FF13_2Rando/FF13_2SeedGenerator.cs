@@ -63,7 +63,7 @@ public class FF13_2SeedGenerator : SeedGenerator
 
         Directory.CreateDirectory(OutFolder);
         FileHelpers.CopyFromFolder(OutFolder, "data\\modpack");
-        RandoHelpers.UpdateSeedInFile(OutFolder + "\\modconfig.ini", GetIntSeed().ToString());
+        RandoHelpers.UpdateSeedInFile(OutFolder + "\\modconfig.ini", SetupData.Seed.Clean());
 
         string wdbpackPath = Nova.GetNovaFile("13-2", @"db\resident\wdbpack.bin", SetupData.Paths["Nova"], SetupData.Paths["13-2"]);
         string wdbpackOutPath = DataOutFolder + @"\db\resident\wdbpack.bin";
@@ -84,7 +84,7 @@ public class FF13_2SeedGenerator : SeedGenerator
 
     public override string GetPackPath()
     {
-        return $"{PackPrefixName}_{GetIntSeed()}.ncmp";
+        return $"{PackPrefixName}_{SetupData.Seed.Clean()}.ncmp";
     }
 
     protected override void Save()
