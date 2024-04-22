@@ -325,7 +325,7 @@ public static class DataExtensions
 
         return (int)sum;
     }
-    public static string Clean(this string str, int maxLength = 20)
+    public static string Clean(this string str, int maxLength = 30)
     {
         // Replace spaces with underscores
         string cleaned = str.Replace(' ', '_');

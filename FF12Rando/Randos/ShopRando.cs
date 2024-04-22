@@ -17,7 +17,7 @@ public partial class ShopRando : Randomizer
     public DataStoreBPShop shops;
     public DataStoreBPShop shopsOrig;
     public DataStoreBPSection<DataStoreBazaar> bazaars;
-    private readonly Dictionary<int, ShopData> shopData = new();
+    protected readonly Dictionary<int, ShopData> shopData = new();
 
     public ShopRando(SeedGenerator randomizers) : base(randomizers) { }
     public override void Load()
@@ -230,12 +230,7 @@ public partial class ShopRando : Randomizer
                     items = RandomNum.ShuffleLocalized(items, 5);
 
                     // Sort the shop slots by their shop sphere
-                    var slots = group.ToList();
-                    if (treasureRando.ItemPlacer != null)
-                    {
-                        slots = group.Shuffle().OrderBy(itemSlot =>
-    treasureRando.ItemPlacer.SphereCalculator.Spheres.GetValueOrDefault(treasureRando.ItemLocations[shopData[itemSlot.shop.ID].ShopFakeLocationLink], 0)).ToList();
-                    }
+                    var slots = group.Shuffle().OrderBy(itemSlot => GetSphere(itemSlot.shop)).ToList();
 
                     // Go in order and set the junk items
                     for (int i = 0; i < items.Count; i++)
@@ -306,6 +301,12 @@ public partial class ShopRando : Randomizer
 
             RandomNum.ClearRand();
         }
+    }
+
+    protected virtual int GetSphere(DataStoreShop shop)
+    {
+        TreasureRando treasureRando = Generator.Get<TreasureRando>();
+        return treasureRando.ItemPlacer.SphereCalculator.Spheres.GetValueOrDefault(treasureRando.ItemLocations[shopData[shop.ID].ShopFakeLocationLink], 0);
     }
 
     protected virtual HashSet<string> GetUsedAbilities()

@@ -92,7 +92,7 @@ internal class FF12MultiworldGenerator
                 if ((i.Category == "Key" || i.Category == "Esper" || i.Category == "Board") && !i.Traits.Contains("Trophy"))
                 {
                     type = "progression";
-                    int count = TreasureRando.ItemLocations.Values.Where(l=>l.GetItem(true) != null && l.GetItem(true)?.Item == i.ID).Count();
+                    int count = TreasureRando.ItemLocations.Values.Where(l => l.GetItem(true) != null && l.GetItem(true)?.Item == i.ID).Count();
                     // Allow duplicates except for writ of transit
                     if (count > 1 && i.IntID != 0x8070)
                     {
@@ -100,19 +100,28 @@ internal class FF12MultiworldGenerator
                         type = "progression_skip_balancing";
                     }
                 }
-                else if (i.Category == "Ability" || i.Traits.Contains("Trophy"))
+                else if (i.Category == "Ability")
                 {
                     type = "useful";
                 }
                 else if (i.Category == "Loot")
                 {
-                    weight = 1;
+                    weight = 10;
+                }
+                else if (i.Traits.Contains("Trophy"))
+                {
+                    weight = 0;
                 }
                 else
                 {
                     // Weight is a value based on rank using exponential decay from 20 to 1
                     // Rank goes up to 10 using this formula
-                    weight = i.Rank > 10 ? 0 : (int)Math.Ceiling(20 * Math.Pow(0.7, i.Rank));
+                    weight = i.Rank > 10 ? 1 : (int)Math.Ceiling(20 * Math.Pow(0.7, i.Rank) * 10);
+
+                    if (i.Category == "Item")
+                    {
+                        weight *= 2;
+                    }
                 }
 
                 script = AddItemToItemsScript(script, i.Name, i.IntID, type, weight, 1, duplicates);
@@ -120,7 +129,7 @@ internal class FF12MultiworldGenerator
         });
 
         int[] gilAmounts = new[] { 1, 500, 1000, 5000, 10000, 25000 };
-        int[] gilWeights = new[] { 60, 100, 120, 90, 40, 30 };
+        int[] gilWeights = new[] { 250, 900, 1150, 800, 500, 200 };
         for (int i = 0; i < gilAmounts.Length; i++)
         {
             script = AddItemToItemsScript(script, $"{gilAmounts[i]} Gil", 0x18000 + i, "filler", gilWeights[i], gilAmounts[i], 0);

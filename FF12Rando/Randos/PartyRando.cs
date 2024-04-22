@@ -1,4 +1,5 @@
 ﻿using Bartz24.Data;
+using Bartz24.Docs;
 using Bartz24.FF12;
 using Bartz24.RandoWPF;
 using FF12Rando;
@@ -107,5 +108,21 @@ public class PartyRando : Randomizer
 
         RandoUI.SetUIProgressIndeterminate("Saving Party Data...");
         File.WriteAllBytes($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\battle_pack.bin.dir\\section_016.bin", party.Data);
+    }
+
+    public override Dictionary<string, HTMLPage> GetDocumentation()
+    {
+        var pages = base.GetDocumentation();
+
+        // Add a page for party shuffle
+        HTMLPage page = new("Party", "template/documentation.html");
+
+        page.HTMLElements.Add(new Table("Party", (new string[] { "Original", "Replacement" }).ToList(), (new int[] { 50, 50 }).ToList(), Enumerable.Range(0, 6).Select(i =>
+        {
+            return new string[] { CharacterMapping[i], CharacterMapping[Characters[i]] }.ToList();
+        }).ToList()));
+
+        pages.Add("party", page);
+        return pages;
     }
 }
