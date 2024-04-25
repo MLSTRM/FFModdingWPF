@@ -147,7 +147,7 @@ public partial class TreasureRando : Randomizer
             ItemPlacer.PlaceItems();
             ItemPlacer.ApplyToGameData();
 
-            SetTreasureRespawns(ItemPlacer.FinalPlacement.Values.Where(l => l is TreasureLocation).Select(l => (TreasureLocation)l).ToList());
+            SetTreasureRespawns(ItemPlacer.FinalPlacement.Keys.Where(l => l is TreasureLocation).Select(l => (TreasureLocation)l).ToList());
 
             // Set random linked missable chests
             foreach (var location in ItemLocations.Values.Where(l => l is TreasureLocation && l.Traits.Contains("Missable")))
@@ -196,7 +196,7 @@ public partial class TreasureRando : Randomizer
         {
             if (location is TreasureLocation tLocation && !treasures.Contains(tLocation))
             {
-                DataStoreTreasure t = ebpAreas[((TreasureLocation)location).MapID].TreasureList[tLocation.Index];
+                DataStoreTreasure t = ebpAreas[tLocation.MapID].TreasureList[tLocation.Index];
                 t.SpawnChance = 0;
                 t.Respawn = 255;
                 t.GilChance = 0;
@@ -207,7 +207,7 @@ public partial class TreasureRando : Randomizer
 
         // Set treasure respawn IDs and spawn chance
         int respawnIndex = 0;
-        foreach (var t in treasures)
+        foreach (var t in treasures.Where(t => !t.Traits.Contains("Missable")))
         {
             if (respawnIndex >= 255)
             {

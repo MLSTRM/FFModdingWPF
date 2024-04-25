@@ -16,6 +16,8 @@ public class FF12ArchipelagoData : ArchipelagoData
     public bool AllowSeitengrat { get; set; }
     public List<(string ID, string Item, int Index, int Sphere)> Spheres { get; set; }
 
+    public List<string> IncompatibleAPVersions { get; set; } = new List<string>() { "0.1", "0.2" };
+
     public FF12ArchipelagoData()
     {
     }
@@ -23,6 +25,13 @@ public class FF12ArchipelagoData : ArchipelagoData
     public override void Parse(IDictionary<string, object> data)
     {
         Version = (string)data["version"];
+
+        // Check if version starts with any of the incompatible versions
+        if (IncompatibleAPVersions.Any(v => Version.StartsWith(v)))
+        {
+            throw new RandoException("FF12 AP World version " + Version + " is not compatible with this version of the randomizer.", "Incompatible Version");
+        }
+
         UsedItems = ((List<object>)data["used_items"]).Select(o => (string)o).ToHashSet();
         Treasures = ((List<object>)data["treasures"]).Select(o =>
         {

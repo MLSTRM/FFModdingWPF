@@ -1,9 +1,9 @@
 Areas,Name,ID,Requirements,Traits,Rank,Fake Items
 Rabanastre,Vaan,_1,,,0,Vaan
 Giza Plains Dry,Penelo,_2,,,0,Penelo
-Dreadnought Leviathan,Dreadnought Leviathan Unlock,_3,AND(AERO(80E3)|I(80AC)),,1,Dreadnought Leviathan
+Dreadnought Leviathan,Dreadnought Leviathan Unlock,_3,AND(AERO(80E3)|OR(I(Basch)|I(80AC))),,1,Dreadnought Leviathan
 Dreadnought Leviathan,Ashe,_4,AND(I(Dreadnought Leviathan)|I(8076)),,1,Ashe
-Dreadnought Leviathan,Defeat Judge Ghis,_5,AND(I(Dreadnought Leviathan)|I(8076)|I(8089)),,1,Defeat Ghis
+Dreadnought Leviathan,Defeat Judge Ghis,_5,AND(I(Dreadnought Leviathan)|I(8076)),,1,Defeat Ghis
 Ogir-Yensa Sandsea,Sandsea Unlock,_6,OR(I(Defeat Ghis)|I(80E0)|I(8077)),,1,Sandseas
 Tomb of Raithwall,Defeat Vossler,_7,AND(I(8078)|I(Sandseas)),,1,Defeat Vossler
 Garamsythe Waterway,Garamsythe Characters,_8,I(8080),,1,Balthier|Fran|Guest
