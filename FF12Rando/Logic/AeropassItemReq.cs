@@ -56,6 +56,15 @@ class AeropassItemReq : ItemReq
         { BALFONHEIM, new List<string> { NALBINA, ARCHADES, BHUJERBA } }
     };
 
+    private static readonly Dictionary<string, int> DestinationStrahlNeeded = new()
+    {
+        { RABANASTRE, 1 },
+        { NALBINA, 1 },
+        { BHUJERBA, 1 },
+        { ARCHADES, 3 },
+        { BALFONHEIM, 3 }
+    };
+
     private string Destination { get; set; }
     private bool AllowStrahl { get; set; }
     public AeropassItemReq(string destination, bool allowStrahl = true)
@@ -70,7 +79,7 @@ class AeropassItemReq : ItemReq
 
     protected override List<string> GetPossibleRequirementsImpl()
     {
-        return DestinationReqs.Values.SelectMany(r => r.GetPossibleRequirements()).Concat(new List<string>() { "8077" }).Distinct().ToList();
+        return DestinationReqs.Values.SelectMany(r => r.GetPossibleRequirements()).Concat(new List<string>() { "2118" }).Distinct().ToList();
     }
 
     public override int GetPossibleRequirementsCount()
@@ -85,21 +94,18 @@ class AeropassItemReq : ItemReq
 
     private bool IsDestinationValid(Dictionary<string, int> itemsAvailable)
     {
-        // If we have the Strahl, we can go to any aerodrome
-        if (AllowStrahl && ItemReq.Item("8077").IsValid(itemsAvailable))
-        {
-            return true;
-        }
-
-        if (itemsAvailable.GetValueOrDefault(Destination) == 0)
-        {
-            return false;
-        }
-
         // Refactor below using the directed graph instead
         foreach(string origin in DestinationGraph[Destination])
         {
-            if (itemsAvailable.GetValueOrDefault(origin) > 0 && IsOriginAvailable(origin, itemsAvailable))
+            // If we have the Strahl, we can go to any aerodrome with enough keys
+            if (AllowStrahl && 
+                ItemReq.Item("2118", DestinationStrahlNeeded[Destination]).IsValid(itemsAvailable) &&
+                ItemReq.Item("2118", DestinationStrahlNeeded[origin]).IsValid(itemsAvailable))
+            {
+                return true;
+            }
+
+            if (itemsAvailable.GetValueOrDefault(origin) > 0 && IsOriginAvailable(origin, itemsAvailable) && itemsAvailable.GetValueOrDefault(Destination) > 0)
             {
                 return true;
             }
@@ -134,7 +140,9 @@ class AeropassItemReq : ItemReq
 
     public override int GetDifficulty(Dictionary<string, int> itemsAvailable)
     {
-        if (AllowStrahl && ItemReq.Item("8077").IsValid(itemsAvailable))
+        // If we have the Strahl, we can go to any aerodrome with enough keys
+        if (AllowStrahl &&
+            ItemReq.Item("2118", DestinationStrahlNeeded[Destination]).IsValid(itemsAvailable))
         {
             return 0;
         }

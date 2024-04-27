@@ -340,7 +340,7 @@ internal class FF12MultiworldGenerator
 
         for (int i = 0; i < rules.Count; i++)
         {
-            script += $"    {rules[i]},\n";
+            script += $"    {rules[i]},  # Rule {i}\n";
         }
 
         script += "]\n\n";

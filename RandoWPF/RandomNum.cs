@@ -96,11 +96,11 @@ public class RandomNum
         return list.ElementAt(RandomNum.RandInt(0, list.Count() - 1));
     }
 
-    public static T SelectRandomOrDefault<T>(IEnumerable<T> list)
+    public static T SelectRandomOrDefault<T>(IEnumerable<T> list, T defaultVal = default)
     {
         if (list.Count() == 0)
         {
-            return default;
+            return defaultVal;
         }
         return list.ElementAt(RandomNum.RandInt(0, list.Count() - 1));
     }

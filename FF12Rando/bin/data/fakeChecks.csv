@@ -4,12 +4,12 @@ Giza Plains Dry,Penelo,_2,,,0,Penelo
 Dreadnought Leviathan,Dreadnought Leviathan Unlock,_3,AND(AERO(80E3)|OR(I(Basch)|I(80AC))),,1,Dreadnought Leviathan
 Dreadnought Leviathan,Ashe,_4,AND(I(Dreadnought Leviathan)|I(8076)),,1,Ashe
 Dreadnought Leviathan,Defeat Judge Ghis,_5,AND(I(Dreadnought Leviathan)|I(8076)),,1,Defeat Ghis
-Ogir-Yensa Sandsea,Sandsea Unlock,_6,OR(I(Defeat Ghis)|I(80E0)|I(8077)),,1,Sandseas
+Ogir-Yensa Sandsea,Sandsea Unlock,_6,OR(I(Defeat Ghis)|I(80E0)|I(2118|1)),,1,Sandseas
 Tomb of Raithwall,Defeat Vossler,_7,AND(I(8078)|I(Sandseas)),,1,Defeat Vossler
 Garamsythe Waterway,Garamsythe Characters,_8,I(8080),,1,Balthier|Fran|Guest
 Barheim Passage,Barheim Guest,_9,I(8080),,1,Guest
-Ozmone Plain,Ozmone Unlock,_10,OR(I(8077)|I(80E0)),,1,Ozmone Plain
-Paramina Rift,Paramina Unlock,_11,OR(I(8077)|AND(I(Ozmone Plain)|I(80B7))),,2,Paramina Rift
+Ozmone Plain,Ozmone Unlock,_10,OR(I(2118|2)|I(80E0)),,1,Ozmone Plain
+Paramina Rift,Paramina Unlock,_11,OR(I(2118|2)|AND(I(Ozmone Plain)|I(80B7))),,2,Paramina Rift
 Mt. Bur-Omisace,Defeat Bergan,_12,AND(I(Paramina Rift)|I(808B)),,3,Defeat Bergan
 Dalmasca Westersand,Defeat Earth Tyrant,_13,AND(I(80B1)|I(80B2)),,4,Defeat Earth Tyrant
 Northern,Northern and Tchita Unlock,_14,OR(I(Defeat Bergan)|I(8073)|I(Defeat Earth Tyrant)|AND(AERO(80E4)|I(80B6))|AERO(80E5)),,3,Tchita Uplands
@@ -43,12 +43,12 @@ Archades,Hunt 23: Overlord,_41,AND(I(Tchita Uplands)|I(Archades)),,6,Hunt
 Nalbina Fortress,Hunt 24: Goliath,_42,I(Tchita Uplands),,6,Hunt|Jovy
 Nalbina Fortress,Hunt 25: Deathscythe,_43,I(Tchita Uplands),,6,Hunt|Jovy
 Skyferry,Hunt 26: Deathgaze,_44,OR(AERO(80E1|false)|AERO(80E2|false)|AERO(80E3|false)|AERO(80E4|false)|AERO(80E5|false)),,7,Hunt
-Bhujerba,Hunt 27: Diabolos,_45,AERO(80E3),,7,Hunt
+Bhujerba,Hunt 27: Diabolos,_45,AND(I(807E)|I(807F)|AERO(80E3)),,7,Hunt
 Mt. Bur-Omisace,Hunt 28: Piscodaemon,_46,AND(I(Paramina Rift)|I(C012)),,5,Hunt
 Eruyt Village,Hunt 29: Wild Malboro,_47,I(Paramina Rift),,6,Hunt
 Jahara,Hunt 30: Catoblepas,_48,I(Ozmone Plain),,6,Hunt
 Mt. Bur-Omisace,Hunt 31: Fafnir,_49,AND(I(Paramina Rift)|I(809A)),,7,Hunt
-Balfonheim,Hunt 32: Pylraster,_50,I(8077),,7,Hunt
+Balfonheim,Hunt 32: Pylraster,_50,AND(I(2118|2)|I(Tchita Uplands)),,7,Hunt
 Giza Plains Dry,Hunt 33: Cluckatrice,_51,I(8071),,1,Hunt
 Bhujerba,Hunt 34: Rocktoise,_52,AND(I(8071)|AERO(80E3)),,1,Hunt
 Lowtown,Hunt 35: Orthros,_53,AND(I(8071)|I(8092)|I(Fran)|I(Ashe)|I(Penelo)),,5,Hunt
@@ -59,9 +59,9 @@ Aerodrome,Hunt 39: Carrot,_57,AND(I(8071)|I(Tchita Uplands)),,7,Hunt|Jovy
 Clan Hall,Hunt 40: Gilgamesh,_58,AND(I(8071)|I(807E)|I(807F)|AERO(80E3)),,7,Hunt
 Clan Hall,Hunt 41: Belito,_59,AND(I(8071)|I(Sandseas)|I(Ozmone Plain)),,5,Hunt
 Lowtown,Hunt 42: Behemoth King,_60,AND(I(Paramina Rift)|I(8071)),,7,Hunt
-Balfonheim,Hunt 43: Ixion,_61,AND(I(8071)|I(8077)),,6,Hunt
-Clan Hall,Hunt 44: Shadowseer,_62,AND(I(8071)|I(8077)|I(2116|24)),,6,Hunt
-Clan Hall,Hunt 45: Yiazmat,_63,AND(I(8071)|I(8077)),,8,Hunt
+Balfonheim,Hunt 43: Ixion,_61,AND(I(8071)|I(2118|2)|I(Tchita Uplands)),,6,Hunt
+Clan Hall,Hunt 44: Shadowseer,_62,AND(I(8071)|I(2118|2)|I(2116|24)),,6,Hunt
+Clan Hall,Hunt 45: Yiazmat,_63,AND(I(8071)|I(2118|2)),,8,Hunt
 Tomb of Raithwall,Belias,_64,I(C012),,1,Esper
 Stilshrine of Miriam,Mateus,_65,I(C013),,2,Esper
 Zertinan Caverns,Adrammelech,_66,I(C014),,3,Esper
@@ -106,6 +106,6 @@ Sochen Cave Palace,Wendice - Frigid Trophy,_104,AND(I(80B8)|I(HuntClubStart)|I(S
 Sochen Cave Palace,Anubys - Ensanguined Trophy,_105,AND(I(80B8)|I(HuntClubStart)|I(Sochen Cave Palace)),,7,HuntClubKill
 Cerobi Steppe,Bluesang - Cruel Trophy,_106,AND(I(80B8)|I(HuntClubStart)|I(Tchita Uplands)),,7,HuntClubKill
 Cerobi Steppe,Aspidochelon - Adamantine Trophy,_107,AND(I(80B8)|I(HuntClubStart)|I(Tchita Uplands)),,7,HuntClubKill
-Ridorana Cataract,Abelisk - Reptilian Trophy,_108,AND(I(8077)|I(80B8)|I(HuntClubStart)),,7,HuntClubKill
-Pharos of Ridorana,Avenger - Vile Trophy,_109,AND(I(8077)|I(2116|3)|I(80B8)|I(HuntClubStart)),,7,HuntClubKill
-Bahamut,Final Boss Victory,_110,AND(I(8077)|I(8070)),Missable,8,Victory
+Ridorana Cataract,Abelisk - Reptilian Trophy,_108,AND(I(2118|2)|I(80B8)|I(HuntClubStart)),,7,HuntClubKill
+Pharos of Ridorana,Avenger - Vile Trophy,_109,AND(I(2118|2)|I(2116|3)|I(80B8)|I(HuntClubStart)),,7,HuntClubKill
+Bahamut,Final Boss Victory,_110,AND(I(8070)|I(2118)),Missable,8,Victory

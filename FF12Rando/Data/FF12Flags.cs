@@ -130,7 +130,7 @@ public class FF12Flags
                     {"8075", "Sword of the Order" },
                     {"80E3", "Bhujerba Aeropass" },
                     {"8076", "No. 1 Brig Key" },
-                    {"8077", "Systems Access Key" },
+                    {"2118", "Systems Access Key" },
                     {"8089", "Manufacted Nethicite" },
                     {"8078", "Dawn Shard" },
                     {"80E0", "Rainstone" },

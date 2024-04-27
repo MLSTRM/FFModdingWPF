@@ -38,7 +38,7 @@ public abstract class HintPlacer<I, T, P> where T : ItemLocation where P : ItemP
     {
         // Select the hint location to add to which has the lowest amount and select random
         var possible = GetPossibleLocations(location);
-        var hintLoc = RandomNum.SelectRandom(possible.Where(h => Hints[h].Count == possible.Min(h2 => Hints[h2].Count)).ToList());
+        var hintLoc = RandomNum.SelectRandomOrDefault(possible.Where(h => Hints[h].Count == possible.Min(h2 => Hints[h2].Count)).ToList(), Hints.Keys.OrderBy(k => k).First());
         Hints[hintLoc].Add(location);
     }
 

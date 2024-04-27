@@ -55,32 +55,32 @@ Archades,Sandalwood Chop,9150,AND(I(2113|28)|I(Archades)),2,
 Draklor Laboratory,Lab Access Card,9151,I(Draklor Laboratory),0,
 Giruvegan,Defeat Shemhazai,9192,AND(I(Paramina Rift)|I(C012)),5,
 Giruvegan,Treaty-Blade,9152,AND(I(Paramina Rift)|I(C012)),5,
-Pharos of Ridorana,Black Orb 1,9153,I(8077),6,BlackOrb1
-Pharos of Ridorana,Black Orb 2,9154,I(8077),6,BlackOrb2
-Pharos of Ridorana,Black Orb 3,9155,I(8077),6,BlackOrb3
-Pharos of Ridorana,Defeat Hashmal,9193,AND(I(8077)|I(2116|3)),6,
-Pharos of Ridorana,Defeat Famfrit and Cid 2,918F,AND(I(8077)|I(2116|3)|OR(I(808B)|I(808C))|OR(SELECT(2|I(8078)|I(80AC)|I(8089)))),7,WritCid2
-Pharos of Ridorana Subterra,Black Orb 4,9156,AND(I(8077)|I(2116|3)),7,BlackOrb4
-Pharos of Ridorana Subterra,Black Orb 5,9157,AND(I(8077)|I(2116|3)),7,BlackOrb5
-Pharos of Ridorana Subterra,Black Orb 6,9158,AND(I(8077)|I(2116|3)),7,BlackOrb6
-Pharos of Ridorana Subterra,Black Orb 7,9159,AND(I(8077)|I(2116|3)),7,BlackOrb7
-Pharos of Ridorana Subterra,Black Orb 8,915A,AND(I(8077)|I(2116|3)),7,BlackOrb8
-Pharos of Ridorana Subterra,Black Orb 9,915B,AND(I(8077)|I(2116|8)),7,BlackOrb9
-Pharos of Ridorana Subterra,Black Orb 10,915C,AND(I(8077)|I(2116|8)),7,BlackOrb10
-Pharos of Ridorana Subterra,Black Orb 11,915D,AND(I(8077)|I(2116|8)),7,BlackOrb11
-Pharos of Ridorana Subterra,Black Orb 12,915E,AND(I(8077)|I(2116|8)),7,BlackOrb12
-Pharos of Ridorana Subterra,Black Orb 13,915F,AND(I(8077)|I(2116|8)),7,BlackOrb13
-Pharos of Ridorana Subterra,Black Orb 14,9160,AND(I(8077)|I(2116|8)),7,BlackOrb14
-Pharos of Ridorana Subterra,Black Orb 15,9161,AND(I(8077)|I(2116|8)),7,BlackOrb15
-Pharos of Ridorana Subterra,Black Orb 16,9162,AND(I(8077)|I(2116|15)),7,BlackOrb16
-Pharos of Ridorana Subterra,Black Orb 17,9163,AND(I(8077)|I(2116|15)),7,BlackOrb17
-Pharos of Ridorana Subterra,Black Orb 18,9164,AND(I(8077)|I(2116|15)),7,BlackOrb18
-Pharos of Ridorana Subterra,Black Orb 19,9165,AND(I(8077)|I(2116|15)),7,BlackOrb19
-Pharos of Ridorana Subterra,Black Orb 20,9166,AND(I(8077)|I(2116|15)),7,BlackOrb20
-Pharos of Ridorana Subterra,Black Orb 21,9167,AND(I(8077)|I(2116|15)),7,BlackOrb21
-Pharos of Ridorana Subterra,Black Orb 22,9168,AND(I(8077)|I(2116|15)),7,BlackOrb22
-Pharos of Ridorana Subterra,Black Orb 23,9169,AND(I(8077)|I(2116|15)),7,BlackOrb23
-Pharos of Ridorana Subterra,Black Orb 24,916A,AND(I(8077)|I(2116|15)),7,BlackOrb24
+Pharos of Ridorana,Black Orb 1,9153,I(2118|2),6,BlackOrb1
+Pharos of Ridorana,Black Orb 2,9154,I(2118|2),6,BlackOrb2
+Pharos of Ridorana,Black Orb 3,9155,I(2118|2),6,BlackOrb3
+Pharos of Ridorana,Defeat Hashmal,9193,AND(I(2118|2)|I(2116|3)),6,
+Pharos of Ridorana,Defeat Famfrit and Cid 2,918F,AND(I(2118|2)|I(2116|3)|OR(I(808B)|I(808C))|OR(SELECT(2|I(8078)|I(80AC)|I(8089)))),7,WritCid2
+Pharos of Ridorana Subterra,Black Orb 4,9156,AND(I(2118|2)|I(2116|3)),7,BlackOrb4
+Pharos of Ridorana Subterra,Black Orb 5,9157,AND(I(2118|2)|I(2116|3)),7,BlackOrb5
+Pharos of Ridorana Subterra,Black Orb 6,9158,AND(I(2118|2)|I(2116|3)),7,BlackOrb6
+Pharos of Ridorana Subterra,Black Orb 7,9159,AND(I(2118|2)|I(2116|3)),7,BlackOrb7
+Pharos of Ridorana Subterra,Black Orb 8,915A,AND(I(2118|2)|I(2116|3)),7,BlackOrb8
+Pharos of Ridorana Subterra,Black Orb 9,915B,AND(I(2118|2)|I(2116|8)),7,BlackOrb9
+Pharos of Ridorana Subterra,Black Orb 10,915C,AND(I(2118|2)|I(2116|8)),7,BlackOrb10
+Pharos of Ridorana Subterra,Black Orb 11,915D,AND(I(2118|2)|I(2116|8)),7,BlackOrb11
+Pharos of Ridorana Subterra,Black Orb 12,915E,AND(I(2118|2)|I(2116|8)),7,BlackOrb12
+Pharos of Ridorana Subterra,Black Orb 13,915F,AND(I(2118|2)|I(2116|8)),7,BlackOrb13
+Pharos of Ridorana Subterra,Black Orb 14,9160,AND(I(2118|2)|I(2116|8)),7,BlackOrb14
+Pharos of Ridorana Subterra,Black Orb 15,9161,AND(I(2118|2)|I(2116|8)),7,BlackOrb15
+Pharos of Ridorana Subterra,Black Orb 16,9162,AND(I(2118|2)|I(2116|15)),7,BlackOrb16
+Pharos of Ridorana Subterra,Black Orb 17,9163,AND(I(2118|2)|I(2116|15)),7,BlackOrb17
+Pharos of Ridorana Subterra,Black Orb 18,9164,AND(I(2118|2)|I(2116|15)),7,BlackOrb18
+Pharos of Ridorana Subterra,Black Orb 19,9165,AND(I(2118|2)|I(2116|15)),7,BlackOrb19
+Pharos of Ridorana Subterra,Black Orb 20,9166,AND(I(2118|2)|I(2116|15)),7,BlackOrb20
+Pharos of Ridorana Subterra,Black Orb 21,9167,AND(I(2118|2)|I(2116|15)),7,BlackOrb21
+Pharos of Ridorana Subterra,Black Orb 22,9168,AND(I(2118|2)|I(2116|15)),7,BlackOrb22
+Pharos of Ridorana Subterra,Black Orb 23,9169,AND(I(2118|2)|I(2116|15)),7,BlackOrb23
+Pharos of Ridorana Subterra,Black Orb 24,916A,AND(I(2118|2)|I(2116|15)),7,BlackOrb24
 Rabanastre,Hunt 1: Rogue Tomato,9003,,1,Hunt
 Rabanastre,Hunt 2: Thextera,9004,,1,Hunt
 Dalmasca Estersand,Hunt 3: Flowering Cactoid,9005,I(8073),1,Hunt
@@ -112,7 +112,7 @@ Mt. Bur-Omisace,Hunt 28: Piscodaemon,901E,AND(I(Paramina Rift)|I(C012)),5,Hunt
 Eruyt Village,Hunt 29: Wild Malboro,901F,I(Paramina Rift),6,Hunt
 Jahara,Hunt 30: Catoblepas,9020,I(Ozmone Plain),6,Hunt
 Mt. Bur-Omisace,Hunt 31: Fafnir,9021,AND(I(Paramina Rift)|I(809A)),7,Hunt
-Balfonheim,Hunt 32: Pylraster,9022,I(8077),7,Hunt
+Balfonheim,Hunt 32: Pylraster,9022,AND(I(2118|2)|I(Tchita Uplands)),7,Hunt
 Giza Plains Dry,Hunt 33: Cluckatrice,9023,I(8071),1,Hunt
 Bhujerba,Hunt 34: Rocktoise,9024,AND(I(8071)|AERO(80E3)),1,Hunt
 Lowtown,Hunt 35: Orthros,9025,AND(I(8071)|I(8092)|I(Fran)|I(Ashe)|I(Penelo)),5,Hunt
@@ -123,9 +123,9 @@ Aerodrome,Hunt 39: Carrot,9029,AND(I(8071)|I(Tchita Uplands)),7,Hunt
 Clan Hall,Hunt 40: Gilgamesh,902A,AND(I(8071)|I(807E)|I(807F)|AERO(80E3)),7,Hunt
 Clan Hall,Hunt 41: Belito,9122,AND(I(8071)|I(Sandseas)|I(Ozmone Plain)),5,Hunt
 Lowtown,Hunt 42: Behemoth King,902B,AND(I(Paramina Rift)|I(8071)),7,Hunt
-Balfonheim,Hunt 43: Ixion,902C,AND(I(8071)|I(8077)),6,Hunt
-Clan Hall,Hunt 44: Shadowseer,902D,AND(I(8071)|I(8077)|I(2116|24)),6,Hunt
-Clan Hall,Hunt 45: Yiazmat,902E,AND(I(8071)|I(8077)),8,Hunt
+Balfonheim,Hunt 43: Ixion,902C,AND(I(8071)|I(2118|2)|I(Tchita Uplands)),6,Hunt
+Clan Hall,Hunt 44: Shadowseer,902D,AND(I(8071)|I(2118|2)|I(2116|24)),6,Hunt
+Clan Hall,Hunt 45: Yiazmat,902E,AND(I(8071)|I(2118|2)),8,Hunt
 Clan Hall,Clan Rank: Moppet,902F,I(8071),1,ClanRank
 Clan Hall,Clan Rank: Hedge Knight,9030,AND(I(8071)|I(Hunt|2)),2,ClanRank
 Clan Hall,Clan Rank: Rear Guard,9031,AND(I(8071)|I(Hunt|4)),3,ClanRank
@@ -154,7 +154,7 @@ Clan Hall,Clan Boss: Hell Wyrm,9047,AND(I(8071)|I(80B5)|I(Sochen Cave Palace)),7
 Clan Hall,Clan Boss: Rafflesia,9048,AND(I(Paramina Rift)|I(8071)),4,ClanBoss
 Clan Hall,Clan Boss: Daedulus,9049,AND(I(Paramina Rift)|I(8071)|I(C012)),5,ClanBoss
 Clan Hall,Clan Boss: Tyrant,904A,AND(I(Paramina Rift)|I(8071)|I(C012)),5,ClanBoss
-Clan Hall,Clan Boss: Hydro,904B,AND(I(8071)|I(8077)),5,ClanBoss
+Clan Hall,Clan Boss: Hydro,904B,AND(I(8071)|I(2118|2)),5,ClanBoss
 Clan Hall,Clan Boss: Humbaba Mistant,904C,AND(I(8071)|I(8081)|I(8084)|I(Tchita Uplands)),7,ClanBoss
 Clan Hall,Clan Boss: Fury,904D,AND(I(8071)|I(8083)|I(8084)|I(Tchita Uplands)),7,ClanBoss
 Clan Hall,Clan Boss: Omega Mark XII,905A,AND(I(Paramina Rift)|I(8071)|I(C012)),8,ClanBoss
@@ -245,8 +245,8 @@ Sochen Cave Palace,Wendice - Frigid Trophy,90A9,AND(I(80B8)|I(HuntClubStart)|I(S
 Sochen Cave Palace,Anubys - Ensanguined Trophy,90AA,AND(I(80B8)|I(HuntClubStart)|I(Sochen Cave Palace)),7,
 Cerobi Steppe,Bluesang - Cruel Trophy,90AB,AND(I(80B8)|I(HuntClubStart)|I(Tchita Uplands)),7,
 Cerobi Steppe,Aspidochelon - Adamantine Trophy,90AC,AND(I(80B8)|I(HuntClubStart)|I(Tchita Uplands)),7,
-Ridorana Cataract,Abelisk - Reptilian Trophy,90AD,AND(I(8077)|I(80B8)|I(HuntClubStart)),7,
-Pharos of Ridorana,Avenger - Vile Trophy,90AE,AND(I(8077)|I(2116|3)|I(80B8)|I(HuntClubStart)),7,
+Ridorana Cataract,Abelisk - Reptilian Trophy,90AD,AND(I(2118|2)|I(80B8)|I(HuntClubStart)),7,
+Pharos of Ridorana,Avenger - Vile Trophy,90AE,AND(I(2118|2)|I(2116|3)|I(80B8)|I(HuntClubStart)),7,
 Archades,Hunt Club Owner 5 Trophy Rares Defeated,90F9,AND(I(2112)|I(HuntClubKill|5)|I(Archades)),6,Grindy
 Archades,Hunt Club Owner 10 Trophy Rares Defeated,90FA,AND(I(2112)|I(HuntClubKill|10)|I(Archades)),7,Grindy
 Archades,Hunt Club Owner 15 Trophy Rares Defeated,90FB,AND(I(2112)|I(HuntClubKill|15)|I(Archades)),7,Grindy

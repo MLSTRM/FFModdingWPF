@@ -29,7 +29,7 @@ local function defineAddItem()
       sub rsp,0x38
       lea rax,[%add_args%]
       movzx ecx,word ptr [rax]
-      mov edx,dword ptr [rax+0x02]
+      movsx edx,dword ptr [rax+0x02]
       xor r8d,r8d
       lea r9d,[r8+0x01]
       mov [rsp+0x20],r9d
