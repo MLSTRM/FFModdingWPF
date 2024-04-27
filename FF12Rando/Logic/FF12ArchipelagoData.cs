@@ -26,8 +26,8 @@ public class FF12ArchipelagoData : ArchipelagoData
     {
         Version = (string)data["version"];
 
-        // Check if version starts with any of the incompatible versions
-        if (CompatibleAPVersions.Any(v => Version.StartsWith(v)))
+        // Check if version starts with none of the compatible versions
+        if (!CompatibleAPVersions.Any(v => Version.StartsWith(v)))
         {
             throw new RandoException("FF12 AP World version " + Version + " is not compatible with this version of the randomizer.", "Incompatible Version");
         }
