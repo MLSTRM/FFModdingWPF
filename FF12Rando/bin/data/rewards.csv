@@ -102,7 +102,7 @@ Nalbina Fortress,Hunt 18: Roblon,9014,I(Tchita Uplands),6,Hunt
 Mosphoran Highwaste,Hunt 19: Braegh,9015,I(Tchita Uplands),4,Hunt
 Archades,Hunt 20: Darksteel,9016,AND(I(Sochen Cave Palace)|I(Archades)),4,Hunt
 Balfonheim,Hunt 21: Vyraal,9017,AND(I(809B)|I(Tchita Uplands)),5,Hunt
-Old Archades,Hunt 22: Lindwyrm,9018,AND(I(Tchita Uplands)|I(Archades)),5,Hunt
+Old Archades,Hunt 22: Lindwyrm,9018,AND(I(Tchita Uplands)|I(Archades)|I(808A)),5,Hunt
 Archades,Hunt 23: Overlord,9019,AND(I(Tchita Uplands)|I(Archades)),6,Hunt
 Nalbina Fortress,Hunt 24: Goliath,901A,I(Tchita Uplands),6,Hunt
 Nalbina Fortress,Hunt 25: Deathscythe,901B,I(Tchita Uplands),6,Hunt
@@ -110,7 +110,7 @@ Skyferry,Hunt 26: Deathgaze,901C,OR(AERO(80E1|false)|AERO(80E2|false)|AERO(80E3|
 Bhujerba,Hunt 27: Diabolos,901D,AND(I(807E)|I(807F)|AERO(80E3)),7,Hunt
 Mt. Bur-Omisace,Hunt 28: Piscodaemon,901E,AND(I(Paramina Rift)|I(C012)),5,Hunt
 Eruyt Village,Hunt 29: Wild Malboro,901F,I(Paramina Rift),6,Hunt
-Jahara,Hunt 30: Catoblepas,9020,I(Ozmone Plain),6,Hunt
+Jahara,Hunt 30: Catoblepas,9020,I(80E0),6,Hunt
 Mt. Bur-Omisace,Hunt 31: Fafnir,9021,AND(I(Paramina Rift)|I(809A)),7,Hunt
 Balfonheim,Hunt 32: Pylraster,9022,AND(I(2118|2)|I(Tchita Uplands)),7,Hunt
 Giza Plains Dry,Hunt 33: Cluckatrice,9023,I(8071),1,Hunt
@@ -208,7 +208,7 @@ Dalmasca Estersand,Outpost Mysterious Glint 3,9057,,0,
 Dalmasca Estersand,Outpost Mysterious Glint 4,9070,,0,
 Dalmasca Estersand,Outpost Mysterious Glint 5,9059,,0,
 Balfonheim,Footrace,908F,I(Tchita Uplands),0,
-Zertinan Caverns,Defeat Adrammelech,9194,I(Ozmone Plain),3,
+Zertinan Caverns,Defeat Adrammelech,9194,I(80E0),3,
 Barheim Passage,Defeat Zalera,9195,I(8093),4,
 Garamsythe Waterway,Defeat Cuchulainn,9196,I(80AF),6,
 Stilshrine of Miriam,Defeat Zeromus,9197,AND(I(Paramina Rift)|I(8078)|I(8085)),5,
@@ -222,7 +222,7 @@ Barheim Passage,Ishteen - Bony Trophy,9092,AND(I(8093)|I(80B8)|I(HuntClubStart))
 Dalmasca Westersand,Kaiser Wolf - Fanged Trophy,9093,AND(I(80B8)|I(HuntClubStart)),5,
 Dalmasca Estersand,Terror Tyrant - Hide-covered Trophy,9094,AND(I(80B8)|I(HuntClubStart)),7,
 Giza Plains Dry,Nazarnir - Maned Trophy,9095,AND(I(80B8)|I(HuntClubStart)),7,
-Zertinan Caverns,Alteci - Fell Trophy,9096,AND(I(80B8)|I(Ozmone Plain)|I(HuntClubStart)),5,
+Zertinan Caverns,Alteci - Fell Trophy,9096,AND(I(80B8)|I(80E0)|I(HuntClubStart)),5,
 Lhusu Mines,Disma - Accursed Trophy,9097,AND(I(807E)|I(807F)|AERO(80E3)|I(HuntClubStart)),7,
 Ogir-Yensa Sandsea,Bull Chocobo - Beaked Trophy,9098,AND(I(80B8)|I(HuntClubStart)|I(Sandseas)),7,
 Nam-Yensa Sandsea,Victanir - Maverick Trophy,9099,AND(I(80B8)|I(HuntClubStart)|I(Sandseas)),7,
