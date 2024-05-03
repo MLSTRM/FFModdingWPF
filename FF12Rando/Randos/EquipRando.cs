@@ -986,11 +986,11 @@ public partial class EquipRando : Randomizer
             string elems = string.Join("", elements.Select(e => e switch
             {
                 Element.Fire => "{icon:10}",
-                Element.Ice => "{icon:11}",
-                Element.Lightning => "{icon:12}",
-                Element.Water => "{icon:13}",
-                Element.Wind => "{icon:14}",
-                Element.Earth => "{icon:15}",
+                Element.Lightning => "{icon:11}",
+                Element.Ice => "{icon:12}",
+                Element.Earth => "{icon:13}",
+                Element.Water => "{icon:14}",
+                Element.Wind => "{icon:15}",
                 Element.Holy => "{icon:16}",
                 Element.Dark => "{icon:17}",
                 _ => ""

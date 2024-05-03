@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FF12Rando.Logic;
 
-class AeropassItemReq : ItemReq
+public class AeropassItemReq : ItemReq
 {
     public const string RABANASTRE = "80E1";
     public const string NALBINA = "80E2";

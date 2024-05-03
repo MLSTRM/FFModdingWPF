@@ -99,20 +99,17 @@ public partial class TreasureRando : Randomizer
             }
         }, FileHelpers.CSVFileHeader.HasHeader);
 
-        if (FF12Flags.Items.KeyStartingInv.Enabled)
+        FileHelpers.ReadCSVFile(@"data\startingInvs.csv", row =>
         {
-            FileHelpers.ReadCSVFile(@"data\startingInvs.csv", row =>
+            StartingInvLocation first = new(Generator, row, 0);
+            ItemLocations.Add(first.ID, first);
+            // Keep the last slot empty for tp stones
+            for (int i = 1; i < 10; i++)
             {
-                StartingInvLocation first = new(Generator, row, 0);
-                ItemLocations.Add(first.ID, first);
-                // Keep the last slot empty for tp stones
-                for (int i = 1; i < 10; i++)
-                {
-                    StartingInvLocation s = new(Generator, row, i);
-                    ItemLocations.Add(s.ID, s);
-                }
-            }, FileHelpers.CSVFileHeader.HasHeader);
-        }
+                StartingInvLocation s = new(Generator, row, i);
+                ItemLocations.Add(s.ID, s);
+            }
+        }, FileHelpers.CSVFileHeader.HasHeader);
 
         FileHelpers.ReadCSVFile(@"data\fakeChecks.csv", row =>
         {

@@ -155,6 +155,15 @@ public class FF12ItemPlacer : CombinedItemPlacer<ItemLocation, ItemData>
 
     public override bool IsFixedLocation(ItemLocation location)
     {
+
+        if (!FF12Flags.Items.KeyStartingInv.Enabled)
+        {
+            if (location is StartingInvLocation s)
+            {
+                return true;
+            }
+        }
+
         if (location is RewardLocation r && location.GetItem(true)?.Item == null)
         {
             var sameLocs = PossibleLocations.Where(l => l is RewardLocation r2 && r2.IntID == r.IntID && r.Index != r2.Index && l.GetItem(true)?.Item != null).ToHashSet();
