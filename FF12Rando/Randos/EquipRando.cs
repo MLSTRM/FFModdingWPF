@@ -526,7 +526,7 @@ public partial class EquipRando : Randomizer
             }
         }
 
-        return status is Status.Death or Status.Stone or Status.CriticalHP or Status.XZone or Status.Doom or Status.Petrify
+        return status is Status.Death or Status.Stone or Status.CriticalHP or Status.XZone or Status.Doom or Status.Petrify or Status.Vanish
             ? 0
             : status is Status.Reverse
             ? 1

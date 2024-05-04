@@ -16,7 +16,7 @@ public class FF12ArchipelagoData : ArchipelagoData
     public bool AllowSeitengrat { get; set; }
     public List<(string ID, string Item, int Index, int Sphere)> Spheres { get; set; }
 
-    public List<string> CompatibleAPVersions { get; set; } = new List<string>() { "0.3.2" };
+    public List<string> CompatibleAPVersions { get; set; } = new List<string>() { "0.3.3" };
 
     public FF12ArchipelagoData()
     {

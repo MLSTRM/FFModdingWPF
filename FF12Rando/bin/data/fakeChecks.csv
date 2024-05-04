@@ -30,7 +30,7 @@ Jahara,Hunt 10: Enkelados,_28,AND(I(8086)|I(Ozmone Plain)),,2,Hunt
 Giza Plains Rains,Hunt 11: Croakadile,_29,AND(I(807C)|I(80E0)),,2,Hunt
 Jahara,Hunt 12: Ixtab,_30,I(Ozmone Plain),,2,Hunt
 Mt. Bur-Omisace,Hunt 13: Feral Retriever,_31,I(Paramina Rift),,3,Hunt
-Eruyt Village,Hunt 14: Vorpal Bunny,_32,AND(I(Ozmone Plain)|I(Paramina Rift)),,3,Hunt
+Eruyt Village,Hunt 14: Vorpal Bunny,_32,AND(I(Ozmone Plain)|I(Paramina Rift)|I(8087)),,3,Hunt
 Jahara,Hunt 15: Mindflayer,_33,I(Ozmone Plain),,4,Hunt
 Dalmasca Estersand,Hunt 16: Bloodwing,_34,I(8093),,5,Hunt
 Nalbina Fortress,Hunt 17: Atomos,_35,I(Tchita Uplands),,3,Hunt|Jovy
