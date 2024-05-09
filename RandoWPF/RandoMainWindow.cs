@@ -59,10 +59,23 @@ public abstract class RandoMainWindow : Window
         get => (string)GetValue(ChangelogTextProperty);
         set => SetValue(ChangelogTextProperty, value);
     }
+    public static readonly DependencyProperty APVisibleProperty =
+    DependencyProperty.Register(nameof(APVisible), typeof(Visibility), typeof(RandoMainWindow));
+    public Visibility APVisible
+    {
+        get => (Visibility)GetValue(APVisibleProperty);
+        set => SetValue(APVisibleProperty, value);
+    }
     public RandoMainWindow()
     {
         RandoUI.Init(SetProgressBar, () => TotalProgressBar.IncrementProgress(), SwitchTab);
         HideProgressBar();
+
+        APVisible = Visibility.Hidden;
+        RandoFlags.SelectedChanged += (s, e) =>
+        {
+            APVisible = RandoFlags.Mode == RandoFlags.SeedMode.Archipelago ? Visibility.Visible : Visibility.Hidden;
+        };
 
         ChangelogText = File.ReadAllText(@"data\changelog.txt");
     }

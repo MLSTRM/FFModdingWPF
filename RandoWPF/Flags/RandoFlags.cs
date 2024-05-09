@@ -86,10 +86,15 @@ public class RandoFlags
         string version = data.ContainsKey("version") ? (string)data["version"] : "N/A";
         SeedMode type = data.ContainsKey("type") ? GetSeedMode((string)data["type"]) : SeedMode.Normal;
         string preset = data.ContainsKey("preset") ? (string)data["preset"] : "Unknown from previous version";
-        ArchipelagoData apData = (ArchipelagoData)Activator.CreateInstance(ArchipelagoDataType);
-        if (data.ContainsKey("archipelago"))
+
+        ArchipelagoData apData = null;
+        if (ArchipelagoDataType != null)
         {
-            apData.Parse((IDictionary<string, object>)data["archipelago"]);
+            apData = (ArchipelagoData)Activator.CreateInstance(ArchipelagoDataType);
+            if (data.ContainsKey("archipelago"))
+            {
+                apData.Parse((IDictionary<string, object>)data["archipelago"]);
+            }
         }
 
         return (seed, type, apData, version, preset);
@@ -163,6 +168,11 @@ public class RandoFlags
 
     public static T GetArchipelagoData<T>() where T : ArchipelagoData
     {
+        if (ArchipelagoData == null)
+        {
+            throw new Exception("No Archipelago data type loaded");
+        }
+
         if (typeof(T) != ArchipelagoDataType)
         {
             throw new Exception("Invalid type");
