@@ -442,13 +442,10 @@ public partial class SetupPaths : UserControl
 
         if (FF12SeedGenerator.ManifestoInstalled() == FF12SeedGenerator.ManifestoInstallType.Vortex)
         {
-            if (MessageBox.Show("The Insurgent's Manifesto looks to already be installed through Vortex. No need to install it again. Continue?", "Manifesto already installed") == MessageBoxResult.No)
+            if (MessageBox.Show("The Insurgent's Manifesto looks to already be installed through Vortex. No need to install it again. Continue? This will overwrite your Manifesto config with the default.", "Manifesto already installed") == MessageBoxResult.No)
             {
                 return;
             }
-
-            // Move to backup .before_rando files
-            FF12SeedGenerator.MoveToBackup(Path.Combine(SetupData.Paths["12"], "x64\\scripts\\config\\TheInsurgentsManifestoConfig.lua"));
         }
 
         VistaOpenFileDialog dialog = new()

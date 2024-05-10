@@ -229,12 +229,6 @@ public class FF12SeedGenerator : SeedGenerator
         {
             File.Delete(Path.Combine(descriptiveFolder, "us.lua.page2"));
         }
-
-        // Move the original script to a backup if it hasn't been moved already
-        if (!File.Exists(Path.Combine(SetupData.Paths["12"], "x64\\scripts\\config\\TheInsurgentsManifestoConfig.lua.before_rando")))
-        {
-            MoveToBackup(Path.Combine(SetupData.Paths["12"], "x64\\scripts\\config\\TheInsurgentsManifestoConfig.lua"), false);
-        }
     }
 
     protected override void GeneratePack()
@@ -329,34 +323,10 @@ public class FF12SeedGenerator : SeedGenerator
 
     public static void UninstallManifesto()
     {
-        if (ManifestoRequiredPathsVortexInstall.All(s => File.Exists(s)) && Directory.Exists(Path.Combine(SetupData.Paths["12"], "mods\\deploy\\ps2data\\obj_finish\\in\\chara")))
-        {
-                string filePath = Path.Combine(SetupData.Paths["12"], "x64\\scripts\\config\\TheInsurgentsManifestoConfig.lua");
-            if (File.Exists(filePath + ".before_rando"))
-            {
-                // Ask user whether to restore backed up lua file or delete it
-                if (MessageBox.Show("Detected that the Insurgent's Manifesto was installed through Vortex. Would you like to revert the original Insurgent's Manifesto file for the Vortex install?\nYes - Revert\nNo - Delete",
-                    "Revert or Delete?", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-                {
-                    // Restore config
-                    File.Delete(filePath);
-                    File.Move(filePath + ".before_rando", filePath);
-
-                    return;
-                }
-            }
-            else
-            {
-                MessageBox.Show("Detected that the Insurgent's Manifesto was installed through Vortex. However, the backup Insurgent's Manifesto config file for the Vortex install was not found. Nothing to revert. Uninstall through Vortex if you want to completely remove the Insurgent's Manifesto mod.", "Nothing to revert", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
-
-        // Delete including config backup        
+        // Delete main lua script       
         List<string> manifestoScripts = new()
         {
-            Path.Combine(SetupData.Paths["12"], "x64\\scripts\\TheInsurgentsManifesto.lua"),
-            Path.Combine(SetupData.Paths["12"], "x64\\scripts\\config\\TheInsurgentsManifestoConfig.lua"),
-            Path.Combine(SetupData.Paths["12"], "x64\\scripts\\config\\TheInsurgentsManifestoConfig.lua.before_rando")
+            Path.Combine(SetupData.Paths["12"], "x64\\scripts\\TheInsurgentsManifesto.lua")
         };
         manifestoScripts.Where(s => File.Exists(s)).ForEach(s => File.Delete(s));
     }
