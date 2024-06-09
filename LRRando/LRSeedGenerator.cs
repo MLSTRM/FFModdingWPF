@@ -11,19 +11,6 @@ public class LRSeedGenerator : SeedGenerator
 {
     public LRSeedGenerator() : base()
     {
-        Randomizers = new()
-        {
-            new QuestRando(this),
-            new TreasureRando(this),
-            new EquipRando(this),
-            new ShopRando(this),
-            new AbilityRando(this),
-            new EnemyRando(this),
-            new BattleRando(this),
-            new MusicRando(this),
-            new TextRando(this)
-        };
-
         OutFolder = Path.GetTempPath() + @"lr_rando_temp";
         DataOutFolder = OutFolder + @"\Data";
 
@@ -31,7 +18,7 @@ public class LRSeedGenerator : SeedGenerator
         DocsDisplayName = "LR Randomizer";
     }
 
-    protected override void PrepareData()
+    public override void PrepareData()
     {
         if (string.IsNullOrEmpty(SetupData.Paths["LR"]) || !Directory.Exists(SetupData.Paths["LR"]))
         {
@@ -43,7 +30,7 @@ public class LRSeedGenerator : SeedGenerator
             throw new RandoException("NovaChrysalia.exe needs to be selected. Download Nova Chrysalia and setup the path in the '1. Setup' step.", "Nova Chrysalia not found.");
         }
 
-        if (!Nova.IsUnpacked("LR", @"db\resident\wdbpack.bin", SetupData.GetSteamPath("LR")))
+        if (!Nova.IsUnpacked("LR", @"db\resident\wdbpack.bin", SetupData.Paths["LR"]))
         {
             throw new RandoException("LR needs to be unpacked.\nOpen NovaChrysalia and 'Unpack Game Data' for LR.", "LR is not unpacked");
         }
@@ -80,7 +67,7 @@ public class LRSeedGenerator : SeedGenerator
         return $"{PackPrefixName}_{SetupData.Seed.Clean()}.ncmp";
     }
 
-    protected override void Save()
+    public override void Save()
     {
         base.Save();
 
@@ -88,10 +75,26 @@ public class LRSeedGenerator : SeedGenerator
         Nova.CleanWPD(wdbpackOutPath, SetupData.WPDTracking[wdbpackOutPath]);
     }
 
-    protected override void GeneratePackAndDocs()
+    public override void GeneratePackAndDocs()
     {
         base.GeneratePackAndDocs();
 
         RandoUI.SetUIProgressDeterminate($"Complete! Ready to install in Nova Chrysalia! The modpack '{GetPackPath()}' and documentation have been generated in the packs folder of this application.", 100, 100);
+    }
+
+    protected override void SetRandomizers()
+    {
+        Randomizers = new()
+        {
+            new QuestRando(this),
+            new TreasureRando(this),
+            new EquipRando(this),
+            new ShopRando(this),
+            new AbilityRando(this),
+            new EnemyRando(this),
+            new BattleRando(this),
+            new MusicRando(this),
+            new TextRando(this)
+        };
     }
 }

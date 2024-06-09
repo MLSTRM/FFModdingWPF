@@ -12,18 +12,6 @@ public class FF13SeedGenerator : SeedGenerator
 {
     public FF13SeedGenerator() : base()
     {
-        Randomizers = new()
-        {
-            new EquipRando(this),
-            new TreasureRando(this),
-            new CrystariumRando(this),
-            new ShopRando(this),
-            new BattleRando(this),
-            new EnemyRando(this),
-            new MusicRando(this),
-            new TextRando(this)
-        };
-
         OutFolder = Path.GetTempPath() + @"ff13_rando_temp";
         DataOutFolder = OutFolder + @"\Data";
 
@@ -31,7 +19,7 @@ public class FF13SeedGenerator : SeedGenerator
         DocsDisplayName = "FF13 Randomizer";
     }
 
-    protected override void PrepareData()
+    public override void PrepareData()
     {
 
         if (string.IsNullOrEmpty(SetupData.Paths["13"]) || !Directory.Exists(SetupData.Paths["13"]))
@@ -44,7 +32,7 @@ public class FF13SeedGenerator : SeedGenerator
             throw new RandoException("NovaChrysalia.exe needs to be selected. Download Nova Chrysalia and setup the path in the '1. Setup' step.", "Nova Chrysalia not found.");
         }
 
-        if (!Nova.IsUnpacked("13", @"db\resident\treasurebox.wdb", SetupData.GetSteamPath("13")))
+        if (!Nova.IsUnpacked("13", @"db\resident\treasurebox.wdb", SetupData.Paths["13"]))
         {
             throw new RandoException("FF13 needs to be unpacked.\nOpen NovaChrysalia and 'Unpack Game Data' for FF13.", "FF13 is not unpacked");
         }
@@ -69,10 +57,25 @@ public class FF13SeedGenerator : SeedGenerator
         return $"{PackPrefixName}_{SetupData.Seed.Clean()}.ncmp";
     }
 
-    protected override void GeneratePackAndDocs()
+    public override void GeneratePackAndDocs()
     {
         base.GeneratePackAndDocs();
 
         RandoUI.SetUIProgressDeterminate($"Complete! Ready to install in Nova Chrysalia! The modpack '{GetPackPath()}' and documentation have been generated in the packs folder of this application.", 100, 100);
+    }
+
+    protected override void SetRandomizers()
+    {
+        Randomizers = new()
+        {
+            new EquipRando(this),
+            new TreasureRando(this),
+            new CrystariumRando(this),
+            new ShopRando(this),
+            new BattleRando(this),
+            new EnemyRando(this),
+            new MusicRando(this),
+            new TextRando(this)
+        };
     }
 }

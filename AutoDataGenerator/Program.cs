@@ -6,22 +6,16 @@ class Program
     static void Main(string[] args)
     {
 
-        string modeArg;
-        string inputDir;
+        // The input dir is the current directory
+        string inputDir = Directory.GetCurrentDirectory();
         string outputDir;
-        if (args.Length < 3)
+        if (args.Length < 1)
         {
-            // Ask the user for input for the mode and output directory
-            Console.WriteLine("Enter the mode (ff12) and output directory:");
-            modeArg = Console.ReadLine();
-            inputDir = Console.ReadLine();
             outputDir = Console.ReadLine();
         }
         else
         {
-            modeArg = args[0];
-            inputDir = args[1];
-            outputDir = args[2];
+            outputDir = args[0];
         }
 
         if (inputDir == null || !Directory.Exists(inputDir))
@@ -36,21 +30,35 @@ class Program
             return;
         }
 
-        if (modeArg == "ff12")
-        {
-            GenerateFF12Data(inputDir, outputDir);
-        }
-        else
-        {
-            Console.WriteLine("Invalid mode.");
-            return;
-        }
+        GenerateFF12Data(inputDir, Path.Combine(outputDir, "ff12_open_world"));
+        GenerateLRData(inputDir, Path.Combine(outputDir, "lrff13"));
     }
 
     private static void GenerateFF12Data(string inputDir, string outputDir)
     {
+        inputDir = inputDir.Replace("AutoDataGenerator", "FF12Rando");
+        if (!Directory.Exists(outputDir))
+        {
+            Console.WriteLine("No output directory for FF12.");
+            return;
+        }
+
         Console.WriteLine("Generating FF12 data...");
         FF12MultiworldGenerator generator = new(inputDir, outputDir);
+        generator.Generate();
+    }
+
+    private static void GenerateLRData(string inputDir, string outputDir)
+    {
+        inputDir = inputDir.Replace("AutoDataGenerator", "LRRando");
+        if (!Directory.Exists(outputDir))
+        {
+            Console.WriteLine("No output directory for LR.");
+            return;
+        }
+
+        Console.WriteLine("Generating LR data...");
+        LRMultiworldGenerator generator = new(inputDir, outputDir);
         generator.Generate();
     }
 }

@@ -7,10 +7,11 @@ using Bartz24.Data;
 using Bartz24.Docs;
 using System.Reflection.Emit;
 using Microsoft.Extensions.Logging;
+using System.Windows.Documents;
 
 namespace Bartz24.RandoWPF;
 
-public class SeedGenerator : IDisposable
+public abstract class SeedGenerator : IDisposable
 {
     public const string UNEXPECTED_ERROR = "Unexpected error";
     public string DataOutFolder { get; set; }
@@ -27,6 +28,7 @@ public class SeedGenerator : IDisposable
     public SeedGenerator()
     {
         Randomizers = new();
+        SetRandomizers();
     }
 
     public T Get<T>() where T : Randomizer
@@ -41,6 +43,8 @@ public class SeedGenerator : IDisposable
 
         return null;
     }
+
+    protected abstract void SetRandomizers();
 
     public void GenerateSeed()
     {
@@ -85,7 +89,7 @@ public class SeedGenerator : IDisposable
 #endif
     }
 
-    protected virtual void PrepareData()
+    public virtual void PrepareData()
     {
         RandomNum.ClearRand();
         foreach (Flag flag in RandoFlags.FlagsList)
@@ -94,7 +98,7 @@ public class SeedGenerator : IDisposable
         }
     }
 
-    protected virtual void Load()
+    public virtual void Load()
     {
         Randomizers.ForEach(r =>
         {
@@ -103,7 +107,7 @@ public class SeedGenerator : IDisposable
         });
     }
 
-    protected virtual void Randomize()
+    public virtual void Randomize()
     {
         Randomizers.ForEach(r =>
         {
@@ -112,7 +116,7 @@ public class SeedGenerator : IDisposable
         });
     }
 
-    protected virtual void Save()
+    public virtual void Save()
     {
         Randomizers.ForEach(r =>
         {
@@ -121,7 +125,7 @@ public class SeedGenerator : IDisposable
         });
     }
 
-    protected virtual void GeneratePackAndDocs()
+    public virtual void GeneratePackAndDocs()
     {
         Task pack = new(GeneratePack);
         Task docs = new(GenerateDocs);
@@ -135,7 +139,7 @@ public class SeedGenerator : IDisposable
     }
 
 
-    protected virtual void GeneratePack()
+    public virtual void GeneratePack()
     {
         string zipName = "packs\\" + GetPackPath();
         if (File.Exists(zipName))
@@ -158,7 +162,7 @@ public class SeedGenerator : IDisposable
         return $"{PackPrefixName}_{SetupData.Seed.Clean()}.zip";
     }
 
-    protected virtual void GenerateDocs()
+    public virtual void GenerateDocs()
     {
         Docs.Docs docs = new();
         docs.Settings.Name = DocsDisplayName;

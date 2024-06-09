@@ -2,7 +2,7 @@
 using Bartz24.RandoWPF;
 using System.Collections.Generic;
 
-namespace LRRando.Logic;
+namespace LRRando;
 
 public class BattleDropLocation : ItemLocation, IDataStoreItemProvider<DataStoreBtScene>
 {

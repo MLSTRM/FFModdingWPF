@@ -3,7 +3,7 @@ using Bartz24.RandoWPF;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LRRando.Logic;
+namespace LRRando;
 
 public class TreasureLocation : ItemLocation, IDataStoreItemProvider<DataStoreRTreasurebox>
 {

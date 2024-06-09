@@ -21,7 +21,12 @@ namespace LRRando;
 /// </summary>
 public partial class MainWindow : RandoMainWindow
 {
-    protected override SeedGenerator Generator => new LRSeedGenerator();
+    protected override SeedGenerator Generator => RandoFlags.Mode switch
+    {
+        RandoFlags.SeedMode.Normal => new LRSeedGenerator(),
+        RandoFlags.SeedMode.Archipelago => new LRArchipelagoSeedGenerator(),
+        _ => throw new NotImplementedException()
+    };
 
     protected override SegmentedProgressBar TotalProgressBar => totalProgressBar;
 

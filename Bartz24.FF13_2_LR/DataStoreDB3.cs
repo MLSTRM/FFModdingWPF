@@ -77,7 +77,7 @@ public class DataStoreDB3<T> where T : DataStoreDB3SubEntry, new()
     {
         List<string> names = Keys.ToList();
         names.Add(newName);
-        names = names.OrderBy(s => s).ToList();
+        names = names.OrderBy(s => s, StringComparer.Ordinal).ToList();
         return InsertCopy(original, newName, names.IndexOf(newName) > 0 ? Data[names[names.IndexOf(newName) - 1]].name : null);
     }
 

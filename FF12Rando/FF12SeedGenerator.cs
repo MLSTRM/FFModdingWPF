@@ -100,8 +100,6 @@ public class FF12SeedGenerator : SeedGenerator
 
     public FF12SeedGenerator() : base()
     {
-        SetRandomizers();
-
         OutFolder = Path.Combine(SetupData.Paths["12"], "rando");
         DataOutFolder = Path.Combine(OutFolder, "ps2data");
 
@@ -112,7 +110,7 @@ public class FF12SeedGenerator : SeedGenerator
         AeropassItemReq.Init();
     }
 
-    protected virtual void SetRandomizers()
+    protected override void SetRandomizers()
     {
         Randomizers = new()
         {
@@ -127,7 +125,7 @@ public class FF12SeedGenerator : SeedGenerator
         };
     }
 
-    protected override void PrepareData()
+    public override void PrepareData()
     {
         if (!ToolsInstalled())
         {
@@ -231,12 +229,12 @@ public class FF12SeedGenerator : SeedGenerator
         }
     }
 
-    protected override void GeneratePack()
+    public override void GeneratePack()
     {
         // No pack for FF12
     }
 
-    protected override void GeneratePackAndDocs()
+    public override void GeneratePackAndDocs()
     {
         RandoUI.SetUIProgressIndeterminate("Generating documentation...");
 

@@ -1,4 +1,5 @@
 ﻿using Bartz24.Data;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -58,7 +59,7 @@ public class DataStoreZTRText
             ztrPath,
             $"/*{Data.Count}*/"
         };
-        List<string> keysSorted = Data.Keys.OrderBy(s => s).ToList();
+        List<string> keysSorted = Data.Keys.OrderBy(s => s, StringComparer.Ordinal).ToList();
         for (int i = 0; i < keysSorted.Count; i++)
         {
             lines.Add($"\"{i}{doubleBar}{keysSorted[i]}\" = \"{Data[keysSorted[i]]}\";");

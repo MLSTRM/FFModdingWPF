@@ -12,18 +12,6 @@ public class FF13_2SeedGenerator : SeedGenerator
 {  
     public FF13_2SeedGenerator() : base()
     {
-        Randomizers = new()
-        {
-            new CrystariumRando(this),
-            new EquipRando(this),
-            new HistoriaCruxRando(this),
-            new TreasureRando(this),
-            new BattleRando(this),
-            new EnemyRando(this),
-            new MusicRando(this),
-            new TextRando(this)
-        };
-
         OutFolder = Path.GetTempPath() + @"ff13_2_rando_temp";
         DataOutFolder = OutFolder + @"\Data";
 
@@ -31,7 +19,7 @@ public class FF13_2SeedGenerator : SeedGenerator
         DocsDisplayName = "FF13-2 Randomizer";
     }
 
-    protected override void PrepareData()
+    public override void PrepareData()
     {
         if (string.IsNullOrEmpty(SetupData.Paths["13-2"]) || !Directory.Exists(SetupData.Paths["13-2"]))
         {
@@ -43,7 +31,7 @@ public class FF13_2SeedGenerator : SeedGenerator
             throw new RandoException("NovaChrysalia.exe needs to be selected. Download Nova Chrysalia and setup the path in the '1. Setup' step.", "Nova Chrysalia not found.");
         }
 
-        if (!Nova.IsUnpacked("13-2", @"db\resident\wdbpack.bin", SetupData.GetSteamPath("13-2")))
+        if (!Nova.IsUnpacked("13-2", @"db\resident\wdbpack.bin", SetupData.Paths["13-2"]))
         {
             throw new RandoException("FF13-2 needs to be unpacked.\nOpen NovaChrysalia and 'Unpack Game Data' for FF13-2.", "FF13-2 is not unpacked");
         }
@@ -87,7 +75,7 @@ public class FF13_2SeedGenerator : SeedGenerator
         return $"{PackPrefixName}_{SetupData.Seed.Clean()}.ncmp";
     }
 
-    protected override void Save()
+    public override void Save()
     {
         base.Save();
 
@@ -98,10 +86,25 @@ public class FF13_2SeedGenerator : SeedGenerator
         Nova.CleanWPD(x000OutPath, SetupData.WPDTracking[x000OutPath]);
     }
 
-    protected override void GeneratePackAndDocs()
+    public override void GeneratePackAndDocs()
     {
         base.GeneratePackAndDocs();
 
         RandoUI.SetUIProgressDeterminate($"Complete! Ready to install in Nova Chrysalia! The modpack '{GetPackPath()}' and documentation have been generated in the packs folder of this application.", 100, 100);
+    }
+
+    protected override void SetRandomizers()
+    {
+        Randomizers = new()
+        {
+            new CrystariumRando(this),
+            new EquipRando(this),
+            new HistoriaCruxRando(this),
+            new TreasureRando(this),
+            new BattleRando(this),
+            new EnemyRando(this),
+            new MusicRando(this),
+            new TextRando(this)
+        };
     }
 }

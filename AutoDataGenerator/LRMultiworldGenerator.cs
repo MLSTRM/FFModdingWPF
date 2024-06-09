@@ -1,5 +1,4 @@
-﻿using FF12Rando;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,43 +9,38 @@ using Bartz24.FF12;
 using Bartz24.RandoWPF;
 using static System.Windows.Forms.AxHost;
 using System.Xml.Linq;
+using LRRando;
 
 namespace AutoDataGenerator;
-internal class FF12MultiworldGenerator
+internal class LRMultiworldGenerator
 {
     public string OutputDir { get; }
 
     TreasureRando TreasureRando { get; }
     EquipRando EquipRando { get; }
-    PartyRando PartyRando { get; }
-    ShopRando ShopRando { get; }
 
-    const long BASE_ID = 760701597784;
+    const long BASE_ID = 636749621731;
 
     Dictionary<ItemLocation, string> locations = new();
 
-    public FF12MultiworldGenerator(string inputDir, string outputDir)
+    public LRMultiworldGenerator(string inputDir, string outputDir)
     {
-        SetupData.Paths["12"] = "G:\\SteamLibrary\\steamapps\\common\\FINAL FANTASY XII THE ZODIAC AGE\\x64\\FFXII_TZA.exe";
-        DataExtensions.Mode = ByteMode.LittleEndian;
-        FF12Flags.Init();
+        SetupData.Paths["LR"] = "G:\\SteamLibrary\\steamapps\\common\\LIGHTNING RETURNS FINAL FANTASY XIII";
+        SetupData.Paths["Nova"] = "S:\\Games\\FF13Series\\Nova Chrysalia v1.0.1\\NovaChrysalia.exe";
+        DataExtensions.Mode = ByteMode.BigEndian;
+        LRFlags.Init();
+        SetupData.Seed = "1234567890";
 
         OutputDir = outputDir;
-        var seedGenerator = new FF12SeedGenerator();
+        var seedGenerator = new LRSeedGenerator();
         TreasureRando = seedGenerator.Get<TreasureRando>();
         EquipRando = seedGenerator.Get<EquipRando>();
-        PartyRando = seedGenerator.Get<PartyRando>();
-        ShopRando = seedGenerator.Get<ShopRando>();
 
         // Set working directory to the input directory
         Directory.SetCurrentDirectory(inputDir);
 
-        // Enable starting inv flag
-        FF12Flags.Items.KeyStartingInv.Enabled = true;
-        PartyRando.Load();
-        EquipRando.Load();
-        TreasureRando.Load();
-        ShopRando.Load();
+        seedGenerator.PrepareData();
+        seedGenerator.Load();
     }
 
     public void Generate()
@@ -58,84 +52,78 @@ internal class FF12MultiworldGenerator
     }
 
     private void GenerateItemsScript()
-    {        
+    {
         // Auto generate the Items.py script
         string script =
             "from typing import Dict, NamedTuple, Optional\n" +
             "from BaseClasses import Item, ItemClassification\n" +
             "\n" +
             "\n" +
-            $"FF12OW_BASE_ID = {BASE_ID}\n" +
+            $"LRFF13_BASE_ID = {BASE_ID}\n" +
             "\n" +
             "\n" +
-            "class FF12OpenWorldItem(Item):\n" +
-            "    game: str = \"Final Fantasy 12 Open World\"\n" +
+            "class LRFF13Item(Item):\n" +
+            "    game: str = \"Lightning Returns Final Fantasy XIII\"\n" +
             "\n" +
             "\n" +
-            "class FF12OpenWorldItemData(NamedTuple):\n" +
+            "class LRFF13ItemData(NamedTuple):\n" +
             "    code: Optional[int] = None\n" +
+            "    str_id: str\n" +
             "    classification: ItemClassification = ItemClassification.filler\n" +
             "    weight: int = 0\n" +
             "    amount: int = 1\n" +
-            "    duplicateAmount: int = 1\n" +
+            "    duplicate_amount: int = 1\n" +
             "\n" +
             "\n" +
-            "item_data_table: Dict[str, FF12OpenWorldItemData] = {\n";
+            "item_data_table: Dict[str, LRFF13ItemData] = {\n";
 
+        int nextIndex = 0;
         EquipRando.itemData.Values.ForEach(i =>
         {
-            if (!i.Traits.Contains("Ignore"))
+            if (!i.Traits.Contains("Ignore") && !i.Traits.Contains("Remove"))
             {
                 string type = "filler";
                 int weight = 0;
                 int duplicates = 1;
-                if ((i.Category == "Key" || i.Category == "Esper" || i.Category == "Board") && !i.Traits.Contains("Trophy"))
+                if (i.Category == "Key")
                 {
                     type = "progression";
-                    int count = TreasureRando.ItemLocations.Values.Where(l => l.GetItem(true) != null && l.GetItem(true)?.Item == i.ID).Count();
-                    // Allow duplicates except for writ of transit
-                    if (count > 1 && i.IntID != 0x8070)
-                    {
-                        duplicates = count;
-                        type = "progression_skip_balancing";
-                    }
                 }
-                else if (i.Category == "Ability")
+                else if (i.Category == "EP Ability")
                 {
                     type = "useful";
                 }
-                else if (i.Category == "Loot")
+                else if (i.Category == "Material")
                 {
-                    weight = 10;
+                    weight = 15;
                 }
-                else if (i.Traits.Contains("Trophy"))
+                else if (i.Category == "Adornment")
                 {
-                    weight = 0;
+                    weight = 5;
                 }
                 else
                 {
-                    // Weight is a value based on rank using exponential decay from 200 to 10
+                    // Weight is a value based on rank using exponential decay from 20 to 1
                     // Rank goes up to 10 using this formula
-                    // Weapons and armor are weighted lower for ranks 0-3
-                    weight = i.Rank > 10 ? 1 : 
-                    i.Rank <= 3 && (i.Category == "Weapon" || i.Category == "Armor") ? 5 :
-                    (int)Math.Ceiling(20 * Math.Pow(0.7, i.Rank) * 10);
+                    weight = i.Rank > 10 ? 1 : (int)Math.Ceiling(20 * Math.Pow(0.7, i.Rank) * 10);
 
                     if (i.Category == "Item")
                     {
-                        weight *= 2;
+                        weight = (int)(weight * 2.5);
                     }
                 }
 
-                script = AddItemToItemsScript(script, i.Name, i.IntID, type, weight, 1, duplicates);
+                script = AddItemToItemsScript(script, i.Name, i.ID, nextIndex, type, weight, 1, duplicates);
+                nextIndex++;
             }
         });
 
-        int[] gilAmounts = new[] { 1, 500, 1000, 5000, 10000, 25000 };
-        int[] gilWeights = new[] { 250, 900, 1150, 800, 500, 200 };
+        int[] gilAmounts = new[] { 10, 500, 1000, 2500, 7500, 20000 };
+        int[] gilWeights = new[] { 50, 700, 900, 600, 400, 100 };
         for (int i = 0; i < gilAmounts.Length; i++)
         {
-            script = AddItemToItemsScript(script, $"{gilAmounts[i]} Gil", 0x18000 + i, "filler", gilWeights[i], gilAmounts[i], 0);
+            script = AddItemToItemsScript(script, $"{gilAmounts[i]} Gil", "", nextIndex, "filler", gilWeights[i], gilAmounts[i], 0);
+            nextIndex++;
         }
 
         script += "}\n";
@@ -151,11 +139,12 @@ internal class FF12MultiworldGenerator
         File.WriteAllText(Path.Combine(OutputDir, "Items.py"), script);
     }
 
-    private static string AddItemToItemsScript(string script, string name, int id, string type, int weight, int amount, int duplicates)
+    private string AddItemToItemsScript(string script, string name, string id, int intIndex, string type, int weight, int amount, int duplicates)
     {
-        script += 
-            $"    \"{name}\": FF12OpenWorldItemData(\n" +
-            $"        code=FF12OW_BASE_ID + {id},\n" +
+        script +=
+            $"    \"{name}\": LRFF13ItemData(\n" +
+            $"        code=LRFF13_BASE_ID + {intIndex},\n" +
+            $"        str_id=\"{id}\",\n" +
             $"        classification=ItemClassification.{type}";
         if (weight > 0)
         {
@@ -173,7 +162,7 @@ internal class FF12MultiworldGenerator
         if (duplicates != 1)
         {
             script += $",\n" +
-                $"        duplicateAmount={duplicates}";
+                $"        duplicate_amount={duplicates}";
         }
 
         script += "\n    ),\n";
@@ -185,29 +174,29 @@ internal class FF12MultiworldGenerator
         string script =
             "from typing import Dict, NamedTuple, Optional\n" +
             "from BaseClasses import Location, LocationProgressType\n" +
-            "from .Items import FF12OW_BASE_ID\n" +
+            "from .Items import LRFF13_BASE_ID\n" +
             "\n" +
             "\n" +
-            "class FF12OpenWorldLocation(Location):\n" +
-            "    game: str = \"Final Fantasy 12 Open World\"\n" +
+            "class LRFF13Location(Location):\n" +
+            "    game: str = \"Lightning Returns Final Fantasy XIII\"\n" +
             "\n" +
             "\n" +
-            "class FF12OpenWorldLocationData(NamedTuple):\n" +
+            "class LRFF13LocationData(NamedTuple):\n" +
             "    region: str\n" +
             "    type: str\n" +
             "    str_id: str\n" +
             "    address: Optional[int] = None\n" +
             "    classification: LocationProgressType = LocationProgressType.DEFAULT\n" +
-            "    secondary_index: int = 0\n" +
-            "    difficulty: int = 0" +
             "\n" +
             "\n" +
-            "location_data_table: Dict[str, FF12OpenWorldLocationData] = {\n";
+            "location_data_table: Dict[str, LRFF13LocationData] = {\n";
 
         locations.Clear();
 
         int nextIndex = 0;
-        TreasureRando.ItemLocations.Values.Where(l => (!l.Traits.Contains("Missable") || l is not TreasureLocation) && l is not FakeLocation).ToList().ForEach(l =>
+        Dictionary<string, int> usedNames = new();
+
+        TreasureRando.ItemLocations.Values.Where(l => l is not FakeLocation).ToList().ForEach(l =>
         {
             string classification = "DEFAULT";
             if (l.Traits.Contains("Missable"))
@@ -215,20 +204,23 @@ internal class FF12MultiworldGenerator
                 classification = "EXCLUDED";
             }
 
-            string name;
+            if (usedNames.ContainsKey(l.Name))
+            {
+                usedNames[l.Name]++;
+            }
+            else
+            {
+                usedNames.Add(l.Name, 1);
+            }
+            string name = $"{l.Name} ({usedNames[l.Name]})";
+
             switch (l)
             {
-                case RewardLocation r:
-                    name = $"{r.Name} ({r.Index + 1})";
-                    script = AddLocationToLocationsScript(script, name, nextIndex, classification, "reward", r.IntID.ToString("X4"), r.Index, l.BaseDifficulty);
-                    break;
                 case TreasureLocation t:
-                    name = $"{t.Name} {t.Index + 1}";
-                    script = AddLocationToLocationsScript(script, name, nextIndex, classification, "treasure", t.MapID, t.Index, l.BaseDifficulty);
+                    script = AddLocationToLocationsScript(script, name, nextIndex, classification, "treasure", t.ID);
                     break;
-                case StartingInvLocation s:
-                    name = $"{s.Name} ({s.Index + 1})";
-                    script = AddLocationToLocationsScript(script, name, nextIndex, classification, "inventory", s.IntID.ToString(), s.Index, l.BaseDifficulty);
+                case BattleDropLocation b:
+                    script = AddLocationToLocationsScript(script, name, nextIndex, classification, "battle", b.ID);
                     break;
                 default:
                     throw new Exception("Unknown location type");
@@ -246,31 +238,19 @@ internal class FF12MultiworldGenerator
         File.WriteAllText(Path.Combine(OutputDir, "Locations.py"), script);
     }
 
-    private string AddLocationToLocationsScript(string script, string name, int id, string classification, string type, string strId, int index, int difficulty)
+    private string AddLocationToLocationsScript(string script, string name, int intIndex, string classification, string type, string strId)
     {
         // Map ID and secondary index are optional
         script +=
-            $"    \"{name}\": FF12OpenWorldLocationData(\n" +
-            $"        region=\"Ivalice\",\n" +
-            $"        address=FF12OW_BASE_ID + {id},\n" +
+            $"    \"{name}\": LRFF13LocationData(\n" +
+            $"        region=\"Nova\",\n" +
+            $"        address=LRFF13_BASE_ID + {intIndex},\n" +
             $"        classification=LocationProgressType.{classification},\n" +
             $"        type=\"{type}\"";
         if (!string.IsNullOrEmpty(strId))
         {
             script += $",\n" +
                 $"        str_id=\"{strId}\"";
-        }
-
-        if (index > 0)
-        {
-            script += $",\n" +
-                $"        secondary_index={index}";
-        }
-
-        if (difficulty > 0)
-        {
-            script += $",\n" +
-                $"        difficulty={difficulty}";
         }
 
         script += "\n    ),\n";
@@ -284,12 +264,12 @@ internal class FF12MultiworldGenerator
             "from typing import Dict, NamedTuple\n" +
             "\n" +
             "\n" +
-            "class FF12OpenWorldEventData(NamedTuple):\n" +
+            "class LRFF13EventData(NamedTuple):\n" +
             "    item: str\n" +
-            "    difficulty: int = 0\n" +
+            "    amount: int = 1\n" +
             "\n" +
             "\n" +
-            "event_data_table: Dict[str, FF12OpenWorldEventData] = {\n";
+            "event_data_table: Dict[str, LRFF13EventData] = {\n";
 
         Dictionary<string, int> usedNames = new();
         TreasureRando.ItemLocations.Values.Where(l => l is FakeLocation).ForEach(l =>
@@ -303,11 +283,12 @@ internal class FF12MultiworldGenerator
             {
                 usedNames.Add(fake.Name, 1);
             }
+
             string newName = $"{fake.Name} Event ({usedNames[fake.Name]})";
 
-            script += $"    \"{newName}\": FF12OpenWorldEventData(\n" +
+            script += $"    \"{newName}\": LRFF13EventData(\n" +
             $"        item=\"{fake.FakeItem}\",\n" +
-            $"        difficulty={l.BaseDifficulty}\n" +
+            $"        amount={fake.Amount}\n" +
             $"    ),\n";
 
             locations.Add(l, newName);
@@ -322,7 +303,7 @@ internal class FF12MultiworldGenerator
         string script =
             "from typing import Callable, Dict, List\n" +
             "from BaseClasses import CollectionState\n" +
-            "from .RuleLogic import state_has_aerodromes, state_has_at_least" +
+            "from .RuleLogic import state_has_at_least" +
             "\n" +
             "\n" +
             "rule_data_list: List[Callable[[CollectionState, int], bool]] = [\n";
@@ -332,7 +313,7 @@ internal class FF12MultiworldGenerator
 
         locations.Keys.ForEach(l =>
         {
-            string ruleStr = l.GetArchipelagoRule(TreasureRando.GetItemName);
+            string ruleStr = l.GetArchipelagoRule(EquipRando.GetItemName);
             if (!rules.Contains(ruleStr))
             {
                 rules.Add(ruleStr);

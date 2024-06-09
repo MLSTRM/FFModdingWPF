@@ -779,10 +779,10 @@ Green Tuft,2105,0,,,Loot
 Orange Tuft,2106,0,,,Loot
 Brown Tuft,2107,0,,,Loot
 White Tuft,2108,0,,,Loot
-Valeblossom Dew,2109,0,,,Loot
-Semclam Shell,210A,0,,,Loot
-Nebralim,210B,0,,,Loot
-Great Serpentskin,210C,0,,,Loot
+Valeblossom Dew,2109,0,,Ignore,Loot
+Semclam Shell,210A,0,,Ignore,Loot
+Nebralim,210B,0,,Ignore,Loot
+Great Serpentskin,210C,0,,Ignore,Loot
 Bhujerban Madhu,210D,0,,Ignore,Key
 Sandalwood Chop,2112,0,,,Key
 Pinewood Chop,2113,0,,,Key

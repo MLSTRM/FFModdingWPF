@@ -47,7 +47,7 @@ Dyce,29,Balfonheim,,I(Tchita Uplands)
 Unlucky Merchant,20,Estersand,,
 Lohen,21,Westersand,,
 Arjie,22,Giza Plains Dry,,
-Burrough,23,Barheim Passage,Unique,I(8093)
+Burrough,23,Barheim Passage,Unique,OR(I(8093)|I(8080))
 Tetran,25,Dreadnought Leviathan,Unique,AND(I(Dreadnought Leviathan)|I(8076))
 Garif Trader,30,Jahara,,I(Ozmone Plain)
 Tetran,31,Eruyt Village,,I(Ozmone Plain)
