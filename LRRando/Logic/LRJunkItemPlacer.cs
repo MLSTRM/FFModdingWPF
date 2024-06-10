@@ -19,7 +19,7 @@ public class LRJunkItemPlacer : JunkItemPlacer<ItemLocation>
         base.PlaceItems();
     }
 
-    public override (string Item, int Amount) GetNewItem((string Item, int Amount) orig)
+    public override (string Item, int Amount) GetNewItem((string Item, int Amount) orig, ItemLocation location)
     {
         EquipRando equipRando = Generator.Get<EquipRando>();
         string repItem = null;

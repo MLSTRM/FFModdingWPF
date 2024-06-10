@@ -22,7 +22,7 @@ public class FF12JunkItemPlacer : JunkItemPlacer<ItemLocation>
         base.PlaceItems();
     }
 
-    public override (string Item, int Amount) GetNewItem((string Item, int Amount) orig)
+    public override (string Item, int Amount) GetNewItem((string Item, int Amount) orig, ItemLocation location)
     {
         EquipRando equipRando = Generator.Get<EquipRando>();
         string repItem = null;
@@ -32,7 +32,7 @@ public class FF12JunkItemPlacer : JunkItemPlacer<ItemLocation>
         {
             repItem = orig.Item;
         }
-        else if (!TomajWritPlaced && FF12Flags.Items.WritGoals.SelectedValues.Contains(FF12Flags.Items.WritGoalAny))
+        else if (!TomajWritPlaced && FF12Flags.Items.WritGoals.SelectedValues.Contains(FF12Flags.Items.WritGoalAny) && !location.Traits.Contains("Missable"))
         {
             repItem = "8070";
             TomajWritPlaced = true;
