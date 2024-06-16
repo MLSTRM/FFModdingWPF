@@ -16,7 +16,19 @@ public abstract class ItemLocation : CSVDataRow
     public abstract List<string> Traits { get; set; }
     public abstract List<string> Areas { get; set; }
     public abstract int BaseDifficulty { get; set; }
-    public abstract bool AreItemReqsMet(Dictionary<string, int> items);
+    public virtual List<ItemLocationReqComponent> GetComponents()
+    {
+        var components = new List<ItemLocationReqComponent>
+        {
+            new ItemReqComponent(Requirements)
+        };
+        return components;
+    }
+
+    public virtual bool AreItemReqsMet(Dictionary<string, int> items)
+    {
+        return GetComponents().All(c => c.AreItemReqsMet(items));
+    }
 
     public abstract bool CanReplace(ItemLocation location);
 

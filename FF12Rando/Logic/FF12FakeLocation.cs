@@ -30,4 +30,11 @@ public class FF12FakeLocation : FakeLocation
 
         return item;
     }
+
+    public override List<ItemLocationReqComponent> GetComponents()
+    {
+        var list = base.GetComponents();
+        list.Add(new CharReqComponent(BaseDifficulty));
+        return list;
+    }
 }

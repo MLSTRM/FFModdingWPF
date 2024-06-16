@@ -31,11 +31,6 @@ public class SearchItemData : FF13_2ItemLocation, IDataStoreItemProvider<DataSto
         MogLevel = 2;
     }
 
-    public override bool AreItemReqsMet(Dictionary<string, int> items)
-    {
-        return Requirements.IsValid(items);
-    }
-
     public override void SetItem(string newItem, int newCount)
     {
         if (Traits.Contains("Event") && newItem.StartsWith("frg"))

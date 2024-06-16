@@ -39,11 +39,6 @@ public class FakeLocation : ItemLocation
         return (FakeItem, Amount);
     }
 
-    public override bool AreItemReqsMet(Dictionary<string, int> items)
-    {
-        return Requirements.IsValid(items);
-    }
-
     public override void SetItem(string newItem, int newCount)
     {
         LogSetItem(newItem, newCount);

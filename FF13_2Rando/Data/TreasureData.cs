@@ -29,11 +29,6 @@ public class TreasureData : FF13_2ItemLocation, IDataStoreItemProvider<DataStore
     {
     }
 
-    public override bool AreItemReqsMet(Dictionary<string, int> items)
-    {
-        return Requirements.IsValid(items);
-    }
-
     public override void SetItem(string newItem, int newCount)
     {
         LogSetItem(newItem, newCount);

@@ -29,11 +29,6 @@ public class StartingInvLocation : FF12ItemLocation, IDataStoreItemProvider<Data
         Index = index;
     }
 
-    public override bool AreItemReqsMet(Dictionary<string, int> items)
-    {
-        return base.AreItemReqsMet(items) && Requirements.IsValid(items);
-    }
-
     public override void SetItem(string newItem, int newCount)
     {
         LogSetItem(newItem, newCount);

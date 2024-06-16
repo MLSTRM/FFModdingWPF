@@ -26,11 +26,6 @@ public class TreasureData : FF13ItemLocation, IDataStoreItemProvider<DataStoreTr
         Characters = FF13RandoHelpers.ParseReqCharas(row[6]);
     }
 
-    public override bool AreItemReqsMet(Dictionary<string, int> items)
-    {
-        return Requirements.IsValid(items);
-    }
-
     public override void SetItem(string newItem, int newCount)
     {
         LogSetItem(newItem, newCount);

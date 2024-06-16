@@ -29,69 +29,14 @@ public class TreasureLocation : ItemLocation, IDataStoreItemProvider<DataStoreRT
         rando = treasureRando;
     }
 
-    public override bool AreItemReqsMet(Dictionary<string, int> items)
+    public override List<ItemLocationReqComponent> GetComponents()
     {
-        return (!Traits.Contains("EP") || HasEP(items)) && Requirements.IsValid(items);
-    }
-
-    public bool HasEP(Dictionary<string, int> items)
-    {
-        QuestRando questRando = rando.Generator.Get<QuestRando>();
-
-        foreach (DataStoreRQuest quest in questRando.questRewards.Values.Where(q => q.iMaxGp > 0))
+        var list = base.GetComponents();
+        if (Traits.Contains("EP"))
         {
-            if (quest.name == "qst_027" && rando.ItemLocations["tre_qst_027"].AreItemReqsMet(items)) // Peace and Quiet, Kupo
-            {
-                return true;
-            }
-
-            if (quest.name == "qst_028" && rando.ItemLocations["tre_qst_028"].AreItemReqsMet(items)) // Saving an Angel
-            {
-                return true;
-            }
-
-            if (quest.name == "qst_046" && rando.ItemLocations["tre_qst_046"].AreItemReqsMet(items)) // Adonis's Audition
-            {
-                return true;
-            }
-
-            if (quest.name == "qst_062" && rando.ItemLocations["tre_qst_062"].AreItemReqsMet(items)) // Fighting Actress
-            {
-                return true;
-            }
-
-            if (quest.name == "qst_9000" && rando.hintData["fl_mnlx_005e"].Requirements.IsValid(items)) // 1-5
-            {
-                return true;
-            }
-
-            if (quest.name == "qst_9010" && rando.hintData["fl_mnyu_004e"].Requirements.IsValid(items)) // 2-3
-            {
-                return true;
-            }
-
-            if (quest.name == "qst_9020" && rando.hintData["fl_mndd_005e"].Requirements.IsValid(items)) // 4-5
-            {
-                return true;
-            }
-
-            if (quest.name == "qst_9030" && rando.hintData["fl_mnwl_003e"].Requirements.IsValid(items)) // 3-3
-            {
-                return true;
-            }
-
-            if (quest.name == "qst_9040" && rando.ItemLocations["tre_qst_027_2"].Requirements.IsValid(items)) // Ereshkigal
-            {
-                return true;
-            }
-
-            if (quest.name == "qst_9050" && rando.hintData["fl_mnsz_001e"].Requirements.IsValid(items))
-            {
-                return true;
-            }
+            list.Add(new EPReqComponent(Generator));
         }
-
-        return false;
+        return list;
     }
 
     public override void SetItem(string newItem, int newCount)

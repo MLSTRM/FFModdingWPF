@@ -46,11 +46,6 @@ public class RewardLocation : FF12ItemLocation, IDataStoreItemProvider<DataStore
         }
     }
 
-    public override bool AreItemReqsMet(Dictionary<string, int> items)
-    {
-        return base.AreItemReqsMet(items) && Requirements.IsValid(items);
-    }
-
     public override void SetItem(string newItem, int newCount)
     {
         LogSetItem(newItem, newCount);

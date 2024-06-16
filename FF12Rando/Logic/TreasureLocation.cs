@@ -31,11 +31,6 @@ public class TreasureLocation : FF12ItemLocation, IDataStoreItemProvider<DataSto
         Index = index;
     }
 
-    public override bool AreItemReqsMet(Dictionary<string, int> items)
-    {
-        return base.AreItemReqsMet(items) && Requirements.IsValid(items);
-    }
-
     public override void SetItem(string newItem, int newCount)
     {
         LogSetItem(newItem, newCount);
