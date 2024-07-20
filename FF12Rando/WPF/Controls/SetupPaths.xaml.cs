@@ -262,9 +262,9 @@ public partial class SetupPaths : UserControl
             {
                 try
                 {
-                    FileHelpers.ExtractSubfolderFromArchive(path, System.IO.Path.Combine(SetupData.Paths["12"], "x64"), "loader-multi\\x64");
+                    FileHelpers.ExtractSubfolderFromArchive(path, System.IO.Path.Combine(SetupData.Paths["12"], "x64"), "x64");
 
-                    FileHelpers.ExtractSubfolderFromArchive(path, System.IO.Path.Combine(SetupData.Paths["12"], "x64"), "loader-multi\\dinput");
+                    FileHelpers.ExtractSubfolderFromArchive(path, System.IO.Path.Combine(SetupData.Paths["12"], "x64"), "dinput");
 
                     if (FF12SeedGenerator.FileLoaderInstalled())
                     {

@@ -33,7 +33,7 @@ public class FF12SeedGenerator : SeedGenerator
             return new()
             {
                 Path.Combine(SetupData.Paths["12"], "x64\\ff12-trampoline.dll"),
-                Path.Combine(SetupData.Paths["12"], "x64\\vcruntime140_1.dll"),
+                Path.Combine(SetupData.Paths["12"], "x64\\simpleLog.dll"),
                 Path.Combine(SetupData.Paths["12"], "x64\\modules\\ff12-file-loader.dll"),
                 Path.Combine(SetupData.Paths["12"], "x64\\modules\\config\\ff12-file-loader.ini")
             };
@@ -260,6 +260,12 @@ public class FF12SeedGenerator : SeedGenerator
     public static void UninstallFileLoader()
     {
         FileLoaderPaths.Where(s => File.Exists(s)).ForEach(s => File.Delete(s));
+
+        // Remove the old vcruntime140_1.dll
+        if (File.Exists(Path.Combine(SetupData.Paths["12"], "x64\\vcruntime140_1.dll")))
+        {
+            File.Delete(Path.Combine(SetupData.Paths["12"], "x64\\vcruntime140_1.dll"));
+        }
     }
 
     public static bool LuaLoaderInstalled()

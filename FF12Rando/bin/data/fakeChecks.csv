@@ -84,12 +84,12 @@ Dalmasca Westersand,Kaiser Wolf - Fanged Trophy,_82,AND(I(80B8)|I(HuntClubStart)
 Dalmasca Estersand,Terror Tyrant - Hide-covered Trophy,_83,AND(I(80B8)|I(HuntClubStart)),,7,HuntClubKill
 Giza Plains Dry,Nazarnir - Maned Trophy,_84,AND(I(80B8)|I(HuntClubStart)),,7,HuntClubKill
 Zertinan Caverns,Alteci - Fell Trophy,_85,AND(I(80B8)|I(Ozmone Plain)|I(HuntClubStart)),,5,HuntClubKill
-Lhusu Mines,Disma - Accursed Trophy,_86,AND(I(807E)|I(807F)|AERO(80E3)|I(HuntClubStart)),,7,HuntClubKill
+Lhusu Mines,Disma - Accursed Trophy,_86,AND(I(80B8)|I(807E)|I(807F)|AERO(80E3)|I(HuntClubStart)),,7,HuntClubKill
 Ogir-Yensa Sandsea,Bull Chocobo - Beaked Trophy,_87,AND(I(80B8)|I(HuntClubStart)|I(Sandseas)),,7,HuntClubKill
 Nam-Yensa Sandsea,Victanir - Maverick Trophy,_88,AND(I(80B8)|I(HuntClubStart)|I(Sandseas)),,7,HuntClubKill
 Tomb of Raithwall,Zombie Lord - Soulless Trophy,_89,AND(I(80B8)|I(HuntClubStart)|I(Sandseas)),,6,HuntClubKill
-Mosphoran Highwaste,Dheed - Leathern Trophy,_90,AND(I(80B8)|I(HuntClubStart)|I(Tchita Uplands)),,7,HuntClubKill
-Salikawood,Sickle Trophy,_91,AND(I(80B8)|I(HuntClubStart)|I(Tchita Uplands)),,5,HuntClubKill
+Mosphoran Highwaste,Dheed - Leathern Trophy,_90,AND(I(80B8)|I(HuntClubStart)|I(Tchita Uplands)|I(Defeat Bergan)),,7,HuntClubKill
+Salikawood,Rageclaw - Sickle Trophy,_91,AND(I(80B8)|I(HuntClubStart)|I(Tchita Uplands)),,5,HuntClubKill
 Nabreus Deadlands,Arioch - Vengeful Trophy,_92,AND(I(80B8)|I(HuntClubStart)|I(Tchita Uplands)),,7,HuntClubKill
 Necrohol of Nabudis,Vorres - Gravesoil Trophy,_93,AND(I(80B8)|I(HuntClubStart)|I(Tchita Uplands)),,7,HuntClubKill
 Ozmone Plain,Killbug - Metallic Trophy,_94,AND(I(80B8)|I(Ozmone Plain)|I(HuntClubStart)),,6,HuntClubKill
