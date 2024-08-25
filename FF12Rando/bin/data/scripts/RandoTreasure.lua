@@ -26,11 +26,13 @@ local function checkTreasures()
             end
         end
         local remain = total - count
+        local messageDisplay = "{scale:70}"
         if remain == 1 then
-            message.print(message.convert("1 treasure remains"))
+            messageDisplay = messageDisplay .. "1 treasure remains"
         else
-            message.print(message.convert(remain .. " treasures remain"))
+            messageDisplay = messageDisplay .. remain .. " treasures remain"
         end
+        message.print(message.convert(messageDisplay))
     end
     event.executeAfterMs(100, checkTreasures)
 end

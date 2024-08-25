@@ -319,14 +319,17 @@ public partial class TreasureRando : Randomizer
                 List<string> lines = new();
                 if (HintPlacer.Hints[num].Count > 0)
                 {
-                    lines = HintPlacer.Hints[num].Select(l => HintPlacer.GetHintText(l)).ToList();
+                    lines = HintPlacer.Hints[num]
+                        .Select(l => HintPlacer.GetHintText(l))
+                        .ToList();
                 }
                 else
                 {
                     lines.Add("There is nothing left to hint.");
                 }
 
-                textRando.TextKeyDescriptions[352 + num].Text = string.Join("\n", lines);
+                textRando.TextKeyDescriptions[352 + num].Text = 
+                    "{scale:70}" + string.Join("\n", lines);
             }
         }
     }

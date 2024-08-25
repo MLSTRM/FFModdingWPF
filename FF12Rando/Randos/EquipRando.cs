@@ -554,29 +554,22 @@ public partial class EquipRando : Randomizer
     {
         string scriptFolder = $"{SetupData.Paths["12"]}\\x64\\scripts\\config\\TheInsurgentsDescriptiveInventoryConfig";
 
-        List<string> linesPage1 = new()
+        List<string> linesPage = new()
         {
             "local function config(contents)",
             "  local inventory = {",
         };
 
-        List<string> linesPage2 = new()
-        {
-            "local function config(contents)",
-            "  local inventory = {",
-        };
-
-        bool onePage = true;
         foreach (DataStoreWeapon weapon in equip.EquipDataList.Where(w => w is DataStoreWeapon))
         {
             DataStoreAttribute attribute = equip.AttributeDataList[(int)weapon.AttributeOffset];
 
             string info = "{" + GetEquipId(weapon);
 
-            string displayPage1 = "";
+            string displayPage = "";
 
-            displayPage1 += $"Attack: {weapon.AttackPower}\\t";
-            displayPage1 += $"Evade: {weapon.Evade}\\t";
+            displayPage += $"Attack: {weapon.AttackPower}\\t";
+            displayPage += $"Evade: {weapon.Evade}\\t";
             if (weapon.Elements.EnumToList().Count > 0 || weapon.StatusEffects.EnumToList().Count > 0 && weapon.StatusChance > 0)
             {
                 List<string> onhit = new()
@@ -584,51 +577,23 @@ public partial class EquipRando : Randomizer
                     GetElementsDisplay(weapon.Elements.EnumToList(), true),
                     weapon.StatusChance == 0 ? "" : $"{weapon.StatusChance}% {GetStatusDisplay(weapon.StatusEffects.EnumToList(), true)}"
                 };
-                displayPage1 += $"On Hit: {string.Join(", ", onhit.Where(s => !string.IsNullOrEmpty(s)))}";
+                displayPage += $"On Hit: {string.Join(", ", onhit.Where(s => !string.IsNullOrEmpty(s)))}";
             }
 
-            if (!onePage)
+            displayPage += "\\n{scale:70}";
+            displayPage += $"Knockback: {weapon.KnockbackChance}%\\t";
+            displayPage += $"Combo: {weapon.ComboChance}%\\t";
+            displayPage += $"CT: {weapon.ChargeTime}\\t";
+            if (!string.IsNullOrEmpty(GetAttributeStatDisplay(attribute)))
             {
-                string displayPage2 = "";
-                displayPage2 += displayPage1;
-
-                // Page 1 only
-                displayPage1 += "[1/2]";
-                displayPage1 += "\\n";
-                displayPage1 += $"Knockback: {weapon.KnockbackChance}%\\t";
-                displayPage1 += $"Combo: {weapon.ComboChance}%\\t";
-                displayPage1 += $"CT: {weapon.ChargeTime}\\t";
-                displayPage1 += "\\n";
-                displayPage1 += GetAttributeStatDisplay(attribute);
-
-                linesPage1.Add($"    {info + ", \"" + displayPage1 + "\"}"},");
-
-                // Page 2 only
-                displayPage2 += "[2/2]";
-                displayPage2 += GetElementAttributeDisplayLine(attribute);
-                displayPage2 += GetStatusDisplayLine(attribute);
-                displayPage2 += $"\\nLicense Needed: TODO";
-
-                linesPage2.Add($"    {info + ", \"" + displayPage2 + "\"}"},");
+                displayPage += "\\n{scale:70}";
+                displayPage += GetAttributeStatDisplay(attribute);
             }
-            else
-            {
-                displayPage1 += "\\n";
-                displayPage1 += $"Knockback: {weapon.KnockbackChance}%\\t";
-                displayPage1 += $"Combo: {weapon.ComboChance}%\\t";
-                displayPage1 += $"CT: {weapon.ChargeTime}\\t";
-                if (!string.IsNullOrEmpty(GetAttributeStatDisplay(attribute)))
-                {
-                    displayPage1 += "\\n";
-                    displayPage1 += GetAttributeStatDisplay(attribute);
-                }
 
-                displayPage1 += GetElementAttributeDisplayLine(attribute);
-                displayPage1 += GetStatusDisplayLine(attribute);
+            displayPage += GetElementAttributeDisplayLine(attribute, "\\n{scale:70}");
+            displayPage += GetStatusDisplayLine(attribute, "\\n{scale:70}");
 
-                linesPage1.Add($"    {info + ", \"" + displayPage1 + "\"}"},");
-                linesPage2.Add($"    {info + ", \"" + displayPage1 + "\"}"},");
-            }
+            linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
 
         foreach (DataStoreShield shield in equip.EquipDataList.Where(s => s is DataStoreShield))
@@ -637,48 +602,21 @@ public partial class EquipRando : Randomizer
 
             string info = "{" + GetEquipId(shield);
 
-            string displayPage1 = "";
+            string displayPage = "";
 
-            displayPage1 += $"Evade: {shield.Evade}\\t";
-            displayPage1 += $"Magick Evade: {shield.MagickEvade}\\t";
+            displayPage += $"Evade: {shield.Evade}\\t";
+            displayPage += $"Magick Evade: {shield.MagickEvade}\\t";
 
-            if (!onePage)
+            if (!string.IsNullOrEmpty(GetAttributeStatDisplay(attribute)))
             {
-                string displayPage2 = "";
-                displayPage2 += displayPage1;
-
-                // Page 1 only
-                displayPage1 += "[1/2]";
-                if (!string.IsNullOrEmpty(GetAttributeStatDisplay(attribute)))
-                {
-                    displayPage1 += "\\n";
-                    displayPage1 += GetAttributeStatDisplay(attribute);
-                }
-
-                linesPage1.Add($"    {info + ", \"" + displayPage1 + "\"}"},");
-
-                // Page 2 only
-                displayPage2 += "[2/2]";
-                displayPage2 += GetElementAttributeDisplayLine(attribute);
-                displayPage2 += GetStatusDisplayLine(attribute);
-                displayPage2 += $"\\nLicense Needed: TODO";
-
-                linesPage2.Add($"    {info + ", \"" + displayPage2 + "\"}"},");
+                displayPage += "\\n{scale:70}";
+                displayPage += GetAttributeStatDisplay(attribute);
             }
-            else
-            {
-                if (!string.IsNullOrEmpty(GetAttributeStatDisplay(attribute)))
-                {
-                    displayPage1 += "\\n";
-                    displayPage1 += GetAttributeStatDisplay(attribute);
-                }
 
-                displayPage1 += GetElementAttributeDisplayLine(attribute);
-                displayPage1 += GetStatusDisplayLine(attribute);
+            displayPage += GetElementAttributeDisplayLine(attribute, "\\n{scale:70}");
+            displayPage += GetStatusDisplayLine(attribute, "\\n{scale:70}");
 
-                linesPage1.Add($"    {info + ", \"" + displayPage1 + "\"}"},");
-                linesPage2.Add($"    {info + ", \"" + displayPage1 + "\"}"},");
-            }
+            linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
 
         foreach (DataStoreAmmo ammo in equip.EquipDataList.Where(w => w is DataStoreAmmo))
@@ -687,13 +625,13 @@ public partial class EquipRando : Randomizer
 
             string info = "{" + GetEquipId(ammo);
 
-            string displayAll = "";
+            string displayPage = "";
 
-            displayAll += $"Attack: {ammo.AttackPower}\\t";
+            displayPage += $"Attack: {ammo.AttackPower}\\t";
 
             if (ammo.Evade > 0)
             {
-                displayAll += $"Evade: {ammo.Evade}\\t";
+                displayPage += $"Evade: {ammo.Evade}\\t";
             }
 
             if (ammo.Elements.EnumToList().Count > 0 || ammo.StatusEffects.EnumToList().Count > 0 && ammo.StatusChance > 0)
@@ -703,20 +641,19 @@ public partial class EquipRando : Randomizer
                     GetElementsDisplay(ammo.Elements.EnumToList(), true),
                     ammo.StatusChance == 0 ? "" : $"{ammo.StatusChance}% {GetStatusDisplay(ammo.StatusEffects.EnumToList(), true)}"
                 };
-                displayAll += $"On Hit: {string.Join(", ", onhit.Where(s => !string.IsNullOrEmpty(s)))}";
+                displayPage += $"On Hit: {string.Join(", ", onhit.Where(s => !string.IsNullOrEmpty(s)))}";
             }
 
             if (!string.IsNullOrEmpty(GetAttributeStatDisplay(attribute)))
             {
-                displayAll += "\\n";
-                displayAll += GetAttributeStatDisplay(attribute);
+                displayPage += "\\n{scale:70}";
+                displayPage += GetAttributeStatDisplay(attribute);
             }
 
-            displayAll += GetElementAttributeDisplayLine(attribute);
-            displayAll += GetStatusDisplayLine(attribute);
+            displayPage += GetElementAttributeDisplayLine(attribute, "\\n{scale:70}");
+            displayPage += GetStatusDisplayLine(attribute, "\\n{scale:70}");
 
-            linesPage1.Add($"    {info + ", \"" + displayAll + "\"}"},");
-            linesPage2.Add($"    {info + ", \"" + displayAll + "\"}"},");
+            linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
 
         foreach (DataStoreArmor armor in equip.EquipDataList.Where(a => a is DataStoreArmor && a.Category != EquipCategory.Accessory && a.Category != EquipCategory.AccessoryCrown))
@@ -725,56 +662,23 @@ public partial class EquipRando : Randomizer
 
             string info = "{" + GetEquipId(armor);
 
-            string displayPage1 = "";
+            string displayPage = "";
 
-            displayPage1 += $"Defense: {armor.Defense}\\t";
-            displayPage1 += $"Magick Resist: {armor.MagickResist}\\t";
+            displayPage += $"Defense: {armor.Defense}\\t";
+            displayPage += $"Magick Resist: {armor.MagickResist}\\t";
 
-            if (!onePage)
+            displayPage += GetAttributeStatDisplay(attribute);
+
+            if (armor.AugmentOffset != 0xFF)
             {
-                string displayPage2 = "";
-                displayPage2 += displayPage1;
-
-                // Page 1 only
-                displayPage1 += "[1/2]";
-                if (!string.IsNullOrEmpty(GetAttributeStatDisplay(attribute)))
-                {
-                    displayPage1 += "\\n";
-                    displayPage1 += GetAttributeStatDisplay(attribute);
-                }
-
-                if (armor.AugmentOffset != 0xFF)
-                {
-                    displayPage1 += "\\n";
-                    displayPage1 += GetAugmentDescription(armor);
-                }
-
-                linesPage1.Add($"    {info + ", \"" + displayPage1 + "\"}"},");
-
-                // Page 2 only
-                displayPage2 += "[2/2]";
-                displayPage2 += GetElementAttributeDisplayLine(attribute);
-                displayPage2 += GetStatusDisplayLine(attribute);
-                displayPage2 += $"\\nLicense Needed: TODO";
-
-                linesPage2.Add($"    {info + ", \"" + displayPage2 + "\"}"},");
+                displayPage += "\\n{scale:70}";
+                displayPage += GetAugmentDescription(armor);
             }
-            else
-            {
-                displayPage1 += GetAttributeStatDisplay(attribute);
 
-                if (armor.AugmentOffset != 0xFF)
-                {
-                    displayPage1 += "\\n";
-                    displayPage1 += GetAugmentDescription(armor);
-                }
+            displayPage += GetElementAttributeDisplayLine(attribute, "\\n{scale:70}");
+            displayPage += GetStatusDisplayLine(attribute, "\\n{scale:70}");
 
-                displayPage1 += GetElementAttributeDisplayLine(attribute);
-                displayPage1 += GetStatusDisplayLine(attribute);
-
-                linesPage1.Add($"    {info + ", \"" + displayPage1 + "\"}"},");
-                linesPage2.Add($"    {info + ", \"" + displayPage1 + "\"}"},");
-            }
+            linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
 
         foreach (DataStoreArmor armor in equip.EquipDataList.Where(a => a is DataStoreArmor && (a.Category == EquipCategory.Accessory || a.Category == EquipCategory.AccessoryCrown)))
@@ -783,78 +687,34 @@ public partial class EquipRando : Randomizer
 
             string info = "{" + GetEquipId(armor);
 
-            string displayPage1 = "";
+            string displayPage = "";
 
             if (armor.Defense > 0)
             {
-                displayPage1 += $"Defense: {armor.Defense}\\t";
+                displayPage += $"Defense: {armor.Defense}\\t";
             }
 
             if (armor.MagickResist > 0)
             {
-                displayPage1 += $"Magick Resist: {armor.MagickResist}\\t";
+                displayPage += $"Magick Resist: {armor.MagickResist}\\t";
             }
+            displayPage += GetAttributeStatDisplay(attribute);
 
-            if (!onePage)
+            if (armor.AugmentOffset != 0xFF)
             {
-                string displayPage2 = "";
-                displayPage2 += displayPage1;
-
-                // Page 1 only
-                displayPage1 += "[1/2]";
-                if (!string.IsNullOrEmpty(GetAttributeStatDisplay(attribute)))
-                {
-                    displayPage1 += "\\n";
-                    displayPage1 += GetAttributeStatDisplay(attribute);
-                }
-
-                if (armor.AugmentOffset != 0xFF)
-                {
-                    displayPage1 += "\\n";
-                    displayPage1 += GetAugmentDescription(armor);
-                }
-
-                if (displayPage1.StartsWith("\\n"))
-                {
-                    displayPage1 = displayPage1.Substring(2);
-                }
-
-                linesPage1.Add($"    {info + ", \"" + displayPage1 + "\"}"},");
-
-                // Page 2 only
-                displayPage2 += "[2/2]";
-                displayPage2 += GetElementAttributeDisplayLine(attribute);
-                displayPage2 += GetStatusDisplayLine(attribute);
-                displayPage2 += $"\\nLicense Needed: TODO";
-
-                if (displayPage2.StartsWith("\\n"))
-                {
-                    displayPage2 = displayPage2.Substring(2);
-                }
-
-                linesPage2.Add($"    {info + ", \"" + displayPage2 + "\"}"},");
+                displayPage += "\\n{scale:70}";
+                displayPage += GetAugmentDescription(armor);
             }
-            else
+
+            displayPage += GetElementAttributeDisplayLine(attribute, "\\n{scale:70}");
+            displayPage += GetStatusDisplayLine(attribute, "\\n{scale:70}");
+
+            if (displayPage.StartsWith("\\n"))
             {
-                displayPage1 += GetAttributeStatDisplay(attribute);
-
-                if (armor.AugmentOffset != 0xFF)
-                {
-                    displayPage1 += "\\n";
-                    displayPage1 += GetAugmentDescription(armor);
-                }
-
-                displayPage1 += GetElementAttributeDisplayLine(attribute);
-                displayPage1 += GetStatusDisplayLine(attribute);
-
-                if (displayPage1.StartsWith("\\n"))
-                {
-                    displayPage1 = displayPage1.Substring(2);
-                }
-
-                linesPage1.Add($"    {info + ", \"" + displayPage1 + "\"}"},");
-                linesPage2.Add($"    {info + ", \"" + displayPage1 + "\"}"},");
+                displayPage = displayPage.Substring(2);
             }
+
+            linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
 
         List<string> footer = new()
@@ -867,12 +727,9 @@ public partial class EquipRando : Randomizer
             "return config"
         };
 
-        linesPage1.AddRange(footer);
-        linesPage2.AddRange(footer);
+        linesPage.AddRange(footer);
 
-        File.WriteAllLines($"{scriptFolder}\\us.lua", linesPage1);
-        File.WriteAllLines($"{scriptFolder}\\us.lua.page1", linesPage1);
-        File.WriteAllLines($"{scriptFolder}\\us.lua.page2", linesPage2);
+        File.WriteAllLines($"{scriptFolder}\\us.lua", linesPage);
     }
 
     private string GetAugmentDescription(DataStoreArmor armor, int maxLength = 20)
@@ -922,7 +779,7 @@ public partial class EquipRando : Randomizer
         return display;
     }
 
-    private string GetElementAttributeDisplayLine(DataStoreAttribute attribute, string newLine = "\\n", bool useInGameFormat = true, string separator = "\\t")
+    private string GetElementAttributeDisplayLine(DataStoreAttribute attribute, string newLine = "\\n", string suffix = "", bool useInGameFormat = true, string separator = "\\t")
     {
         string display = "";
         if (attribute.ElementsBoost.EnumToList().Count > 0 || attribute.ElementsAbsorb.EnumToList().Count > 0 || attribute.ElementsImmune.EnumToList().Count > 0 || attribute.ElementsHalf.EnumToList().Count > 0 || attribute.ElementsWeak.EnumToList().Count > 0)
@@ -953,12 +810,14 @@ public partial class EquipRando : Randomizer
             {
                 display += $"Weak: {GetElementsDisplay(attribute.ElementsWeak.EnumToList(), useInGameFormat)}{separator}";
             }
+
+            display += suffix;
         }
 
         return display;
     }
 
-    private string GetStatusDisplayLine(DataStoreAttribute attribute, bool useInGameFormat = true, string newLine = "\\n", string separator = "\\t", string join = ",")
+    private string GetStatusDisplayLine(DataStoreAttribute attribute, string newLine = "\\n", string suffix = "", bool useInGameFormat = true, string separator = "\\t", string join = ",")
     {
         string display = "";
         if (attribute.StatusEffectsOnEquip.EnumToList().Count > 0 || attribute.StatusEffectsImmune.EnumToList().Count > 0)
@@ -974,6 +833,8 @@ public partial class EquipRando : Randomizer
             {
                 display += $"Immune: {GetStatusDisplay(attribute.StatusEffectsImmune.EnumToList(), useInGameFormat, join)}{separator}";
             }
+
+            display += suffix;
         }
 
         return display;
@@ -1096,8 +957,8 @@ public partial class EquipRando : Randomizer
             }
 
             DataStoreAttribute attribute = equip.AttributeDataList[(int)weapon.AttributeOffset];
-            string elemDisplay = onHitElem + GetElementAttributeDisplayLine(attribute, string.IsNullOrEmpty(onHitElem) ? "" : "\n", false, "\n");
-            string statusDisplay = onHitStatus + GetStatusDisplayLine(attribute, false, string.IsNullOrEmpty(onHitStatus) ? "" : "\n", "\n", ", ");
+            string elemDisplay = onHitElem + GetElementAttributeDisplayLine(attribute, string.IsNullOrEmpty(onHitElem) ? "" : "\n", "", false, "\n");
+            string statusDisplay = onHitStatus + GetStatusDisplayLine(attribute, string.IsNullOrEmpty(onHitStatus) ? "" : "\n", "", false, "\n", ", ");
 
             return new string[] { name, weapon.AttackPower.ToString(), weapon.Evade.ToString(), weapon.KnockbackChance.ToString(), weapon.ComboChance.ToString(), weapon.ChargeTime.ToString(), GetAttributeStatDisplay(attribute," "), elemDisplay, statusDisplay }.ToList();
         }).ToList()));
@@ -1109,7 +970,7 @@ public partial class EquipRando : Randomizer
             string name = treasureRando.GetItemName(shield.ID);
 
             DataStoreAttribute attribute = equip.AttributeDataList[(int)shield.AttributeOffset];
-            return new string[] { name, shield.Evade.ToString(), shield.MagickEvade.ToString(), GetAttributeStatDisplay(attribute, " "), GetElementAttributeDisplayLine(attribute, "", false, "\n"), GetStatusDisplayLine(attribute, false, "", "\n", ", ") }.ToList();
+            return new string[] { name, shield.Evade.ToString(), shield.MagickEvade.ToString(), GetAttributeStatDisplay(attribute, " "), GetElementAttributeDisplayLine(attribute, "", "", false, "\n"), GetStatusDisplayLine(attribute, "", "", false, "\n", ", ") }.ToList();
         }).ToList()));
 
         page.HTMLElements.Add(new Table("Ammo", (new string[] { "Name", "Attack Power", "Evade", "Other Stats", "Element Effects", "Status Effects" }).ToList(), (new int[] { 10, 10, 10, 10, 20, 20 }).ToList(), equip.EquipDataList.Where(w => w is DataStoreAmmo).Select(e =>
@@ -1131,8 +992,8 @@ public partial class EquipRando : Randomizer
             }
 
             DataStoreAttribute attribute = equip.AttributeDataList[(int)ammo.AttributeOffset];
-            string elemDisplay = onHitElem + GetElementAttributeDisplayLine(attribute, string.IsNullOrEmpty(onHitElem) ? "" : "\n", false, "\n");
-            string statusDisplay = onHitStatus + GetStatusDisplayLine(attribute, false, string.IsNullOrEmpty(onHitStatus) ? "" : "\n", "\n", ", ");
+            string elemDisplay = onHitElem + GetElementAttributeDisplayLine(attribute, string.IsNullOrEmpty(onHitElem) ? "" : "\n", "", false, "\n");
+            string statusDisplay = onHitStatus + GetStatusDisplayLine(attribute, string.IsNullOrEmpty(onHitStatus) ? "" : "\n","", false, "\n", ", ");
 
             return new string[] { name, ammo.AttackPower.ToString(), ammo.Evade.ToString(), GetAttributeStatDisplay(attribute, " "), elemDisplay, statusDisplay }.ToList();
         }).ToList()));
@@ -1144,7 +1005,7 @@ public partial class EquipRando : Randomizer
             string name = treasureRando.GetItemName(armor.ID);
 
             DataStoreAttribute attribute = equip.AttributeDataList[(int)armor.AttributeOffset];
-            return new string[] { name, armor.Defense.ToString(), armor.MagickResist.ToString(), GetAttributeStatDisplay(attribute, " "), GetElementAttributeDisplayLine(attribute, "", false, "\n"), GetStatusDisplayLine(attribute, false,"", "\n", ", "), GetAugmentDescription(armor, int.MaxValue) }.ToList();
+            return new string[] { name, armor.Defense.ToString(), armor.MagickResist.ToString(), GetAttributeStatDisplay(attribute, " "), GetElementAttributeDisplayLine(attribute, "", "", false, "\n"), GetStatusDisplayLine(attribute, "", "", false, "\n", ", "), GetAugmentDescription(armor, int.MaxValue) }.ToList();
         }).ToList()));
 
         page.HTMLElements.Add(new Table("Accessories", (new string[] { "Name", "Defense", "Magick Resist", "Other Stats", "Element Effects", "Status Effects", "Passive" }).ToList(), (new int[] { 10, 10, 10, 10, 20, 20, 20 }).ToList(), equip.EquipDataList.Where(a => a is DataStoreArmor && (a.Category == EquipCategory.Accessory || a.Category == EquipCategory.AccessoryCrown)).Select(e =>
@@ -1154,7 +1015,7 @@ public partial class EquipRando : Randomizer
             string name = treasureRando.GetItemName(accessory.ID);
 
             DataStoreAttribute attribute = equip.AttributeDataList[(int)accessory.AttributeOffset];
-            return new string[] { name, accessory.Defense.ToString(), accessory.MagickResist.ToString(), GetAttributeStatDisplay(attribute, " "), GetElementAttributeDisplayLine(attribute, "", false, "\n"), GetStatusDisplayLine(attribute, false, "", "\n", ", "), GetAugmentDescription(accessory, int.MaxValue) }.ToList();
+            return new string[] { name, accessory.Defense.ToString(), accessory.MagickResist.ToString(), GetAttributeStatDisplay(attribute, " "), GetElementAttributeDisplayLine(attribute, "", "",false, "\n"), GetStatusDisplayLine(attribute, "", "", false, "\n", ", "), GetAugmentDescription(accessory, int.MaxValue) }.ToList();
         }).ToList()));
 
         pages.Add("equipment", page);
