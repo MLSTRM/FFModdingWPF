@@ -11,7 +11,6 @@ public class RewardLocation : FF12ItemLocation, IDataStoreItemProvider<DataStore
     [RowIndex(2), FieldTypeOverride(FieldType.HexInt)]
     public int IntID { get; set; }
     public int Index { get; set; }
-    [RowIndex(1)]
     public override string Name { get; set; }
     public override string LocationImagePath { get; set; }
     [RowIndex(3)]
@@ -25,6 +24,7 @@ public class RewardLocation : FF12ItemLocation, IDataStoreItemProvider<DataStore
 
     public RewardLocation(SeedGenerator generator, string[] row, int index) : base(generator, row)
     {
+        Name = row[0] + " - " + row[1] + " Reward";
         ID = row[2] + ":" + index;
         Index = index;
 

@@ -15,8 +15,9 @@ public class FF12ArchipelagoData : ArchipelagoData
     public List<int> CharacterOrder { get; set; }
     public bool AllowSeitengrat { get; set; }
     public List<(string ID, string Item, int Index, int Sphere)> Spheres { get; set; }
+    public List<(string ID, int Index, string Item, int Amount)> FillerItemPlacements { get; set; }
 
-    public List<string> CompatibleAPVersions { get; set; } = new List<string>() { "0.3.8" };
+    public List<string> CompatibleAPVersions { get; set; } = new List<string>() { "0.4.0" };
 
     public FF12ArchipelagoData()
     {
@@ -49,6 +50,15 @@ public class FF12ArchipelagoData : ArchipelagoData
             Index: sphereData.ContainsKey("index") ? (int)(long)sphereData["index"] : 0,
             Sphere: (int)(long)sphereData["sphere"]);
         }).ToList();
+        FillerItemPlacements = ((List<object>)data["filler_item_placements"]).Select(o =>
+        {
+            var placementData = (IDictionary<string, object>)o;
+            return (
+                       ID: (string)placementData["id"],
+                       Index: (int)(long)placementData["index"],
+                       Item: (string)placementData["item"],
+                       Amount: (int)(long)placementData["amount"]);
+        }).ToList();
     }
 
     public override IDictionary<string, object> ToJsonObj()
@@ -67,6 +77,14 @@ public class FF12ArchipelagoData : ArchipelagoData
                 { "sphere", s.Sphere }
             }).ToList();
 
+        List<Dictionary<string, object>> fillerItemPlacements = FillerItemPlacements.Select(f => new Dictionary<string, object>
+        {
+                { "id", f.ID },
+                { "index", f.Index },
+                { "item", f.Item },
+                { "amount", f.Amount }
+            }).ToList();
+
         return new Dictionary<string, object>
         {
             { "version", Version },
@@ -74,7 +92,8 @@ public class FF12ArchipelagoData : ArchipelagoData
             { "treasures", treasures },
             { "character_order", CharacterOrder },
             { "allow_seitengrat", AllowSeitengrat ? 1 : 0 },
-            { "spheres", spheres }
+            { "spheres", spheres },
+            { "filler_item_placements", fillerItemPlacements }
         };
     }
 }
