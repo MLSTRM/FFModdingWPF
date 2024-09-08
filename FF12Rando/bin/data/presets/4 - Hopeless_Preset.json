@@ -1,6 +1,6 @@
 {
   "name": "4 - Hopeless",
-  "version": "0.8.0.20",
+  "version": "0.8.1.15",
   "flags": [
     {
       "FlagEnabled": true,
@@ -244,17 +244,22 @@
     },
     {
       "FlagEnabled": true,
-      "FlagID": "RandParty",
-      "FlagProperties": []
-    },
-    {
-      "FlagEnabled": true,
       "FlagID": "RandBoards",
-      "FlagProperties": []
+      "FlagProperties": [
+        {
+          "SelectedValue": "Split",
+          "ID": "BoardType"
+        }
+      ]
     },
     {
       "FlagEnabled": true,
       "FlagID": "StartBoards",
+      "FlagProperties": []
+    },
+    {
+      "FlagEnabled": true,
+      "FlagID": "RandParty",
       "FlagProperties": []
     },
     {
@@ -304,6 +309,11 @@
           "ID": "LPMultBossAmt"
         }
       ]
+    },
+    {
+      "FlagEnabled": false,
+      "FlagID": "TwoPageDesc",
+      "FlagProperties": []
     }
   ]
 }

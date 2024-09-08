@@ -1,4 +1,5 @@
-﻿using Bartz24.RandoWPF;
+﻿using Bartz24.FF12;
+using Bartz24.RandoWPF;
 using System.Collections.Generic;
 
 namespace FF12Rando;
@@ -21,6 +22,12 @@ public class ItemData : CSVDataRow, IItem
     public List<string> Traits { get; set; }
     [RowIndex(5)]
     public string Category { get; set; }
+    [RowIndex(6)]
+    public string Description { get; set; }
+    [RowIndex(7)]
+    public int MPCost { get; set; }
+    [RowIndex(8)]
+    public string Element { get; set; }
     public ItemData(string[] row) : base(row)
     {
     }

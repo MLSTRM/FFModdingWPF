@@ -243,3 +243,79 @@ Arcane Magick,Obtained,0,1,0,0,4,12,2,2
 Arcane Magick,Available,1,0,128,0,4,64,7,7
 Red Magick,Obtained,0,1,0,0,13,11,2,2
 Red Magick,Available,1,0,128,0,6,63,7,7
+Nightshade Magick,Obtained,0,1,0,0,4,12,2,2
+Nightshade Magick,Available,1,0,128,0,4,64,7,7
+Astrologer Magick,Obtained,0,1,0,0,4,10,2,2
+Astrologer Magick,Available,1,0,128,0,4,62,7,7
+White Mage Magick,Obtained,0,1,0,0,4,8,2,2
+White Mage Magick,Available,1,0,128,0,4,60,7,7
+Enchanter Magick,Obtained,0,1,0,0,4,11,2,2
+Enchanter Magick,Available,1,0,128,0,4,63,7,7
+Shaman Magick,Obtained,0,1,0,0,6,11,2,2
+Shaman Magick,Available,1,0,128,0,6,63,7,7
+Dark Bishop Magick,Obtained,0,1,0,0,13,11,2,2
+Dark Bishop Magick,Available,1,0,128,0,6,63,7,7
+Sorc Supreme Magick,Obtained,0,1,0,0,6,10,2,2
+Sorc Supreme Magick,Available,1,0,128,0,6,62,7,7
+Elementalist Magick,Obtained,0,1,0,0,4,9,2,2
+Elementalist Magick,Available,1,0,128,0,4,61,7,7
+Pharmacology,Obtained,0,1,0,0,8,0,0,2
+Pharmacology,Obtained,1,0,64,0,2,15,7,3
+Pharmacology,Available,1,0,128,0,4,65,7,7
+Toxicology,Obtained,0,1,0,0,8,0,0,2
+Toxicology,Obtained,1,0,64,0,2,14,7,3
+Toxicology,Available,1,0,128,0,4,65,7,7
+Geomancy,Obtained,0,1,0,0,8,0,0,2
+Geomancy,Obtained,1,0,64,0,2,6,7,3
+Geomancy,Available,1,0,128,0,4,65,7,7
+Saboteur,Obtained,0,1,0,0,8,0,0,2
+Saboteur,Obtained,1,0,64,0,1,5,7,3
+Saboteur,Available,1,0,128,0,4,65,7,7
+LP Boost,Obtained,0,1,0,0,8,0,0,2
+LP Boost,Obtained,1,0,64,0,1,20,7,3
+LP Boost,Available,1,0,128,0,4,65,7,7
+EXP Boost,Obtained,0,1,0,0,8,0,0,2
+EXP Boost,Obtained,1,0,64,0,1,20,7,3
+EXP Boost,Available,1,0,128,0,4,65,7,7
+Piercing Magick,Obtained,0,1,0,0,8,0,0,2
+Piercing Magick,Obtained,1,0,64,0,0,0,7,3
+Piercing Magick,Available,1,0,128,0,4,65,7,7
+Spendthrift,Obtained,0,1,0,0,8,0,0,2
+Spendthrift,Obtained,1,0,64,0,2,7,7,3
+Spendthrift,Available,1,0,128,0,4,65,7,7
+Sentinel,Obtained,0,1,0,0,8,0,0,2
+Sentinel,Obtained,1,0,64,0,1,11,7,3
+Sentinel,Available,1,0,128,0,4,65,7,7
+Safety,Obtained,0,1,0,0,8,0,0,2
+Safety,Obtained,1,0,64,0,1,11,7,3
+Safety,Available,1,0,128,0,4,65,7,7
+Ignore Evasion,Obtained,0,1,0,0,8,0,0,2
+Ignore Evasion,Obtained,1,0,64,0,1,13,7,3
+Ignore Evasion,Available,1,0,128,0,4,65,7,7
+Alert,Obtained,0,1,0,0,8,0,0,2
+Alert,Obtained,1,0,64,0,1,4,7,3
+Alert,Available,1,0,128,0,4,65,7,7
+Counter,Obtained,0,1,0,0,8,0,0,2
+Counter,Obtained,1,0,64,0,1,18,7,3
+Counter,Available,1,0,128,0,4,65,7,7
+Improved Counter,Obtained,0,1,0,0,8,0,0,2
+Improved Counter,Obtained,1,0,64,0,1,18,7,3
+Improved Counter,Available,1,0,128,0,4,65,7,7
+Trigger Happy,Obtained,0,1,0,0,8,0,0,2
+Trigger Happy,Obtained,1,0,64,0,1,10,7,3
+Trigger Happy,Available,1,0,128,0,4,65,7,7
+Master Thief,Obtained,0,1,0,0,8,0,0,2
+Master Thief,Obtained,1,0,64,0,2,15,7,3
+Master Thief,Available,1,0,128,0,4,65,7,7
+Invisible,Obtained,0,1,0,0,8,0,0,2
+Invisible,Obtained,1,0,64,0,1,13,7,3
+Invisible,Available,1,0,128,0,4,65,7,7
+Awareness,Obtained,0,1,0,0,8,0,0,2
+Awareness,Obtained,1,0,64,0,1,8,7,3
+Awareness,Available,1,0,128,0,4,65,7,7
+Magick Deprived,Obtained,0,1,0,0,8,0,0,2
+Magick Deprived,Obtained,1,0,64,0,1,5,7,3
+Magick Deprived,Available,1,0,128,0,4,65,7,7
+Soulbind,Obtained,0,1,0,0,8,0,0,2
+Soulbind,Obtained,1,0,64,0,0,2,7,3
+Soulbind,Available,1,0,128,0,4,65,7,7

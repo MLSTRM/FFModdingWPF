@@ -17,6 +17,7 @@ public class FF12Flags
         Archipelago = RandoFlags.FlagTypeArchipelago,
         Stats,
         Items,
+        Licenses,
         Other
     }
     public class Stats
@@ -414,10 +415,43 @@ public class FF12Flags
             }.Register(StartingTpStones);
         }
     }
+
+    public class Licenses
+    {
+        public static Flag LicenseBoardType, StartingBoards;
+        public static ComboBoxFlagProperty BoardType;
+        public const string BoardTypeVanilla = "Vanilla";
+        public const string BoardTypeSplit = "Split";
+        internal static void Init()
+        {
+            LicenseBoardType = new Flag()
+            {
+                Text = "License Board Type",
+                FlagID = "RandBoards",
+                DescriptionFormat = "Select the base license board type."
+            }.Register(FlagType.Licenses);
+
+            BoardType = new ComboBoxFlagProperty()
+            {
+                Text = "",
+                ID = "BoardType",
+                Description = "Vanilla - Based on the original boards.\n" +
+                "Split - Left and right sides are randomly mixed together to create new boards.",
+                Values = new string[] { BoardTypeVanilla, BoardTypeSplit }.ToList()
+            }.Register(LicenseBoardType);
+
+            StartingBoards = new Flag()
+            {
+                Text = "Randomize Starting License Boards",
+                FlagID = "StartBoards",
+                DescriptionFormat = "Sets a random starting license boards of each character. Can still be reset at Montblanc."
+            }.Register(FlagType.Licenses);
+        }
+    }
+
     public class Other
     {
         public static Flag Party, Music;
-        public static Flag LicenseBoards, StartingBoards;
         public static Flag EXPMult, LPMult;
         public static Flag HintsMain, HintAbilities;
         public static Flag TwoPageDescriptions;
@@ -432,20 +466,6 @@ public class FF12Flags
                 FlagID = "RandParty",
                 DescriptionFormat = "Shuffles the main party members.",
                 HasArchipelagoOverride = true
-            }.Register(FlagType.Other);
-
-            LicenseBoards = new Flag()
-            {
-                Text = "Randomize License Boards",
-                FlagID = "RandBoards",
-                DescriptionFormat = "Randomizes the license boards by selecting a left and right side."
-            }.Register(FlagType.Other);
-
-            StartingBoards = new Flag()
-            {
-                Text = "Randomize Starting License Boards",
-                FlagID = "StartBoards",
-                DescriptionFormat = "Sets a random starting license boards of each character. Can still be reset at Montblanc."
             }.Register(FlagType.Other);
 
             HintsMain = new Flag()
@@ -564,6 +584,7 @@ public class FF12Flags
         RandoFlags.FlagsList.Clear();
         Stats.Init();
         Items.Init();
+        Licenses.Init();
         Other.Init();
         RandoFlags.CategoryMap = ((FlagType[])Enum.GetValues(typeof(FlagType))).ToDictionary(f => (int)f, f => string.Join("/", Regex.Split(f.ToString(), @"(?<!^)(?=[A-Z])")));
         RandoFlags.SelectedCategory = "All";

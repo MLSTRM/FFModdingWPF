@@ -11,21 +11,25 @@ namespace FF12Rando;
 
 public class LicenseBoardRando : Randomizer
 {
-    private DataStoreLicenseBoard[] boards = new DataStoreLicenseBoard[12];
-    private Dictionary<string, DataStoreLicenseBoard> leftSplitBoards = new();
-    private Dictionary<string, DataStoreLicenseBoard> rightSplitBoards = new();
+    public DataStoreLicenseBoard[] boards = new DataStoreLicenseBoard[12];
     private int[] startingBoards = new int[6];
 
-    private readonly string[] LeftBoardNames = { "Astrologer", "Dark Bishop", "Elementalist", "Enchanter", "Gambler", "Innkeeper", "Loremaster", "Nightshade", "Red Mage", "Shaman", "Sorceror Supreme", "White Mage" };
+    private (int left, int right)[] splitBoardIndices = new (int left, int right)[12];
+
+    private readonly string[] LeftBoardIds = { "astrologer", "darkbishop", "elementalist", "enchanter", "gambler", "chemist", "loremaster", "nightshade", "redmage", "shaman", "sorcerorsupreme", "whitemage" };
+    private readonly string[] RightBoardIds = { "blackbelt", "brawler", "demolitionist", "gladiator", "hunter", "ninja", "ravager", "rogue", "samurai", "valkyrie", "viking", "weaponmaster" };
+
+    private readonly string[] LeftBoardNames = { "Astrologer", "Dark Bishop", "Elementalist", "Enchanter", "Gambler", "Chemist", "Loremaster", "Nightshade", "Red Mage", "Shaman", "Sorceror Supreme", "White Mage" };
     private readonly string[] RightBoardNames = { "Black Belt", "Brawler", "Demolitionist", "Gladiator", "Hunter", "Ninja", "Ravager", "Rogue", "Samurai", "Valkyrie", "Viking", "Weaponmaster" };
-    private readonly string[] LeftBoardShort = { "AST", "DBP", "ELE", "ENC", "GMB", "INN", "LOR", "NSH", "RDM", "SMN", "SRC", "WHM" };
+
+    private readonly string[] LeftBoardShort = { "AST", "DBP", "ELE", "ENC", "GMB", "CHM", "LOR", "NSH", "RDM", "SMN", "SRC", "WHM" };
     private readonly string[] RightBoardShort = { "BLT", "BWR", "DEM", "GLD", "HNT", "NIN", "RAV", "ROG", "SAM", "VAL", "VKG", "WPN" };
 
     private Dictionary<string, DataStoreLicenseBoard> vanillaBoards = new();
-    private readonly string[] VanillaBoardIds = { "whitemage", "uhlan", "machinist", "redbattlemage", "knight", "monk", "timebattlemage", "foebreaker" };
-    private readonly string[] VanillaBoardNames = { "White Mage", "Uhlan", "Machinist", "Red Battlemage", "Knight", "Monk", "Time Battlemage", "Foebreaker" };
+    private readonly string[] VanillaBoardIds = { "whitemage", "uhlan", "machinist", "redbattlemage", "knight", "monk", "timebattlemage", "foebreaker", "archer", "blackmage", "bushi", "shikari" };
+    private readonly string[] VanillaBoardNames = { "White Mage", "Uhlan", "Machinist", "Red Battlemage", "Knight", "Monk", "Time Battlemage", "Foebreaker", "Archer", "Black Mage", "Bushi", "Shikari" };
 
-    private readonly string[] VanillaBoardShort = { "WHM", "UHL", "MCH", "RDM", "KNT", "MNK", "TIM", "FBK" };
+    private readonly string[] VanillaBoardShort = { "WHM", "UHL", "MCH", "RDM", "KNT", "MNK", "TIM", "FBK", "ARC", "BLK", "BUS", "SHI" };
 
     public LicenseBoardRando(SeedGenerator randomizers) : base(randomizers) { }
 
@@ -37,41 +41,19 @@ public class LicenseBoardRando : Randomizer
             boards[i] = new();
         }
 
-        /*
-        boards = Enumerable.Range(0, 12).Select(i =>
-        {
-            DataStoreLicenseBoard board = new();
-            board.LoadData(File.ReadAllBytes($"data\\boards\\split\\center.bin"));
-            return board;
-        }).ToArray();
-
-        Directory.GetFiles("data\\boards\\split\\left", "*.bin").ForEach(s =>
-        {
-            string fileName = Path.GetFileName(s);
-            string name = fileName.Substring(0, fileName.LastIndexOf("."));
-            DataStoreLicenseBoard board = new();
-            board.LoadData(File.ReadAllBytes(s));
-            leftSplitBoards.Add(name, board);
-        });
-        Directory.GetFiles("data\\boards\\split\\right", "*.bin").ForEach(s =>
-        {
-            string fileName = Path.GetFileName(s);
-            string name = fileName.Substring(0, fileName.LastIndexOf("."));
-            DataStoreLicenseBoard board = new();
-            board.LoadData(File.ReadAllBytes(s));
-            rightSplitBoards.Add(name, board);
-        });
-        */
-
         LicenseRando licenseRando = Generator.Get<LicenseRando>();
-        Directory.GetFiles("data\\licenses\\vanilla\\boards", "*.csv").ForEach(s =>
+
+        if (FF12Flags.Licenses.BoardType.SelectedValue == FF12Flags.Licenses.BoardTypeVanilla)
         {
-            string fileName = Path.GetFileName(s);
-            string name = fileName.Substring(0, fileName.LastIndexOf("."));
-            DataStoreLicenseBoard board = new();
-            board.LoadData(s, lName => licenseRando.licenseData.Values.First(l => l.Name == lName).IntID);
-            vanillaBoards.Add(name, board);
-        });
+            Directory.GetFiles("data\\licenses\\vanilla\\boards", "*.csv").ForEach(s =>
+            {
+                string fileName = Path.GetFileName(s);
+                string name = fileName.Substring(0, fileName.LastIndexOf("."));
+                DataStoreLicenseBoard board = new();
+                board.LoadData(s, lName => licenseRando.licenseData.Values.First(l => l.Name == lName).IntID);
+                vanillaBoards.Add(name, board);
+            });
+        }
 
         TreasureRando treasureRando = Generator.Get<TreasureRando>();
 
@@ -84,42 +66,264 @@ public class LicenseBoardRando : Randomizer
         TreasureRando treasureRando = Generator.Get<TreasureRando>();
         TextRando textRando = Generator.Get<TextRando>();
 
-        if (FF12Flags.Other.LicenseBoards.FlagEnabled)
+        FF12Flags.Licenses.LicenseBoardType.SetRand();
+
+        if (FF12Flags.Licenses.BoardType.SelectedValue == FF12Flags.Licenses.BoardTypeVanilla)
         {
-            FF12Flags.Other.LicenseBoards.SetRand();
-            /*
-            int[] left = Enumerable.Range(0, 12).Shuffle().ToArray();
-            int[] right = Enumerable.Range(0, 12).Shuffle().ToArray();
-            for (int i = 0; i < 12; i++)
-            {
-                AddBoard(boards[i], leftSplitBoards.Values.ToList()[left[i]]);
-                AddBoard(boards[i], rightSplitBoards.Values.ToList()[right[i]]);
 
-                textRando.TextMenuMessage[104 + i].Text = LeftBoardNames[left[i]] + " - " + RightBoardNames[right[i]] + "\n {0x0f}où Preview License Board";
-                textRando.TextMenuCommand[5 + i].Text = LeftBoardShort[left[i]] + "-" + RightBoardShort[right[i]];
-            }
-
-            */
-
-            foreach(string id in VanillaBoardIds)
+            foreach (string id in VanillaBoardIds)
             {
                 int i = VanillaBoardIds.ToList().IndexOf(id);
                 AddBoard(boards[i], vanillaBoards[id]);
-                textRando.TextMenuMessage[104 + i].Text = VanillaBoardNames[i] + "\n {btn:square} Preview License Board";
-                textRando.TextMenuCommand[5 + i].Text = VanillaBoardShort[i];
             }
-
-            CenterBoards();
-
-            RandomNum.ClearRand();
+        }
+        else if (FF12Flags.Licenses.BoardType.SelectedValue == FF12Flags.Licenses.BoardTypeSplit)
+        {
+            BuildRandomSplitBoards();
         }
 
-        if (FF12Flags.Other.StartingBoards.FlagEnabled)
+        for (int i = 0; i < boards.Length; i++)
         {
-            FF12Flags.Other.StartingBoards.SetRand();
+            textRando.TextMenuMessage[104 + i].Text = GetBoardName(i) + "\n {btn:square} Preview License Board";
+            textRando.TextMenuCommand[5 + i].Text = GetBoardShort(i);
+        }
+
+        CenterBoards();
+
+        RandomNum.ClearRand();
+
+        if (FF12Flags.Licenses.StartingBoards.FlagEnabled)
+        {
+            FF12Flags.Licenses.StartingBoards.SetRand();
             startingBoards = Enumerable.Range(1, 12).Shuffle().Take(6).ToArray();
             treasureRando.prices[0x77].Price = (uint)MathHelpers.EncodeNaturalSequence(startingBoards.Select(i => (long)i).ToArray(), 13);
             RandomNum.ClearRand();
+        }
+    }
+
+    private void BuildRandomSplitBoards()
+    {
+        // Randomizes lists of indices for each side and then pair them up
+        List<int> leftIndices = Enumerable.Range(0, 12).Shuffle();
+        List<int> rightIndices = Enumerable.Range(0, 12).Shuffle();
+
+        for (int i = 0; i < 12; i++)
+        {
+            splitBoardIndices[i] = (leftIndices[i], rightIndices[i]);
+        }
+
+        // Go through each board and add the left and right sides with the center
+        for (int i = 0; i < 12; i++)
+        {
+            string[,] left = LoadSplitBoardFromCsv($"data\\licenses\\dual\\boards\\left\\{LeftBoardIds[splitBoardIndices[i].left]}.csv");
+            string[,] center = LoadSplitBoardFromCsv($"data\\licenses\\dual\\boards\\center.csv");
+            string[,] right = LoadSplitBoardFromCsv($"data\\licenses\\dual\\boards\\right\\{RightBoardIds[splitBoardIndices[i].right]}.csv");
+
+            boards[i] = BuildSplitBoard(left, center, right);
+        }
+    }
+    
+    private string[,] LoadSplitBoardFromCsv(string path)
+    {
+        string[,] board = new string[24, 24];
+        int curRow = 0;
+        FileHelpers.ReadCSVFile(path, row =>
+        {
+            for (int col = 0; col < 24; col++)
+            {
+                if (row.Length <= col || string.IsNullOrEmpty(row[col]))
+                {
+                    board[curRow, col] = "";
+                }
+                else
+                {
+                    board[curRow, col] = row[col];
+                }
+            }
+
+            curRow++;
+        }, FileHelpers.CSVFileHeader.NoHeader);
+
+        return board;
+    }
+
+    private DataStoreLicenseBoard BuildSplitBoard(string[,] left, string[,] center, string[,] right)
+    {
+        // Start by placing the center board in the middle of the 24x24 grid
+        string[,] board = new string[24, 24];
+        for (int x = 0; x < 24; x++)
+        {
+            for (int y = 0; y < 24; y++)
+            {
+                board[y, x] = "";
+            }
+        }
+
+        int minX = 24;
+        int minY = 24;
+        int maxX = 0;
+        int maxY = 0;
+
+        for (int x = 0; x < 24; x++)
+        {
+            for (int y = 0; y < 24; y++)
+            {
+                if (!string.IsNullOrEmpty(center[y, x]))
+                {
+                    minX = Math.Min(minX, x);
+                    minY = Math.Min(minY, y);
+                    maxX = Math.Max(maxX, x);
+                    maxY = Math.Max(maxY, y);
+                }
+            }
+        }
+
+        int offsetX = (24 - (maxX - minX + 1)) / 2 - minX;
+        int offsetY = (24 - (maxY - minY + 1)) / 2 - minY;
+        for (int x = 0; x < 24; x++)
+        {
+            for (int y = 0; y < 24; y++)
+            {
+                if (x + offsetX >= 0 && x + offsetX < 24 && y + offsetY >= 0 && y + offsetY < 24)
+                {
+                    board[y + offsetY, x + offsetX] = center[y, x];
+                }
+            }
+        }
+
+        // Place the left board by ligning up the "ALIGN_TOP" cell in the left board on the "ALIGN_TOP_LEFT" cell in the board
+        // Find the "ALIGN_TOP" cell in the left board
+        (int x, int y) leftAlignTop = (0, 0);
+        for (int x = 0; x < 24; x++)
+        {
+            for (int y = 0; y < 24; y++)
+            {
+                if (left[y, x] == "ALIGN_TOP")
+                {
+                    leftAlignTop = (x, y);
+                    break;
+                }
+            }
+        }
+
+        // Find the "ALIGN_TOP_LEFT" cell in the board and shift one to the right
+        (int x, int y) boardAlignTopLeft = (0, 0);
+        for (int x = 0; x < 24; x++)
+        {
+            for (int y = 0; y < 24; y++)
+            {
+                if (board[y, x] == "ALIGN_TOP_LEFT")
+                {
+                    boardAlignTopLeft = (x, y);
+                    break;
+                }
+            }
+        }
+
+        boardAlignTopLeft.x++;
+
+        for (int x = 0; x < 24; x++)
+        {
+            for (int y = 0; y < 24; y++)
+            {
+                if (!string.IsNullOrEmpty(left[y, x]) && !left[y, x].StartsWith("ALIGN_"))
+                {
+                    (int x, int y) posRelativeToAlignTop = (x - leftAlignTop.x, y - leftAlignTop.y);
+                    board[boardAlignTopLeft.y + posRelativeToAlignTop.y, boardAlignTopLeft.x + posRelativeToAlignTop.x] = left[y, x];
+                }
+            }
+        }
+
+        // Place the right board by ligning up the "ALIGN_TOP" cell in the right board on the "ALIGN_TOP_RIGHT" cell in the board
+        // Find the "ALIGN_TOP" cell in the right board
+        (int x, int y) rightAlignTop = (0, 0);
+        for (int x = 0; x < 24; x++)
+        {
+            for (int y = 0; y < 24; y++)
+            {
+                if (right[y, x] == "ALIGN_TOP")
+                {
+                    rightAlignTop = (x, y);
+                    break;
+                }
+            }
+        }
+
+        // Find the "ALIGN_TOP_RIGHT" cell in the board and shift one to the left
+        (int x, int y) boardAlignTopRight = (0, 0);
+        for (int x = 0; x < 24; x++)
+        {
+            for (int y = 0; y < 24; y++)
+            {
+                if (board[y, x] == "ALIGN_TOP_RIGHT")
+                {
+                    boardAlignTopRight = (x, y);
+                    break;
+                }
+            }
+        }
+
+        boardAlignTopRight.x--;
+
+        for (int x = 0; x < 24; x++)
+        {
+            for (int y = 0; y < 24; y++)
+            {
+                if (x + offsetX >= 0 && x + offsetX < 24 && y + offsetY >= 0 && y + offsetY < 24 && !string.IsNullOrEmpty(right[y, x]) && !right[y, x].StartsWith("ALIGN_"))
+                {
+                    (int x, int y) posRelativeToAlignTop = (x - rightAlignTop.x, y - rightAlignTop.y);
+                    board[boardAlignTopRight.y + posRelativeToAlignTop.y, boardAlignTopRight.x + posRelativeToAlignTop.x] = right[y, x];
+                }
+            }
+        }
+
+        // Clean up the board
+        for (int x = 0; x < 24; x++)
+        {
+            for (int y = 0; y < 24; y++)
+            {
+                // Replace nulls with empty strings
+                if (board[y, x] == null)
+                {
+                    board[y, x] = "";
+                }
+                // Clear out any cells that start with "ALIGN_"
+                else if (board[y, x].StartsWith("ALIGN_"))
+                {
+                    board[y, x] = "";
+                }
+            }
+        }
+
+        // Convert the board to a DataStoreLicenseBoard
+        LicenseRando licenseRando = Generator.Get<LicenseRando>();
+        DataStoreLicenseBoard data = new();
+        data.LoadData(board, lName => licenseRando.licenseData.Values.First(l => l.Name == lName).IntID);
+
+        return data;
+    }
+
+    public string GetBoardName(int i)
+    {
+        if (FF12Flags.Licenses.BoardType.SelectedValue == FF12Flags.Licenses.BoardTypeSplit)
+        {
+            return $"{LeftBoardNames[splitBoardIndices[i].left]}-{RightBoardNames[splitBoardIndices[i].right]}";
+        }
+        else
+        {
+            return VanillaBoardNames[i];
+        }
+    }
+
+    public string GetBoardShort(int i)
+    {
+        if (FF12Flags.Licenses.BoardType.SelectedValue == FF12Flags.Licenses.BoardTypeSplit)
+        {
+            return $"{LeftBoardShort[splitBoardIndices[i].left]}-{RightBoardShort[splitBoardIndices[i].right]}";
+        }
+        else
+        {
+            return VanillaBoardShort[i];
         }
     }
 
@@ -190,7 +394,7 @@ public class LicenseBoardRando : Randomizer
 
     public override void Save()
     {
-        Generator.SetUIProgress("Saving License Board Data...", 0, -1);
+        RandoUI.SetUIProgressIndeterminate("Saving License Board Data...");
 
         for (int i = 0; i < 12; i++)
         {

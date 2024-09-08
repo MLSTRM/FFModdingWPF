@@ -28,7 +28,7 @@ public class LicenseRando : Randomizer
 
     public override void Load()
     {
-        Generator.SetUIProgress("Loading License Data...", 0, -1);
+        RandoUI.SetUIProgressIndeterminate("Loading License Data...");
         licenses = new ();
         licenses.LoadData(File.ReadAllBytes($"data\\ps2data\\image\\ff12\\test_battle\\us\\binaryfile\\battle_pack.bin.dir\\section_012.bin"));
         // Update IDs
@@ -56,11 +56,22 @@ public class LicenseRando : Randomizer
         licenseIcons = new();
         licenseIcons.LoadData(File.ReadAllBytes($"data\\ps2data\\image\\ff12\\myoshiok\\in\\bin_menu\\license_chip.bin"));
 
-        FileHelpers.ReadCSVFile(@"data\licenses\vanilla\licenses.csv", row =>
+        if (FF12Flags.Licenses.BoardType.SelectedValue == FF12Flags.Licenses.BoardTypeVanilla)
         {
-            LicenseData l = new(row, Generator);
-            licenseData.Add(l.ID, l);
-        }, FileHelpers.CSVFileHeader.HasHeader);
+            FileHelpers.ReadCSVFile(@"data\licenses\vanilla\licenses.csv", row =>
+            {
+                LicenseData l = new(row, Generator);
+                licenseData.Add(l.ID, l);
+            }, FileHelpers.CSVFileHeader.HasHeader);
+        }
+        else if (FF12Flags.Licenses.BoardType.SelectedValue == FF12Flags.Licenses.BoardTypeSplit)
+        {
+            FileHelpers.ReadCSVFile(@"data\licenses\dual\licenses.csv", row =>
+            {
+                LicenseData l = new(row, Generator);
+                licenseData.Add(l.ID, l);
+            }, FileHelpers.CSVFileHeader.HasHeader);
+        }
 
         FileHelpers.ReadCSVFile(@"data\augments.csv", row =>
         {
@@ -76,7 +87,7 @@ public class LicenseRando : Randomizer
     }
     public override void Randomize()
     {
-        Generator.SetUIProgress("Randomizing License Data...", 0, -1);
+        RandoUI.SetUIProgressIndeterminate("Randomizing License Data...");
 
         TextRando textRando = Generator.Get<TextRando>();
         PartyRando partyRando = Generator.Get<PartyRando>();
@@ -123,7 +134,7 @@ public class LicenseRando : Randomizer
             textRando.TextAbilityHelp[augment.EquipDescAddress - 13000].Text = formattedDesc;
         });
 
-        FF12Flags.Other.LicenseBoards.SetRand();
+        FF12Flags.Licenses.LicenseBoardType.SetRand();
 
         SetLicenseIcons();
 
@@ -373,6 +384,26 @@ public class LicenseRando : Randomizer
                     case "Last Stand":
                     case "Spellbound":
                     case "Brawler":
+                    case "Pharmacology":
+                    case "Toxicology":
+                    case "Geomancy":
+                    case "Saboteur":
+                    case "LP Boost":
+                    case "EXP Boost":
+                    case "Piercing Magick":
+                    case "Spendthrift":
+                    case "Sentinel":
+                    case "Safety":
+                    case "Ignore Evasion":
+                    case "Alert":
+                    case "Counter":
+                    case "Improved Counter":
+                    case "Trigger Happy":
+                    case "Master Thief":
+                    case "Invisible":
+                    case "Awareness":
+                    case "Magick Deprived":
+                    case "Soulbind":
                         return augment.Name;
                     default:
                         throw new Exception("Invalid augment for icon: " + augment.Name);
@@ -392,7 +423,15 @@ public class LicenseRando : Randomizer
                     "Time Magick",
                     "Green Magick",
                     "Arcane Magick",
-                    "Red Magick"
+                    "Red Magick",
+                    "Nightshade Magick",
+                    "Astrologer Magick",
+                    "White Mage Magick",
+                    "Enchanter Magick",
+                    "Shaman Magick",
+                    "Dark Bishop Magick",
+                    "Sorc Supreme Magick",
+                    "Elementalist Magick",
                 };
                 // Check if the augment name contains any of the magick types and return the type
                 foreach (string type in types)
@@ -425,7 +464,7 @@ public class LicenseRando : Randomizer
 
     public override void Save()
     {
-        Generator.SetUIProgress("Saving License Data...", 0, -1);
+        RandoUI.SetUIProgressIndeterminate("Saving License Data...");
         File.WriteAllBytes($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\battle_pack.bin.dir\\section_012.bin", licenses.Data);
         File.WriteAllBytes($"{Generator.DataOutFolder}\\image\\ff12\\test_battle\\us\\binaryfile\\battle_pack.bin.dir\\section_058.bin", augments.Data);
         File.WriteAllBytes($"{Generator.DataOutFolder}\\image\\ff12\\myoshiok\\in\\bin_menu\\license_chip.bin", licenseIcons.Data);

@@ -1,6 +1,6 @@
 {
   "name": "2 - Story Key Item Shuffle",
-  "version": "0.8.0.27",
+  "version": "0.8.1.15",
   "flags": [
     {
       "FlagEnabled": false,
@@ -174,17 +174,22 @@
     },
     {
       "FlagEnabled": true,
-      "FlagID": "RandParty",
-      "FlagProperties": []
-    },
-    {
-      "FlagEnabled": true,
       "FlagID": "RandBoards",
-      "FlagProperties": []
+      "FlagProperties": [
+        {
+          "SelectedValue": "Split",
+          "ID": "BoardType"
+        }
+      ]
     },
     {
       "FlagEnabled": false,
       "FlagID": "StartBoards",
+      "FlagProperties": []
+    },
+    {
+      "FlagEnabled": true,
+      "FlagID": "RandParty",
       "FlagProperties": []
     },
     {
@@ -234,6 +239,11 @@
           "ID": "LPMultBossAmt"
         }
       ]
+    },
+    {
+      "FlagEnabled": false,
+      "FlagID": "TwoPageDesc",
+      "FlagProperties": []
     }
   ]
 }

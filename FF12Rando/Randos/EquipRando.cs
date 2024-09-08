@@ -562,10 +562,10 @@ public partial class EquipRando : Randomizer
 
             string info = "{" + GetEquipId(weapon);
 
-            string displayPage = "";
+            string displayPage = "{scale:80}";
 
-            displayPage += $"Attack: {weapon.AttackPower}\\t";
-            displayPage += $"Evade: {weapon.Evade}\\t";
+            displayPage += $"Attack: {weapon.AttackPower}  ";
+            displayPage += $"Evade: {weapon.Evade}  ";
             if (weapon.Elements.EnumToList().Count > 0 || weapon.StatusEffects.EnumToList().Count > 0 && weapon.StatusChance > 0)
             {
                 List<string> onhit = new()
@@ -577,19 +577,18 @@ public partial class EquipRando : Randomizer
             }
 
             displayPage += "\\n{scale:70}";
-            displayPage += $"Knockback: {weapon.KnockbackChance}%\\t";
-            displayPage += $"Combo: {weapon.ComboChance}%\\t";
-            displayPage += $"CT: {weapon.ChargeTime}\\t";
-            if (!string.IsNullOrEmpty(GetAttributeStatDisplay(attribute)))
-            {
-                displayPage += "\\n{scale:70}";
-                displayPage += GetAttributeStatDisplay(attribute);
-            }
+            displayPage += $"Knockback: {weapon.KnockbackChance}%  ";
+            displayPage += $"Combo: {weapon.ComboChance}%  ";
+            displayPage += $"CT: {weapon.ChargeTime}  ";
+            displayPage += GetAttributeStatDisplay(attribute);
 
-            displayPage += GetElementAttributeDisplayLine(attribute, "\\n{scale:70}");
-            displayPage += GetStatusDisplayLine(attribute, "\\n{scale:70}");
+            displayPage += "\\n{scale:70}";
+            displayPage += GetElementAttributeDisplayLine(attribute, "");
+            displayPage += GetStatusDisplayLine(attribute, "");
 
-            displayPage += $"\\n{scale:70}" + GetLicenseNeeded(weapon);
+            displayPage += "\\n{scale:70}" + GetLicenseNeeded(weapon);
+            displayPage += "\\n" + GetBoardLocations(weapon);
+
 
             linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
@@ -600,20 +599,17 @@ public partial class EquipRando : Randomizer
 
             string info = "{" + GetEquipId(shield);
 
-            string displayPage = "";
+            string displayPage = "{scale:80}";
 
-            displayPage += $"Evade: {shield.Evade}\\t";
-            displayPage += $"Magick Evade: {shield.MagickEvade}\\t";
+            displayPage += $"Evade: {shield.Evade}  ";
+            displayPage += $"Magick Evade: {shield.MagickEvade}  ";
+            displayPage += "\\n" + GetAttributeStatDisplay(attribute);
 
-            if (!string.IsNullOrEmpty(GetAttributeStatDisplay(attribute)))
-            {
-                displayPage += "\\n{scale:70}";
-                displayPage += GetAttributeStatDisplay(attribute);
-            }
-
-            displayPage += GetElementAttributeDisplayLine(attribute, "\\n{scale:70}");
-            displayPage += GetStatusDisplayLine(attribute, "\\n{scale:70}");
-            displayPage += $"\\n{scale:70}" + GetLicenseNeeded(shield);
+            displayPage += "\\n{scale:70}";
+            displayPage += GetElementAttributeDisplayLine(attribute, "");
+            displayPage += GetStatusDisplayLine(attribute, "");
+            displayPage += "\\n{scale:70}" + GetLicenseNeeded(shield);
+            displayPage += "\\n" + GetBoardLocations(shield);
 
             linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
@@ -624,13 +620,13 @@ public partial class EquipRando : Randomizer
 
             string info = "{" + GetEquipId(ammo);
 
-            string displayPage = "";
+            string displayPage = "{scale:80}";
 
-            displayPage += $"Attack: {ammo.AttackPower}\\t";
+            displayPage += $"Attack: {ammo.AttackPower}  ";
 
             if (ammo.Evade > 0)
             {
-                displayPage += $"Evade: {ammo.Evade}\\t";
+                displayPage += $"Evade: {ammo.Evade}  ";
             }
 
             if (ammo.Elements.EnumToList().Count > 0 || ammo.StatusEffects.EnumToList().Count > 0 && ammo.StatusChance > 0)
@@ -643,14 +639,11 @@ public partial class EquipRando : Randomizer
                 displayPage += $"On Hit: {string.Join(", ", onhit.Where(s => !string.IsNullOrEmpty(s)))}";
             }
 
-            if (!string.IsNullOrEmpty(GetAttributeStatDisplay(attribute)))
-            {
-                displayPage += "\\n{scale:70}";
-                displayPage += GetAttributeStatDisplay(attribute);
-            }
+            displayPage += "\\n{scale:70}" + GetAttributeStatDisplay(attribute);
 
-            displayPage += GetElementAttributeDisplayLine(attribute, "\\n{scale:70}");
-            displayPage += GetStatusDisplayLine(attribute, "\\n{scale:70}");
+            displayPage += "\\n{scale:70}";
+            displayPage += GetElementAttributeDisplayLine(attribute, "");
+            displayPage += GetStatusDisplayLine(attribute, "");
 
             linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
@@ -661,22 +654,24 @@ public partial class EquipRando : Randomizer
 
             string info = "{" + GetEquipId(armor);
 
-            string displayPage = "";
+            string displayPage = "{scale:80}";
 
-            displayPage += $"Defense: {armor.Defense}\\t";
-            displayPage += $"Magick Resist: {armor.MagickResist}\\t";
+            displayPage += $"DEF + {armor.Defense}  ";
+            displayPage += $"MRES + {armor.MagickResist}  ";
 
             displayPage += GetAttributeStatDisplay(attribute);
 
+            displayPage += "\\n{scale:70}";
             if (armor.AugmentOffset != 0xFF)
             {
-                displayPage += "\\n{scale:70}";
                 displayPage += GetAugmentDescription(armor);
             }
 
-            displayPage += GetElementAttributeDisplayLine(attribute, "\\n{scale:70}");
-            displayPage += GetStatusDisplayLine(attribute, "\\n{scale:70}");
-            displayPage += $"\\n{scale:70}" + GetLicenseNeeded(armor);
+            displayPage += "\\n{scale:70}";
+            displayPage += GetElementAttributeDisplayLine(attribute, "");
+            displayPage += GetStatusDisplayLine(attribute, "");
+            displayPage += "\\n{scale:70}" + GetLicenseNeeded(armor);
+            displayPage += "\\n" + GetBoardLocations(armor);
 
             linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
@@ -687,34 +682,80 @@ public partial class EquipRando : Randomizer
 
             string info = "{" + GetEquipId(armor);
 
-            string displayPage = "";
+            string displayPage = "{scale:80}";
 
             if (armor.Defense > 0)
             {
-                displayPage += $"Defense: {armor.Defense}\\t";
+                displayPage += $"DEF + {armor.Defense}  ";
             }
 
             if (armor.MagickResist > 0)
             {
-                displayPage += $"Magick Resist: {armor.MagickResist}\\t";
+                displayPage += $"MRES + {armor.MagickResist}  ";
             }
+
             displayPage += GetAttributeStatDisplay(attribute);
 
+            displayPage += " \\n{scale:70}";
             if (armor.AugmentOffset != 0xFF)
             {
-                displayPage += "\\n{scale:70}";
                 displayPage += GetAugmentDescription(armor);
             }
 
-            displayPage += GetElementAttributeDisplayLine(attribute, "\\n{scale:70}");
-            displayPage += GetStatusDisplayLine(attribute, "\\n{scale:70}");
+            displayPage += "\\n{scale:70}";
+            displayPage += GetElementAttributeDisplayLine(attribute, "");
+            displayPage += GetStatusDisplayLine(attribute, "");
 
             if (displayPage.StartsWith("\\n"))
             {
                 displayPage = displayPage.Substring(2);
             }
 
-            displayPage += $"\\n{scale:70}" + GetLicenseNeeded(armor);
+            displayPage += "\\n{scale:70}" + GetLicenseNeeded(armor);
+            displayPage += "\\n" + GetBoardLocations(armor);
+
+            linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
+        }
+
+        // Add magick and technick descriptions
+        foreach (var ability in itemData.Values.Where(a=> a.Category == "Ability"))
+        {
+            string info = "{" + ability.IntID;
+
+            string displayPage = "{scale:80}";
+
+            displayPage += ability.Description;
+
+            displayPage += "\\n{scale:70}";
+            if (ability.MPCost > 0)
+            {
+                displayPage += $"MP Cost: {ability.MPCost}  ";
+            }
+
+            if (!string.IsNullOrEmpty(ability.Element))
+            {
+                displayPage += $"Element: {ability.Element}  ";
+            }
+
+            List<DataStoreLicense.LicenseType> validTypes = new()
+            {
+                DataStoreLicense.LicenseType.Magick,
+                DataStoreLicense.LicenseType.BlackMagick,
+                DataStoreLicense.LicenseType.TimeMagick,
+                DataStoreLicense.LicenseType.GreenMagick,
+                DataStoreLicense.LicenseType.ArcaneMagick,
+                DataStoreLicense.LicenseType.Technick
+            };
+
+            int offset = -0x3000;
+            if (ability.IntID >= 0x4000)
+            {
+                offset = -0x4000 + 158;
+            }
+
+            displayPage += "\\n{scale:70}" + GetLicenseNeeded((ability.IntID + offset).ToString("X4"), validTypes);
+            displayPage += "\\n" + GetBoardLocations((ability.IntID + offset).ToString("X4"), validTypes);
+
             linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
 
@@ -751,7 +792,7 @@ public partial class EquipRando : Randomizer
         return desc;
     }
 
-    private static string GetAttributeStatDisplay(DataStoreAttribute attribute, string separator = "\\t")
+    private static string GetAttributeStatDisplay(DataStoreAttribute attribute, string separator = "  ")
     {
         string display = "";
         if (attribute.HP > 0)
@@ -787,7 +828,7 @@ public partial class EquipRando : Randomizer
         return display;
     }
 
-    private string GetElementAttributeDisplayLine(DataStoreAttribute attribute, string newLine = "\\n", string suffix = "", bool useInGameFormat = true, string separator = "\\t")
+    private string GetElementAttributeDisplayLine(DataStoreAttribute attribute, string newLine = "\\n", string suffix = "", bool useInGameFormat = true, string separator = "  ")
     {
         string display = "";
         if (attribute.ElementsBoost.EnumToList().Count > 0 || attribute.ElementsAbsorb.EnumToList().Count > 0 || attribute.ElementsImmune.EnumToList().Count > 0 || attribute.ElementsHalf.EnumToList().Count > 0 || attribute.ElementsWeak.EnumToList().Count > 0)
@@ -825,7 +866,7 @@ public partial class EquipRando : Randomizer
         return display;
     }
 
-    private string GetStatusDisplayLine(DataStoreAttribute attribute, string newLine = "\\n", string suffix = "", bool useInGameFormat = true, string separator = "\\t", string join = ",")
+    private string GetStatusDisplayLine(DataStoreAttribute attribute, string newLine = "\\n", string suffix = "", bool useInGameFormat = true, string separator = "  ", string join = ",")
     {
         string display = "";
         if (attribute.StatusEffectsOnEquip.EnumToList().Count > 0 || attribute.StatusEffectsImmune.EnumToList().Count > 0)
@@ -946,16 +987,104 @@ public partial class EquipRando : Randomizer
             return "License Needed: None";
         }
 
+        return GetLicenseNeeded(equipment.ID);
+    }
+
+    private string GetLicenseNeeded(string id, List<DataStoreLicense.LicenseType> validTypes = null)
+    {
         LicenseRando licenseRando = Generator.Get<LicenseRando>();
         TextRando textRando = Generator.Get<TextRando>();
 
-        DataStoreLicense license = licenseRando.licenses.DataList.Where(l => l.ContentsStr.Contains(equipment.ID)).FirstOrDefault();
-        if (license == null || !textRando.TextLicenses.Keys.Contains(license.NameAddress - 0x1800))
+        var licenses = licenseRando.licenses.DataList.Where(l => l.ContentsStr.Contains(id) && (validTypes == null || validTypes.Contains(l.Type))).ToList();
+        if (licenses.Count == 0)
         {
             return "License Needed: Unknown";
         }
 
-        return $"License Needed: {textRando.TextLicenses[license.NameAddress - 0x1800].Text}";
+        List<string> list = new();
+        foreach (var license in licenses)
+        {
+            if (textRando.TextLicenses.Keys.Contains(license.NameAddress - 0x1800))
+            {
+                list.Add(textRando.TextLicenses[license.NameAddress - 0x1800].Text);
+            }
+        }
+
+        if (list.Count >= 1)
+        {
+
+            return $"License Needed: {string.Join(", ", list)}";
+        }
+        else
+        {
+            return $"License Needed: Unknown";
+        }
+    }
+
+    private string GetBoardLocations(DataStoreEquip equipment)
+    {
+        if (equipment.NoLicenseNeeded)
+        {
+            return "";
+        }
+
+        return GetBoardLocations(equipment.ID);
+    }
+
+    private string GetBoardLocations(string id, List<DataStoreLicense.LicenseType> validTypes = null)
+    {
+        LicenseRando licenseRando = Generator.Get<LicenseRando>();
+        TextRando textRando = Generator.Get<TextRando>();
+        LicenseBoardRando boardRando = Generator.Get<LicenseBoardRando>();
+
+        var licenses = licenseRando.licenses.DataList.Where(l => l.ContentsStr.Contains(id) && (validTypes == null || validTypes.Contains(l.Type))).ToList();
+        if (licenses.Count == 0)
+        {
+            return "";
+        }
+
+        List<string> display = new();
+        foreach (var board in boardRando.boards)
+        {
+            List<(int x, int y)> list = new();
+            foreach (var license in licenses)
+            {
+                var coords = board.GetCoordsFromEssentials((ushort)license.IntID);
+                if (coords != null)
+                {
+                    list.Add((coords.Value.x, coords.Value.y));
+                }
+            }
+
+            if (list.Count > 0)
+            {
+                int index = boardRando.boards.ToList().IndexOf(board);
+                display.Add($"{boardRando.GetBoardShort(index)}");
+            }
+        }
+
+        if (display.Count > 0)
+        {
+            string output = "";
+
+            foreach (var line in display)
+            {
+                // If the current line will exceed the 80 character limit, add a new line
+                int lastNewLine = output.LastIndexOf("\\n");
+                if (output.Length - lastNewLine + line.Length > 80)
+                {
+                    output += "\\n";
+                }
+
+                bool addComma = display.IndexOf(line) < display.Count - 1;
+
+                output += line + (addComma ? ",  " : "");
+            }
+
+            return output;
+        }
+
+        return "";
     }
 
     public override Dictionary<string, HTMLPage> GetDocumentation()

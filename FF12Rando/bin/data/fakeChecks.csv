@@ -11,8 +11,8 @@ Barheim Passage,Barheim Guest,_9,I(8080),,1,Guest
 Ozmone Plain,Ozmone Unlock,_10,OR(I(2118|2)|I(80E0)),,1,Ozmone Plain
 Paramina Rift,Paramina Unlock,_11,OR(I(2118|2)|AND(I(Ozmone Plain)|I(80B7))),,2,Paramina Rift
 Mt. Bur-Omisace,Defeat Bergan,_12,AND(I(Paramina Rift)|I(808B)),,3,Defeat Bergan
-Dalmasca Westersand,Defeat Earth Tyrant,_13,AND(I(80B1)|I(80B2)),,4,Defeat Earth Tyrant
-Northern,Northern and Tchita Unlock,_14,OR(I(Defeat Bergan)|I(8073)|I(Defeat Earth Tyrant)|AND(AERO(80E4)|I(80B6))|AERO(80E5)),,3,Tchita Uplands
+Dalmasca Westersand,Defeat Earth Tyrant,_13,AND(I(80B1)|I(80B2)|I(Defeat Vossler)),,4,Defeat Earth Tyrant
+Northern,Northern and Tchita Unlock,_14,OR(I(Defeat Bergan)|AND(I(8073)|I(Defeat Vossler))|I(Defeat Earth Tyrant)|AND(AERO(80E4)|I(80B6))|AERO(80E5)),,3,Tchita Uplands
 Sochen Cave Palace,Sochen Unlock,_15,AND(OR(I(Tchita Uplands)|I(Archades))|I(80B6)),,0,Sochen Cave Palace
 Archades,Archades Unlock,_16,OR(AND(I(Sochen Cave Palace)|I(80B6))|AERO(80E4)),,0,Archades
 Draklor Laboratory,Draklor Laboratory Unlock,_17,AND(OR(I(2113|3)|I(2112))|I(Archades)),,5,Draklor Laboratory

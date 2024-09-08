@@ -163,12 +163,12 @@ Clan Hall,Clan Esper: Control 4,904F,AND(I(8071)|I(Esper|4)),3,ClanEsper
 Clan Hall,Clan Esper: Control 8,9050,AND(I(8071)|I(Esper|8)),5,ClanEsper
 Clan Hall,Clan Esper: Control 13,9051,AND(I(8071)|I(Esper|13)),8,ClanEsper
 Dalmasca Estersand,Flowering Cactoid Drop,916D,,1,
-Dalmasca Estersand,Patient Barheim Key,916E,I(8073),2,
-Dalmasca Estersand,Dantro's Wife Give Cactus Flower,9081,I(8073),1,
-Dalmasca Estersand,Cactus Family Quest,908A,I(8073),1,
+Dalmasca Estersand,Patient Barheim Key,916E,AND(I(8073)|I(Defeat Vossler)),2,
+Dalmasca Estersand,Dantro's Wife Give Cactus Flower,9081,AND(I(8073)|I(Defeat Vossler)),1,
+Dalmasca Estersand,Cactus Family Quest,908A,AND(I(8073)|I(Defeat Vossler)),1,
 Mt. Bur-Omisace,Acolyte Stone of the Condemner,916F,AND(I(Paramina Rift)|I(808B)),3,
-Dalmasca Westersand,Earth Tyrant Quest Wind Globe,9170,,1,
-Rabanastre,Earth Tyrant Quest Windvane,9171,I(80B1),1,
+Dalmasca Westersand,Earth Tyrant Quest Wind Globe,9170,I(Defeat Vossler),1,
+Rabanastre,Earth Tyrant Quest Windvane,9171,AND(I(80B1)|I(Defeat Vossler)),1,
 Garamsythe Waterway,White Mousse Drop,9172,,5,
 Rabanastre,Sorbet Sluice Gate Key,9173,I(80AE),5,
 Ozmone Plain,Enkelados Drop,9174,I(Ozmone Plain),3,

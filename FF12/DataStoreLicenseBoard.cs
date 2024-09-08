@@ -24,6 +24,24 @@ public class DataStoreLicenseBoard : DataStore
         }
     }
 
+    public void LoadData(string[,] boardData, Func<string, int> nameToInt)
+    {
+        for (int x = 0; x < 24; x++)
+        {
+            for (int y = 0; y < 24; y++)
+            {
+                if (string.IsNullOrEmpty(boardData[y, x]))
+                {
+                    Board[y, x] = 0xFFFF;
+                }
+                else
+                {
+                    Board[y, x] = (ushort)nameToInt(boardData[y, x]);
+                }
+            }
+        }
+    }
+
     public void LoadData(string csvFilePath, Func<string, int> nameToInt)
     {
         // Read the 2D grid of license names and map the names to the license IDs
@@ -70,5 +88,44 @@ public class DataStoreLicenseBoard : DataStore
     public override int GetDefaultLength()
     {
         return -1;
+    }
+
+    public (int x, int y)? GetCoords(ushort licenseID)
+    {
+        for (int x = 0; x < 24; x++)
+        {
+            for (int y = 0; y < 24; y++)
+            {
+                if (Board[y, x] == licenseID)
+                {
+                    return (x, y);
+                }
+            }
+        }
+
+        return null;
+    }
+    
+    public (int x, int y)? GetCoordsFromEssentials(ushort licenseID)
+    {
+        int essentialsID = 31;
+
+        var essentialsCoords = GetCoords((ushort)essentialsID);
+        if (essentialsCoords == null)
+        {
+            return null;
+        }
+
+        var licenseCoords = GetCoords(licenseID);
+        if (licenseCoords == null)
+        {
+            return null;
+        }
+
+        // Find the offset from the essentials license
+        int offsetX = licenseCoords.Value.x - essentialsCoords.Value.x;
+        int offsetY = licenseCoords.Value.y - essentialsCoords.Value.y;
+
+        return (offsetX, offsetY);
     }
 }
