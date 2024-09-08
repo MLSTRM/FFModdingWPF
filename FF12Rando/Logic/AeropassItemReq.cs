@@ -30,8 +30,8 @@ public class AeropassItemReq : ItemReq
     }
 
     private static readonly ItemReq BerganReq = ItemReq.Item("Defeat Bergan");
-    private static readonly ItemReq CacFlower = ItemReq.Item("8073");
-    private static readonly ItemReq EarthTyrant = ItemReq.And(ItemReq.Item("80B1"), ItemReq.Item("80B2"));
+    private static readonly ItemReq CacFlower = ItemReq.And(ItemReq.Item("8073"), ItemReq.Item("Defeat Vossler"));
+    private static readonly ItemReq EarthTyrant = ItemReq.And(ItemReq.Item("80B1"), ItemReq.Item("80B2"), ItemReq.Item("Defeat Vossler"));
 
     private static readonly Dictionary<string, ItemReq> DestinationReqs = new()
     {
