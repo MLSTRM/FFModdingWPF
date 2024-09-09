@@ -104,10 +104,15 @@ public class LicenseRando : Randomizer
                 && l.Type != DataStoreLicense.LicenseType.SecondBoard)
             {
                 license.ContentsStr = l.Contents;
+
+                bool[] unlocks = new bool[8];
+
                 partyRando.CharacterMapping.ForEach(c=>
                 {
-                    license.DefaultCharUnlock[partyRando.CharacterMapping.ToList().IndexOf(c)] = l.DefaultCharacters.Contains(c);
+                    unlocks[partyRando.CharacterMapping.ToList().IndexOf(c)] = l.DefaultCharacters.Contains(c);
                 });
+
+                license.DefaultCharUnlock = unlocks;
             }
         });
 

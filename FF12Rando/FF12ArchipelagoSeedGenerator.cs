@@ -21,6 +21,7 @@ public class FF12ArchipelagoSeedGenerator : FF12SeedGenerator
             new APPartyRando(this),
             new APTreasureRando(this),
             new EquipRando(this),
+            new LicenseRando(this),
             new LicenseBoardRando(this),
             new EnemyRando(this),
             new APShopRando(this),

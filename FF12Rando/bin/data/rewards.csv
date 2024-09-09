@@ -13,7 +13,7 @@ Dreadnought Leviathan,Manufacted Nethicite,912C,AND(I(Dreadnought Leviathan)|I(8
 Nam-Yensa Sandsea,Eksir Berries,912D,I(Sandseas),1,
 Tomb of Raithwall,Defeat Belias,9190,I(Sandseas),2,
 Tomb of Raithwall,Dawn Shard,912E,I(Sandseas),2,
-Tomb of Raithwall,Defeat Vossler,918E,AND(I(8078)|I(Sandseas)),2,
+Tomb of Raithwall,Defeat Vossler,918E,I(Sandseas),2,
 Royal Palace,Goddess's Magicite,912F,I(8080),1,
 Barheim Passage,Burrough Tube Fuse,9130,I(8080),1,
 Jahara,Great-chief Elder After Defeating Vossler,911F,AND(I(Ozmone Plain)|I(Defeat Vossler)),2,

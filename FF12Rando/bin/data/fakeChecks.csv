@@ -5,7 +5,7 @@ Dreadnought Leviathan,Dreadnought Leviathan Unlock,_3,AND(AERO(80E3)|OR(I(Basch)
 Dreadnought Leviathan,Ashe,_4,AND(I(Dreadnought Leviathan)|I(8076)),,1,Ashe
 Dreadnought Leviathan,Defeat Judge Ghis,_5,AND(I(Dreadnought Leviathan)|I(8076)),,1,Defeat Ghis
 Ogir-Yensa Sandsea,Sandsea Unlock,_6,OR(I(Defeat Ghis)|I(80E0)|I(2118|1)),,1,Sandseas
-Tomb of Raithwall,Defeat Vossler,_7,AND(I(8078)|I(Sandseas)),,1,Defeat Vossler
+Tomb of Raithwall,Defeat Vossler,_7,I(Sandseas),,1,Defeat Vossler
 Garamsythe Waterway,Garamsythe Characters,_8,I(8080),,1,Balthier|Fran|Guest
 Barheim Passage,Barheim Guest,_9,I(8080),,1,Guest
 Ozmone Plain,Ozmone Unlock,_10,OR(I(2118|2)|I(80E0)),,1,Ozmone Plain
