@@ -267,6 +267,18 @@ public class FF12SeedGenerator : SeedGenerator
         {
             File.Delete(Path.Combine(SetupData.Paths["12"], "x64\\vcruntime140_1.dll"));
         }
+
+        // Remove dinput8.dll
+        if (File.Exists(Path.Combine(SetupData.Paths["12"], "x64\\dinput8.dll")))
+        {
+            File.Delete(Path.Combine(SetupData.Paths["12"], "x64\\dinput8.dll"));
+        }
+
+        // Remove dxgi.dll
+        if (File.Exists(Path.Combine(SetupData.Paths["12"], "x64\\dxgi.dll")))
+        {
+            File.Delete(Path.Combine(SetupData.Paths["12"], "x64\\dxgi.dll"));
+        }
     }
 
     public static bool LuaLoaderInstalled()
