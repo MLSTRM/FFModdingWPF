@@ -85,7 +85,7 @@ public class LicenseBoardRando : Randomizer
         for (int i = 0; i < boards.Length; i++)
         {
             textRando.TextMenuMessage[104 + i].Text = GetBoardName(i) + "\n {btn:square} Preview License Board";
-            textRando.TextMenuCommand[5 + i].Text = GetBoardShort(i);
+            textRando.TextMenuCommand[5 + i].Text = $"{GetBoardShort(i)} ({GetBoardLetter(i)})";
         }
 
         CenterBoards();
@@ -325,6 +325,12 @@ public class LicenseBoardRando : Randomizer
         {
             return VanillaBoardShort[i];
         }
+    }
+
+    public string GetBoardLetter(int i)
+    {
+        // Return A, B, C, etc
+        return ((char)(65 + i)).ToString().ToUpper();
     }
 
     private void AddBoard(DataStoreLicenseBoard main, DataStoreLicenseBoard add)

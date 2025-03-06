@@ -34,9 +34,7 @@ public class FF12ArchipelagoSeedGenerator : FF12SeedGenerator
     {
         base.CopyLuaScripts();
 
-        // No lua scripts for now...
-        //string scriptsFolder = Path.Combine(SetupData.Paths["12"], "x64\\scripts");
-
-        //FileHelpers.CopyFromFolder(scriptsFolder, "data\\scriptsAP");
+        string scriptsFolder = Path.Combine(SetupData.Paths["12"], "x64\\scripts");
+        FileHelpers.CopyFromFolder(scriptsFolder, "data\\scriptsAP");
     }
 }

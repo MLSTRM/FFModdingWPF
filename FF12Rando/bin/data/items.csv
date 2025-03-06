@@ -471,8 +471,8 @@ Holy,3011,8,,,Ability,Deal heavy holy damage to one foe.,48,Holy
 Fire,3012,1,,,Ability,Deal fire damage to one foe.,6,Fire
 Thunder,3013,1,,,Ability,Deal lightning damage to one foe.,8,Lightning
 Blizzard,3014,1,,,Ability,Deal ice damage to one foe.,10,Ice
-Aqua,3015,2,,,Ability,Deal water damage to one foe.,14,Wind
-Aero,3016,3,,,Ability,Deal wind damage to all foes in range.,12,Water
+Aqua,3015,2,,,Ability,Deal water damage to one foe.,14,Water
+Aero,3016,3,,,Ability,Deal wind damage to all foes in range.,12,Wind
 Fira,3017,4,,,Ability,Deal fire damage to all foes in range.,16,Fire
 Thundara,3018,4,,,Ability,Deal lightning damage to all foes in range.,18,Lightning
 Blizzara,3019,4,,,Ability,Deal ice damage to all foes in range.,20,Ice

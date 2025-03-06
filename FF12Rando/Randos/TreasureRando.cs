@@ -104,7 +104,7 @@ public partial class TreasureRando : Randomizer
             StartingInvLocation first = new(Generator, row, 0);
             ItemLocations.Add(first.ID, first);
             // Keep the last slot empty for tp stones
-            for (int i = 1; i < 10; i++)
+            for (int i = 1; i < 9; i++)
             {
                 StartingInvLocation s = new(Generator, row, i);
                 ItemLocations.Add(s.ID, s);

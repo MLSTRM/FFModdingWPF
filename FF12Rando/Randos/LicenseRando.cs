@@ -136,7 +136,7 @@ public class LicenseRando : Randomizer
                 textRando.TextAbilityHelp.AddNew(DataStoreBinText.StringData.StringType.Dialog);
             }
 
-            textRando.TextAbilityHelp[augment.EquipDescAddress - 13000].Text = formattedDesc;
+            textRando.TextAbilityHelp[augment.EquipDescAddress - 13000].Text = "\n" + formattedDesc;
         });
 
         FF12Flags.Licenses.LicenseBoardType.SetRand();
@@ -429,14 +429,11 @@ public class LicenseRando : Randomizer
                     "Green Magick",
                     "Arcane Magick",
                     "Red Magick",
-                    "Nightshade Magick",
-                    "Astrologer Magick",
-                    "White Mage Magick",
-                    "Enchanter Magick",
-                    "Shaman Magick",
-                    "Dark Bishop Magick",
-                    "Sorc Supreme Magick",
-                    "Elementalist Magick",
+                    "Umbral Magick",
+                    "Primal Magick",
+                    "Mystic Magick",
+                    "Runic Magick",
+                    "Elemental Magick",
                 };
                 // Check if the augment name contains any of the magick types and return the type
                 foreach (string type in types)

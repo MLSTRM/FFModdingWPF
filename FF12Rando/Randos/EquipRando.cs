@@ -576,18 +576,20 @@ public partial class EquipRando : Randomizer
                 displayPage += $"On Hit: {string.Join(", ", onhit.Where(s => !string.IsNullOrEmpty(s)))}";
             }
 
-            displayPage += "\\n{scale:70}";
+            displayPage += "\\n";
             displayPage += $"Knockback: {weapon.KnockbackChance}%  ";
             displayPage += $"Combo: {weapon.ComboChance}%  ";
             displayPage += $"CT: {weapon.ChargeTime}  ";
             displayPage += GetAttributeStatDisplay(attribute);
 
-            displayPage += "\\n{scale:70}";
+            displayPage += "\\n";
             displayPage += GetElementAttributeDisplayLine(attribute, "");
-            displayPage += GetStatusDisplayLine(attribute, "");
+            displayPage += GetStatusDisplayLine(attribute);
 
-            displayPage += "\\n{scale:70}" + GetLicenseNeeded(weapon);
-            displayPage += "\\n" + GetBoardLocations(weapon);
+            displayPage += "\\n" + GetLicenseNeeded(weapon);
+            displayPage += GetBoardLocations(weapon);
+
+            displayPage = CleanUpDescription(displayPage, 80);
 
 
             linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
@@ -605,11 +607,13 @@ public partial class EquipRando : Randomizer
             displayPage += $"Magick Evade: {shield.MagickEvade}  ";
             displayPage += "\\n" + GetAttributeStatDisplay(attribute);
 
-            displayPage += "\\n{scale:70}";
+            displayPage += "\\n";
             displayPage += GetElementAttributeDisplayLine(attribute, "");
-            displayPage += GetStatusDisplayLine(attribute, "");
-            displayPage += "\\n{scale:70}" + GetLicenseNeeded(shield);
-            displayPage += "\\n" + GetBoardLocations(shield);
+            displayPage += GetStatusDisplayLine(attribute);
+            displayPage += "\\n" + GetLicenseNeeded(shield);
+            displayPage += GetBoardLocations(shield);
+
+            displayPage = CleanUpDescription(displayPage, 80);
 
             linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
@@ -639,11 +643,13 @@ public partial class EquipRando : Randomizer
                 displayPage += $"On Hit: {string.Join(", ", onhit.Where(s => !string.IsNullOrEmpty(s)))}";
             }
 
-            displayPage += "\\n{scale:70}" + GetAttributeStatDisplay(attribute);
+            displayPage += "\\n" + GetAttributeStatDisplay(attribute);
 
-            displayPage += "\\n{scale:70}";
+            displayPage += "\\n";
             displayPage += GetElementAttributeDisplayLine(attribute, "");
-            displayPage += GetStatusDisplayLine(attribute, "");
+            displayPage += GetStatusDisplayLine(attribute);
+
+            displayPage = CleanUpDescription(displayPage, 80);
 
             linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
@@ -661,17 +667,19 @@ public partial class EquipRando : Randomizer
 
             displayPage += GetAttributeStatDisplay(attribute);
 
-            displayPage += "\\n{scale:70}";
+            displayPage += "\\n";
             if (armor.AugmentOffset != 0xFF)
             {
                 displayPage += GetAugmentDescription(armor);
             }
 
-            displayPage += "\\n{scale:70}";
+            displayPage += "\\n";
             displayPage += GetElementAttributeDisplayLine(attribute, "");
-            displayPage += GetStatusDisplayLine(attribute, "");
-            displayPage += "\\n{scale:70}" + GetLicenseNeeded(armor);
-            displayPage += "\\n" + GetBoardLocations(armor);
+            displayPage += GetStatusDisplayLine(attribute);
+            displayPage += "\\n" + GetLicenseNeeded(armor);
+            displayPage += GetBoardLocations(armor);
+
+            displayPage = CleanUpDescription(displayPage, 80);
 
             linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
@@ -696,23 +704,25 @@ public partial class EquipRando : Randomizer
 
             displayPage += GetAttributeStatDisplay(attribute);
 
-            displayPage += " \\n{scale:70}";
+            displayPage += " \\n";
             if (armor.AugmentOffset != 0xFF)
             {
                 displayPage += GetAugmentDescription(armor);
             }
 
-            displayPage += "\\n{scale:70}";
+            displayPage += "\\n";
             displayPage += GetElementAttributeDisplayLine(attribute, "");
-            displayPage += GetStatusDisplayLine(attribute, "");
+            displayPage += GetStatusDisplayLine(attribute);
 
             if (displayPage.StartsWith("\\n"))
             {
                 displayPage = displayPage.Substring(2);
             }
 
-            displayPage += "\\n{scale:70}" + GetLicenseNeeded(armor);
-            displayPage += "\\n" + GetBoardLocations(armor);
+            displayPage += "\\n" + GetLicenseNeeded(armor);
+            displayPage += GetBoardLocations(armor);
+
+            displayPage = CleanUpDescription(displayPage, 80);
 
             linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
@@ -726,7 +736,7 @@ public partial class EquipRando : Randomizer
 
             displayPage += ability.Description;
 
-            displayPage += "\\n{scale:70}";
+            displayPage += "\\n";
             if (ability.MPCost > 0)
             {
                 displayPage += $"MP Cost: {ability.MPCost}  ";
@@ -753,8 +763,10 @@ public partial class EquipRando : Randomizer
                 offset = -0x4000 + 158;
             }
 
-            displayPage += "\\n{scale:70}" + GetLicenseNeeded((ability.IntID + offset).ToString("X4"), validTypes);
-            displayPage += "\\n" + GetBoardLocations((ability.IntID + offset).ToString("X4"), validTypes);
+            displayPage += "\\n" + GetLicenseNeeded((ability.IntID + offset).ToString("X4"), validTypes);
+            displayPage += GetBoardLocations((ability.IntID + offset).ToString("X4"), validTypes);
+
+            displayPage = CleanUpDescription(displayPage, 80);
 
             linesPage.Add($"    {info + ", \"" + displayPage + "\"}"},");
         }
@@ -774,6 +786,57 @@ public partial class EquipRando : Randomizer
         File.WriteAllLines($"{scriptFolder}\\us.lua", linesPage);
     }
 
+    private string CleanUpDescription(string displayPage, int maxLength)
+    {
+        // Break up any line that is too long
+        List<string> newLines = new();
+        foreach (string line in displayPage.Split("\\n"))
+        {
+            if (line.Length <= maxLength)
+            {
+                newLines.Add(line);
+            }
+            else
+            {
+                string[] words = line.Split(" ");
+                string newLine = "";
+                int lineLength = 0;
+                foreach (string word in words)
+                {
+                    int length = GetWordLength(word);
+                    if (lineLength + length > maxLength)
+                    {
+                        newLines.Add(newLine.Trim());
+                        newLine = "";
+                        lineLength = 0;
+                    }
+
+                    newLine += word + " ";
+                    lineLength += length + 1;
+                }
+
+                if (!string.IsNullOrEmpty(newLine))
+                {
+                    newLines.Add(newLine.Trim());
+                }
+            }
+        }
+
+        return string.Join("\\n", newLines);
+    }
+
+    private int GetWordLength(string word)
+    {
+        // Replace {vpos:X} and {scale:X} with nothing
+        word = Regex.Replace(word, @"\{vpos:\d+\}", "");
+        word = Regex.Replace(word, @"\{scale:\d+\}", "");
+
+        // Replace {icon:X} with 1 character
+        word = Regex.Replace(word, @"\{icon:\d+\}", "1");
+
+        return word.Length;
+    }
+
     private string GetAugmentDescription(DataStoreArmor armor, int maxLength = 20)
     {
         if (armor.AugmentOffset == 0xFF)
@@ -784,6 +847,11 @@ public partial class EquipRando : Randomizer
         TextRando textRando = Generator.Get<TextRando>();
         LicenseRando licenseRando = Generator.Get<LicenseRando>();
         string desc = textRando.TextAbilityHelp[licenseRando.augments.DataList[armor.AugmentOffset].EquipDescAddress - 13000].Text;
+        // Remove the \n at the start that was added for the normal description (without descriptive inventory)
+        if (desc.StartsWith("\n"))
+        {
+            desc = desc.Substring("\n".Length);
+        }
         if (desc.Length > maxLength)
         {
             desc.Insert(maxLength, "\\n");
@@ -869,22 +937,19 @@ public partial class EquipRando : Randomizer
     private string GetStatusDisplayLine(DataStoreAttribute attribute, string newLine = "\\n", string suffix = "", bool useInGameFormat = true, string separator = "  ", string join = ",")
     {
         string display = "";
-        if (attribute.StatusEffectsOnEquip.EnumToList().Count > 0 || attribute.StatusEffectsImmune.EnumToList().Count > 0)
+        display += newLine;
+
+        if (attribute.StatusEffectsOnEquip.EnumToList().Count > 0)
         {
-            display += newLine;
-
-            if (attribute.StatusEffectsOnEquip.EnumToList().Count > 0)
-            {
-                display += $"On Equip: {GetStatusDisplay(attribute.StatusEffectsOnEquip.EnumToList(), useInGameFormat, join)}{separator}";
-            }
-
-            if (attribute.StatusEffectsImmune.EnumToList().Count > 0)
-            {
-                display += $"Immune: {GetStatusDisplay(attribute.StatusEffectsImmune.EnumToList(), useInGameFormat, join)}{separator}";
-            }
-
-            display += suffix;
+            display += $"On Equip: {GetStatusDisplay(attribute.StatusEffectsOnEquip.EnumToList(), useInGameFormat, join)}{separator}";
         }
+
+        if (attribute.StatusEffectsImmune.EnumToList().Count > 0)
+        {
+            display += $"Immune: {GetStatusDisplay(attribute.StatusEffectsImmune.EnumToList(), useInGameFormat, join)}{separator}";
+        }
+
+        display += suffix;
 
         return display;
     }
@@ -923,13 +988,13 @@ public partial class EquipRando : Randomizer
         {
             string statusStr = string.Join("", statuses.Select(s => s switch
             {
-                Status.Death => "{icon:21} KO",
+                Status.Death => "{icon:21}",
                 Status.Stone => "{icon:22}",
                 Status.Petrify => "{icon:23}",
                 Status.Stop => "{icon:24}",
                 Status.Sleep => "{icon:25}",
                 Status.Confuse => "{icon:26}",
-                Status.Doom => "{icon:27} Doom",
+                Status.Doom => "{icon:27}",
                 Status.Blind => "{icon:28}",
                 Status.Poison => "{icon:29}",
                 Status.Silence => "{icon:30}",
@@ -1059,29 +1124,13 @@ public partial class EquipRando : Randomizer
             if (list.Count > 0)
             {
                 int index = boardRando.boards.ToList().IndexOf(board);
-                display.Add($"{boardRando.GetBoardShort(index)}");
+                display.Add($"{boardRando.GetBoardLetter(index)}");
             }
         }
 
         if (display.Count > 0)
         {
-            string output = "";
-
-            foreach (var line in display)
-            {
-                // If the current line will exceed the 80 character limit, add a new line
-                int lastNewLine = output.LastIndexOf("\\n");
-                if (output.Length - lastNewLine + line.Length > 80)
-                {
-                    output += "\\n";
-                }
-
-                bool addComma = display.IndexOf(line) < display.Count - 1;
-
-                output += line + (addComma ? ",  " : "");
-            }
-
-            return output;
+            return $" ({string.Join("", display)})";
         }
 
         return "";

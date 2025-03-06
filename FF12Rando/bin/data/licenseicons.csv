@@ -243,22 +243,16 @@ Arcane Magick,Obtained,0,1,0,0,4,12,2,2
 Arcane Magick,Available,1,0,128,0,4,64,7,7
 Red Magick,Obtained,0,1,0,0,13,11,2,2
 Red Magick,Available,1,0,128,0,6,63,7,7
-Nightshade Magick,Obtained,0,1,0,0,4,12,2,2
-Nightshade Magick,Available,1,0,128,0,4,64,7,7
-Astrologer Magick,Obtained,0,1,0,0,4,10,2,2
-Astrologer Magick,Available,1,0,128,0,4,62,7,7
-White Mage Magick,Obtained,0,1,0,0,4,8,2,2
-White Mage Magick,Available,1,0,128,0,4,60,7,7
-Enchanter Magick,Obtained,0,1,0,0,4,11,2,2
-Enchanter Magick,Available,1,0,128,0,4,63,7,7
-Shaman Magick,Obtained,0,1,0,0,6,11,2,2
-Shaman Magick,Available,1,0,128,0,6,63,7,7
-Dark Bishop Magick,Obtained,0,1,0,0,13,11,2,2
-Dark Bishop Magick,Available,1,0,128,0,6,63,7,7
-Sorc Supreme Magick,Obtained,0,1,0,0,6,10,2,2
-Sorc Supreme Magick,Available,1,0,128,0,6,62,7,7
-Elementalist Magick,Obtained,0,1,0,0,4,9,2,2
-Elementalist Magick,Available,1,0,128,0,4,61,7,7
+Umbral Magick,Obtained,0,1,0,0,4,12,2,2
+Umbral Magick,Available,1,0,128,0,4,64,7,7
+Primal Magick,Obtained,0,1,0,0,6,11,2,2
+Primal Magick,Available,1,0,128,0,6,63,7,7
+Mystic Magick,Obtained,0,1,0,0,13,11,2,2
+Mystic Magick,Available,1,0,128,0,6,63,7,7
+Runic Magick,Obtained,0,1,0,0,6,10,2,2
+Runic Magick,Available,1,0,128,0,6,62,7,7
+Elemental Magick,Obtained,0,1,0,0,4,9,2,2
+Elemental Magick,Available,1,0,128,0,4,61,7,7
 Pharmacology,Obtained,0,1,0,0,8,0,0,2
 Pharmacology,Obtained,1,0,64,0,2,15,7,3
 Pharmacology,Available,1,0,128,0,4,65,7,7
