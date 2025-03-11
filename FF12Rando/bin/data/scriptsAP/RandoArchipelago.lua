@@ -23,38 +23,15 @@ local function readScenarioFlag()
     return memory.u16[0x02164480]
 end
 
-local function isOverlayMapOpen()
-    return memory.u8[0x02092750] > 0
-end
+local current_item = nil
 
-local function defineAddItem()
-    argMem = memory.allocExe(0x0100)
-    memory.registerSymbol("add_args", argMem)
-    --modifyInventory(contentId, count, type, target, logFlags)
-    assembly =
-    [[
-    add_item:
-      sub rsp,0x38
-      lea rax,[%add_args%]
-      movzx ecx,word ptr [rax]
-      mov edx,dword ptr [rax+0x02]
-      xor r8d,r8d
-      lea r9d,[r8+0x01]
-      mov [rsp+0x20],r9d
-    
-      call 0x003008A0
-      add rsp,0x38
-      ret
-    ]]
+local function onFlipAdd()    
+    if current_item == nil then
+        return
+    end
 
-    memory.assemble(assembly, {"add_item"})
-end
-
-local function addItem(id,count)
-    argBase = memory.getSymbol("add_args")
-    memory.u16[argBase] = id
-    memory.s32[argBase+2] = count
-    memory.execute("add_item")
+    memory.execute(0x003008A0, memory.arg.void, {memory.arg.u16, memory.arg.s8, memory.arg.u8, memory.arg.u8, memory.arg.u8}, {current_item[1], current_item[2], 0, 1, 1})
+    current_item = nil
 end
 
 local function read_comm_file()
@@ -84,52 +61,34 @@ local function read_comm_file()
     return nil  -- Return nil if format is invalid
 end
 
-local itemCount = 0
-local lastMapID = nil
-
 local function addItems()
     local map_id = readMapID()
     local game_state = readGameState()
     local scenario_flag = readScenarioFlag()
 
     if map_id == 0 or map_id > 0xFFFF or map_id <= 12 or map_id == 274 or game_state ~= 0 or scenario_flag < 45 then
-        event.executeAfterMs(500, addItems)
+        event.executeAfterMs(100, addItems)
         return
     end
 
-    if lastMapID ~= map_id then
-        lastMapID = map_id
-        itemCount = 0
-    end
-
-    -- Add items until we reach 50 for this map
-    if itemCount >= 50 then
-        if not isOverlayMapOpen() then
-            message.print(message.convert("Item limit reached for this map. Change maps to get more items."), 0, true)
-        end
-        event.executeAfterMs(500, addItems)
+    local next_item = read_comm_file()
+    if next_item == nil then
+        event.executeAfterMs(100, addItems)
         return
     end
 
-    local current_item = read_comm_file()
-    if current_item == nil then
-        event.executeAfterMs(500, addItems)
-        return
-    end
-
-    local id = current_item[1]
-    local count = current_item[2]
+    local id = next_item[1]
+    local count = next_item[2]
     print("Adding item " .. id .. " x" .. count)
 
     if id == 0xFFFE and count > 0 then
         incGil(count)
     elseif id ~= 0xFFFF and count > 0 then
-        addItem(id, count)
-        itemCount = itemCount + 1
+        current_item = {id, count}
     end
     incRandoIndex()
 
-    event.executeAfterMs(500, addItems)
+    event.executeAfterMs(100, addItems)
 end
 
 
@@ -139,11 +98,10 @@ end
 
 print("Rando Open World Archipelago Hook: Applying patch.")
 
-defineAddItem()
-
 -- Delete the items_received.txt file on start up
 local filepath = os.getenv("LOCALAPPDATA") .. "\\FF12OpenWorldAP\\items_received.txt"
 os.remove(filepath)
 
 event.registerEventAsync("onInitDone", addItems)
 event.registerEventAsync("exit", onExit)
+event.registerEventSync("onFlip", onFlipAdd)
