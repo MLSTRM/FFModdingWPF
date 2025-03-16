@@ -514,7 +514,8 @@ public partial class EquipRando : Randomizer
 
     private long StatusEffectWeightOnEquip(Status status, int id)
     {
-        if (id is 0 or 0x183)
+        // Unarmed or dawn shard, or if not an accessory
+        if (id is 0 or 0x183 || equip.EquipDataList[id].Category != EquipCategory.Accessory && equip.EquipDataList[id].Category != EquipCategory.AccessoryCrown)
         {
             if (status is Status.Immobilize or Status.Confuse or Status.Sleep or Status.Disable or Status.Doom or Status.Stop or Status.Petrify or Status.Berserk)
             {
@@ -522,13 +523,13 @@ public partial class EquipRando : Randomizer
             }
         }
 
-        return status is Status.Death or Status.Stone or Status.CriticalHP or Status.XZone or Status.Doom or Status.Petrify or Status.Vanish
+        return status is Status.Death or Status.Stone or Status.CriticalHP or Status.XZone or Status.Doom or Status.Petrify or Status.Vanish or Status.Stop or Status.Confuse or Status.Sleep
             ? 0
             : status is Status.Reverse
             ? 1
-            : status is Status.Stop or Status.Disease
+            : status is Status.Disease
             ? 2
-            : status is Status.Immobilize or Status.Confuse or Status.Sleep or Status.Disable or Status.Bubble
+            : status is Status.Immobilize or Status.Disable or Status.Bubble
             ? 6
             : status is Status.Sap or Status.Libra ? 8 : 20;
     }
