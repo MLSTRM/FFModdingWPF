@@ -21,7 +21,7 @@ if ( ($Update -eq "Y") -or ($Update -eq "y") )
 $Update = $args[2]
 if ( ($Update -eq "Y") -or ($Update -eq "y") )
 {
-    dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true --output "bin\publish"
+    dotnet publish -c Release /p:PublishSingleFile=true --output "bin\publish"
 
     Write-Host "Copying data to bin\publish..."
 
