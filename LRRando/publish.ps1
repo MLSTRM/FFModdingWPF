@@ -19,7 +19,7 @@ if ( ($Update -eq "Y") -or ($Update -eq "y") )
 $Update = $args[2]
 if ( ($Update -eq "Y") -or ($Update -eq "y") )
 {
-    dotnet publish -c Release --output "bin\publish"
+    dotnet publish -r win-x64 -c Release --no-self-contained /p:CopyLocalLockFileAssemblies=true --output "bin\publish"
     
     Write-Host "Organizing DLLs into libs folder..."
     New-Item -ItemType Directory -Force -Path "bin\publish\libs"
