@@ -13,7 +13,11 @@ if ( ($Update -eq "Y") -or ($Update -eq "y") )
 $Update = $args[2]
 if ( ($Update -eq "Y") -or ($Update -eq "y") )
 {
-    dotnet publish -c Release /p:PublishSingleFile=true --output "bin\publish"
+    dotnet publish -c Release --output "bin\publish"
+    
+    Write-Host "Organizing DLLs into libs folder..."
+    New-Item -ItemType Directory -Force -Path "bin\publish\libs"
+    Get-ChildItem "bin\publish\*.dll" | Move-Item -Destination "bin\publish\libs"
 
     Write-Host "Copying data to bin\publish..."
 
@@ -23,7 +27,7 @@ if ( ($Update -eq "Y") -or ($Update -eq "y") )
     Write-Host "Creating 7z file..."
     Remove-Item -Recurse -Force "bin\publish\FF12Randomizer$Version.7z" -ErrorAction Ignore
     Push-Location -Path "bin\publish"
-    & "7z.exe" a -t7z -mx=9 "FF12Randomizer$Version.7z" "data" "README.pdf" "FF12Rando.exe"
+    & "7z.exe" a -t7z -mx=9 "FF12Randomizer$Version.7z" "data" "README.pdf" "FF12Rando.exe" "libs"
     Pop-Location
 
     Copy-Item -Path "bin\publish\FF12Randomizer$Version.7z" -Destination "bin\build\FF12RandomizerPreview.7z" -Force
