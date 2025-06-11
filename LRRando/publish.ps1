@@ -3,9 +3,8 @@ $Version = $args[0]
 $Update = $args[1]
 if ( ($Update -eq "Y") -or ($Update -eq "y") )
 {
-    Write-Host "Updating bin\data from Debug..."
-    Remove-Item -Recurse -Force "bin\data" -ErrorAction Ignore
-    Copy-Item -Path "bin\Debug\net8.0-windows\data\" -Destination "bin\data" -Recurse -Force
+    # No need to copy from Debug anymore - data is copied during build
+    # Just clean up any unwanted files from bin\data if they exist
     Remove-Item -Recurse -Force "bin\data\RandoPaths.csv" -ErrorAction Ignore
 
     Write-Host "Updating versions in bin\data..."
