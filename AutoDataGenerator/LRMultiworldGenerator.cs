@@ -19,8 +19,6 @@ internal class LRMultiworldGenerator
     TreasureRando TreasureRando { get; }
     EquipRando EquipRando { get; }
 
-    const long BASE_ID = 636749621731;
-
     Dictionary<ItemLocation, string> locations = new();
 
     public LRMultiworldGenerator(string inputDir, string outputDir)
@@ -57,9 +55,6 @@ internal class LRMultiworldGenerator
         string script =
             "from typing import Dict, NamedTuple, Optional\n" +
             "from BaseClasses import Item, ItemClassification\n" +
-            "\n" +
-            "\n" +
-            $"LRFF13_BASE_ID = {BASE_ID}\n" +
             "\n" +
             "\n" +
             "class LRFF13Item(Item):\n" +
@@ -143,7 +138,7 @@ internal class LRMultiworldGenerator
     {
         script +=
             $"    \"{name}\": LRFF13ItemData(\n" +
-            $"        code=LRFF13_BASE_ID + {intIndex},\n" +
+            $"        code={intIndex},\n" +
             $"        str_id=\"{id}\",\n" +
             $"        classification=ItemClassification.{type}";
         if (weight > 0)
