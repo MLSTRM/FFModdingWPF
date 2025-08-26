@@ -31,6 +31,11 @@ public class LRItemPlacer : CombinedItemPlacer<ItemLocation, ItemData>
             return true;
         }
 
+        if (location.Traits.Contains("Same"))
+        {
+            return true;
+        }
+
         if (location.IsEPAbility())
         {
             if (!LRFlags.Items.IncludeEPAbilities.Enabled)

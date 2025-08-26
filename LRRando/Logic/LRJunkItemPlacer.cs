@@ -39,7 +39,7 @@ public class LRJunkItemPlacer : JunkItemPlacer<ItemLocation>
                 {
                     category = "Material";
                 }
-                else if (LRFlags.Items.ReplaceAny.Enabled)
+                else if (LRFlags.Items.ReplaceAny.Enabled && !location.Traits.Contains("Same"))
                 {
                     category = equipRando.itemData.Values.Select(i => i.Category).Distinct().Shuffle().First();
                 }
